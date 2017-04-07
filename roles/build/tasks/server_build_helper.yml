@@ -1,0 +1,25 @@
+---
+- name: Create host_vars files for servers
+  template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+  with_items: "{{ servers }}"
+
+- name: Create host_vars files for VSC's 
+  template: src=vsc.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+  with_items: "{{ vsc_controllers }}"
+
+- name: Creating bash files {{ item }} to run all playbooks at once
+  template: src={{ item }}.j2 backup=no dest={{ playbook_dir }}/{{ item }}
+  with_items:
+    - nuage.sh
+    - packet.sh
+    - reset.sh
+
+- name: Change permissions to packet.sh
+  file:
+    path: "{{ playbook_dir }}/{{ item }}"
+    mode: 0755
+  with_items:
+    - nuage.sh
+    - packet.sh
+    - reset.sh
+

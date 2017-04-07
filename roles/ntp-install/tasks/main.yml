@@ -1,0 +1,16 @@
+---
+# tasks file for ntp-install
+
+- name: "Waiting until 5min for server to come back"
+  local_action: wait_for port=22 host="{{ ansible_host }}" search_regex=OpenSSH delay=30 timeout=300
+  remote_user: dev
+  become: false
+
+- name: install ntp
+  yum: name=ntp state=present
+
+- name: Copy ntp.conf file to nserver
+  template: src=ntp.conf.j2 backup=no dest=/etc/ntp.conf
+
+- name: start and enable ntpd
+  service: name=ntpd state=started enabled=yes

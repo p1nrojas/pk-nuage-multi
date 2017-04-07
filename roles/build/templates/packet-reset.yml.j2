@@ -1,0 +1,14 @@
+---
+# purpose: Create devices in packet.net site.
+# Author: Mauricio Rojas / pinrojas.com
+ 
+- hosts: localhost
+  gather_facts: no
+  remote_user: root
+  vars:
+    packet_token: {{ packet_token }}
+    project_id: {{ project_id }}
+    device_name: sdwan01
+    bmetal_plan: baremetal_2
+  roles:
+    - packet-reset

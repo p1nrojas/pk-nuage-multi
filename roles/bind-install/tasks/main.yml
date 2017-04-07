@@ -1,0 +1,69 @@
+# roles/bind_install/tasks/main.yml
+---
+
+- name: "Waiting until 5min for server to come back"
+  local_action: wait_for port=22 host="{{ ansible_host }}" search_regex=OpenSSH delay=30 timeout=300
+  remote_user: dev
+  become: false
+
+- name: Adding a pause of 2 min
+  pause:
+    minutes: 2
+
+# Initialise distribution-specific variables
+- name: Pull facts
+  action: setup
+
+- include_vars: "RedHat.yml"
+  when:
+    - ansible_os_family == "RedHat"
+  tags: httpd
+
+- include_vars: "Debian.yml"
+  when:
+    - ansible_os_family == "Debian"
+  tags: httpd
+
+- name: install BIND 
+  yum: name=bind state=present
+
+- name: Creates directory
+  file: 
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: "{{ named_group }}"
+    mode: 0770
+  with_items:
+    - "{{ bind_dir }}"
+    - "/etc/named"
+    - "/etc/named/zones"
+  tags: bind
+
+- name: Ensure runtime directories referenced in config exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: "{{ named_group }}"
+    mode: 0770
+  with_items:
+    - "{{ bind_dir }}"
+    - "/etc/named"
+    - "/etc/named/zones"
+  tags: bind
+
+- name: Create serial
+  command: date +%y%m%d%H
+  register: timestamp
+  changed_when: false
+  tags: bind
+
+- include: bind.yml
+
+- name: Start BIND service
+  service:
+    name: "{{ bind_service }}"
+    state: started
+    enabled: yes
+  tags: bind
