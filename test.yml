@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+      - debug: var=ansible_date_time.date
+      - debug: msg="the current date is {{ ansible_date_time.date }}"

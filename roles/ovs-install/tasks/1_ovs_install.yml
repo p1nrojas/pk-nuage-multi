@@ -1,0 +1,126 @@
+---
+
+- name: Pull facts on hypervisor
+  action: setup
+
+- name: yum updates
+  yum: name=* state=latest
+
+- name: Disabling selinux
+  selinux:
+    state: disabled
+
+- name: Install packages that ovs will need
+  yum: name={{ item }} state=present
+  with_items:
+   - openssl-devel
+   - gcc
+   - make
+   - python-devel
+   - openssl-devel
+   - kernel-devel
+   - kernel-debug-devel
+   - autoconf
+   - automake
+   - rpm-build
+   - redhat-rpm-config
+   - libtool
+   - selinux-policy-devel
+  when:
+    - ansible_os_family == "RedHat"
+
+- name: Checking if the rpm file actually exists
+  stat:
+    path: "/home/ovs/rpmbuild/RPMS/x86_64/{{ openvswitch_version }}-1.x86_64.rpm"
+  register: ovs_rpm
+
+- name: create user ovs
+  user:
+    name: ovs
+    state: present
+  when: ovs_rpm.stat.exists == False
+
+- name: create .ssh directory at ovs home folder
+  file:
+    path: /home/ovs/.ssh
+    state: directory
+    mode: 0755
+    owner: ovs
+  when: ovs_rpm.stat.exists == False
+
+- name: copy authorized_keys to new use ovs
+  copy:
+    remote_src: True
+    src: /root/.ssh/authorized_keys
+    dest: /home/ovs/.ssh/authorized_keys
+    owner: ovs
+  when: ovs_rpm.stat.exists == False
+
+- name: Create directory 0755
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: ovs
+    group: ovs
+    recurse: yes
+  become: true
+  become_user: ovs
+  when: ovs_rpm.stat.exists == False
+  with_items:
+    - /home/ovs/rpmbuild
+    - /home/ovs/rpmbuild/SOURCES
+
+- name: download openvswitch files for release {{ openvswitch_version }}
+  get_url:
+    url: "http://openvswitch.org/releases/{{ openvswitch_version }}.tar.gz"
+    dest: "/home/ovs/rpmbuild/SOURCES/{{ openvswitch_version }}.tar.gz"
+    mode: 0666
+    owner: ovs
+  become: true
+  become_user: ovs
+  when: ovs_rpm.stat.exists == False
+ 
+- name: uncompressing {{ openvswitch_version }}.tar.gz
+  unarchive:
+    src: "/home/ovs/rpmbuild/SOURCES/{{ openvswitch_version }}.tar.gz"
+    dest: "/home/ovs/rpmbuild/SOURCES/"
+    remote_src: True
+  become: true
+  become_user: ovs
+  when: ovs_rpm.stat.exists == False
+
+- name: applying commands on {{ openvswitch_version }} files
+  shell: "{{ item }}"
+  args:
+    chdir: /home/ovs/rpmbuild/SOURCES
+  become: true
+  become_user: ovs
+  when: ovs_rpm.stat.exists == False
+  with_items:
+    - "sed 's/openvswitch-kmod, //g' {{ openvswitch_version }}/rhel/openvswitch.spec > {{ openvswitch_version }}/rhel/openvswitch_no_kmod.spec"
+    - "rpmbuild -bb --nocheck {{ openvswitch_version }}/rhel/openvswitch_no_kmod.spec"
+
+- name: Creating config directory
+  file:
+    path: /etc/openvswitch
+    state: directory
+    mode: 0755
+
+- name: localinstall the rpm package we've just created
+  yum:
+    name: "/home/ovs/rpmbuild/RPMS/x86_64/{{ openvswitch_version }}-1.x86_64.rpm"
+    state: present
+
+- name: enable service openvswitch
+  systemd:
+    name: openvswitch
+    enabled: yes
+
+- name: start service openvswitch
+  service:
+    name: openvswitch
+    state: started
+
+
+

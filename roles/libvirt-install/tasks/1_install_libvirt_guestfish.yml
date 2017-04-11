@@ -1,0 +1,33 @@
+---
+
+- name: Pull facts on hypervisor
+  action: setup
+
+- name: yum updates
+  yum: name=* state=latest
+
+- name: Install additional packages to modify qcow image and run as VM - RedHat Host
+  yum: name={{ item }} state=present
+  with_items:
+   - qemu-kvm
+   - libvirt
+   - bridge-utils
+   - libguestfs-tools
+   - libvirt-python
+   - genisoimage
+  when:
+    - ansible_os_family == "RedHat"
+
+- name: Checking OS distribution
+  fail: 
+    msg: "Only RedHat distribution is supported"
+  when:
+    - ansible_os_family != "RedHat"
+
+- name: Check libvirtd service is running
+  service:
+    name: libvirtd
+    state: started 
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"

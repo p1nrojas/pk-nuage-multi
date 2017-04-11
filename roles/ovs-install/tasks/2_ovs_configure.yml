@@ -1,0 +1,19 @@
+---
+
+- name: Create br-wan at ovs
+  openvswitch_bridge:
+    bridge: br-wan
+    state: present
+
+- name: Create br-dc at ovs
+  openvswitch_bridge:
+    bridge: br-dc
+    state: present
+
+- debug: 
+    msg: "{{ hostvars[ groups['bmetal'][0]]['private_ip'] }}"
+
+- name: creating vxlan connectivity for br-wan
+  shell: ovs-vsctl add-port br-wan vxlan{{ item.0 }} -- set Interface vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }}
+  when: item.1 != private_ip 
+  with_indexed_items: "{{ hostvars[ groups['bmetal'][0]]['private_ip'] }}"

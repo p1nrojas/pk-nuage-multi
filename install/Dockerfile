@@ -19,11 +19,11 @@ RUN pip install django
 RUN useradd dev
 RUN mkdir -p /home/dev/.ssh
 RUN mkdir -p /home/dev/images
-RUN mkdir -p /home/dev/packet-nuagevns
+RUN mkdir -p /home/dev/packet-sdnlab
 RUN mkdir -p /var/log/ansible
 RUN chown -R dev:dev /home/dev
 RUN chown -R dev:dev /var/log/ansible
-VOLUME /home/dev/packet-nuagevns
+VOLUME /home/dev/packet-sdnlab
 VOLUME /home/dev/.ssh
 VOLUME /var/log/ansible
 WORKDIR /home/dev

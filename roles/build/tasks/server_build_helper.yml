@@ -11,8 +11,8 @@
   template: src={{ item }}.j2 backup=no dest={{ playbook_dir }}/{{ item }}
   with_items:
     - nuage.sh
-    - packet.sh
-    - reset.sh
+    - pk-create.sh
+    - pk-reset.sh
 
 - name: Change permissions to packet.sh
   file:
@@ -20,6 +20,6 @@
     mode: 0755
   with_items:
     - nuage.sh
-    - packet.sh
-    - reset.sh
+    - pk-create.sh
+    - pk-reset.sh
 

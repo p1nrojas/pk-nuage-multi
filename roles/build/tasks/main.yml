@@ -23,8 +23,8 @@
   with_items: 
     - deploy-all.yml
     - reset-all-domains.yml
-    - packet-create.yml
-    - packet-reset.yml
+    - pk-create.yml
+    - pk-reset.yml
     - nuage-install.yml 
     - util-deploy.yml
     - nserver-deploy.yml

@@ -1,0 +1,23 @@
+---
+
+- name: "Getting the IP address from Packet server"
+  local_action: command python {{playbook_dir}}/roles/packet-create/files/packet_get_ipaddr.py {{ project_id }} {{ packet_token }} {{ item.device_name }}
+  register: pk_private_ip
+  with_items: "{{ bmetals }}"
+
+- name: "Getting the Public IP address from Packet server"
+  local_action: command python {{playbook_dir}}/roles/packet-create/files/packet_get_ipaddr_pub.py {{ project_id }} {{ packet_token }} {{ item.device_name }}
+  register: pk_public_ip
+  with_items: "{{ bmetals }}"
+
+- name: Creating host_vars files of servers
+  template: src=servers.j2 dest="{{ playbook_dir }}/host_vars/{{ item.1.device_name }}" backup=no
+  with_indexed_items: "{{ bmetals }}"  
+
+- name: "Adding records to inventory file under [bmetal]"
+  lineinfile:
+    dest: "{{playbook_dir}}/hosts"
+#    regexp: '^\[bmetal\]$'
+    insertafter: '^\[bmetal\]$'
+    line: "{{ item.1.device_name }} ansible_host={{ pk_public_ip.results[item.0].stdout }} ansible_user=root"
+  with_indexed_items: "{{ bmetals }}"

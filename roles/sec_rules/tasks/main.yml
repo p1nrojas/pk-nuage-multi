@@ -1,0 +1,13 @@
+---
+
+- name: Creating security rules thru iptables 
+  iptables:
+    chain: INPUT
+    source: "{{ item.saddr }}"
+    in_interface: "{{ public_if }}"
+    protocol: "{{ item.type }}"
+    destination_port: "{{ item.dport }}"
+    jump: ACCEPT
+    state: present
+  when: sec_rules is defined
+  with_items: "{{ sec_rules }}"

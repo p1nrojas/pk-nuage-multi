@@ -1,0 +1,55 @@
+---
+# purpose: Create dummies interfaces abd bridges.
+# purpose: Create devices in packet.net site.
+# CAUTION: WIll reboot the KVM server
+# CAUTION: It would change your selinux, forwarding and iptables seetings
+# CAUTION: Will disable NetworkManager and firewall
+# Author: Mauricio Rojas / pinrojas.com
+ 
+- hosts: localhost
+  gather_facts: no
+  remote_user: root
+  vars:
+    packet_token: uV2w2VGYYHjwKtqwf7HBVvSB88qg7XZo
+    project_id: bed437ce-6ae7-4b84-a8e0-163e13a12a32
+    bmetals:
+      - { device_name: sdwan1 ,
+          bmetal_plan: baremetal_0 ,
+          osystem: centos_7 ,
+          facility: sjc1 ,
+          public_if: bond0 ,
+          private_ip: 0.0.0.0 ,
+          public_ip: 0.0.0.0 ,
+          wan_network: true ,
+        }
+      - { device_name: sdwan2 ,
+          bmetal_plan: baremetal_0 ,
+          osystem: centos_7 ,
+          facility: sjc1 ,
+          public_if: bond0 ,
+          private_ip: 0.0.0.0 ,
+          public_ip: 0.0.0.0 ,
+          wan_network: true ,
+        }
+      - { device_name: dc1 ,
+          bmetal_plan: baremetal_0 ,
+          osystem: centos_7 ,
+          facility: sjc1 ,
+          public_if: bond0 ,
+          private_ip: 0.0.0.0 ,
+          public_ip: 0.0.0.0 ,
+          wan_network: true ,
+          datacenter_network: true ,
+        }
+      - { device_name: dc2 ,
+          bmetal_plan: baremetal_0 ,
+          osystem: centos_7 ,
+          facility: sjc1 ,
+          public_if: bond0 ,
+          private_ip: 0.0.0.0 ,
+          public_ip: 0.0.0.0 ,
+          wan_network: true ,
+          datacenter_network: true ,
+        }
+  roles:
+    - pk-create
