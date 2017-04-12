@@ -33,13 +33,13 @@
     - nserver-deploy.yml
     - util-deploy.yml
     - reset-all-domains.yml
-    - packet-create.yml
-    - packet-reset.yml
-    - reset.sh
+    - pk-create.yml
+    - pk-create.sh
+    - pk-reset.yml
+    - pk-reset.sh
+    - ovs-deploy.yml
     - nuage.sh
-    - packet.sh
     - license.yml
     - health.yml
     - deploy-all.yml
     - webvirtmgr-deploy.yml
-    - .summary
