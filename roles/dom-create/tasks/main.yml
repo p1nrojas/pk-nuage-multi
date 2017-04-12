@@ -1,7 +1,7 @@
 ---
 
-# Prepare KVM and Check Images
-- include: prep_hypervisor_and_vms.yml
+# Check hypervisor
+- include: 1_check_hypervisor.yml
   when: hypervisor is defined
 
 # Copy and Resize qcow2 image to target host
