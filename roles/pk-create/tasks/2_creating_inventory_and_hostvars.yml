@@ -21,13 +21,30 @@
     insertafter: '^\[bmetal\]$'
     line: "{{ item.1.device_name }} ansible_host={{ pk_public_ip.results[item.0].stdout }} ansible_user=root"
   with_indexed_items: "{{ bmetals }}"
- 
-- name: "Adding records to /etc/hosts under [bmetal]"
-  lineinfile:
-    dest: "/etc/hosts"
-    regexp: "^{{ pk_public_ip.results[item.0].stdout }} {{ item.1.device_name }}$"
-    line: "{{ pk_public_ip.results[item.0].stdout }} {{ item.1.device_name }}"
-  with_indexed_items: "{{ bmetals }}"
 
 - name: "Create bmetal groupvar file"
   template: src=bmetal.j2 dest="{{ playbook_dir }}/group_vars/bmetal" backup=no
+
+- name: list of host files and store it in register
+  raw: find {{ playbook_dir }}/host_vars -type f -name "*{{ domain }}"
+  register: host_files
+
+- debug:
+    msg: "{{ host_files.stdout_lines }}"  
+
+- name: create array of public_ips and hosts
+  raw: grep 147 hosts | sed -e 's/^\(.*\) .*=\(.*\) .*$/\1 \2/'
+  register: bmetal_array
+
+- debug:
+    msg: "{{ bmetal_array.stdout_lines }}"  
+
+- name: "Adding records to /etc/hosts under [bmetal]"
+  lineinfile:
+    dest: "{{ item[1] }}"
+    regexp: "^hypervisor: {{ item[0] | regex_replace('^(.*) .*$','\\1') }}$"
+    line: "hypervisor: {{ item[0] | regex_replace('^.* (.*)$','\\1') }}"
+    backrefs: yes
+  with_nested: 
+     - "{{ bmetal_array.stdout_lines }}"
+     - "{{ host_files.stdout_lines }}"
