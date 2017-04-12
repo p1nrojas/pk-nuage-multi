@@ -1,0 +1,30 @@
+---
+
+# creating ovs bridges
+
+- name: Create bridges at ovs
+  openvswitch_bridge:
+    bridge: "{{ item }}"
+    state: present
+  with_items:
+    - internal
+    - external
+
+- name: enable STP at bridges
+  shell: "ovs-vsctl set bridge {{ item }} stp_enable=true"
+  with_items: 
+    - internal
+
+# Creating ovs vxlan ports
+- name: checking vxlan ports
+  shell: ovs-vsctl show | grep int-vxlan
+  register: int_vxlan
+  ignore_errors: yes
+
+- name: creating vxlan connectivity for internal
+  shell: ovs-vsctl add-port internal inet-vxlan{{ item.0 }} -- set Interface inet-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }}
+  when: 
+    - item.1 != private_ip
+    - int_vxlan.stdout == ""
+  with_indexed_items: "{{ private_ip_list }}"
+

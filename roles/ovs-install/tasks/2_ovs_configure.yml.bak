@@ -11,6 +11,12 @@
     - br-dc
     - external
 
+- name: enable STP at bridges
+  shell: "ovs-vsctl set bridge {{ item }} stp_enable=true"
+  with_items: 
+    - br-wan
+    - br-dc
+
 # Creating ovs vxlan ports
 - name: checking vxlan ports at br-wan
   shell: ovs-vsctl show | grep bw-vxlan
@@ -27,26 +33,12 @@
   when: 
     - item.1 != private_ip
     - bw_vxlan.stdout == ""
-    - inventory_hostname == 'sdwan1' 
   with_indexed_items: "{{ private_ip_list }}"
 
-- name: creating vxlan connectivity for br-wan
-  shell: ovs-vsctl add-port br-wan bw-vxlan -- set Interface bw-vxlan type=vxlan options:remote_ip={{ hostvars[ 'sdwan1' ].private_ip }} options:key=10
-  when: 
-    - inventory_hostname != 'sdwan1'
-    - bw_vxlan.stdout == ""
-
-- name: creating vxlan connectivity for br-dc
+- name: creating vxlan connectivity for br-dc 
   shell: ovs-vsctl add-port br-dc dc-vxlan{{ item.0 }} -- set Interface dc-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=20
   when: 
     - item.1 != private_ip
-    - bw_vxlan.stdout == ""
-    - inventory_hostname == 'dc1' 
+    - dc_vxlan.stdout == ""
   with_indexed_items: "{{ private_ip_list }}"
-
-- name: creating vxlan connectivity for br-dc
-  shell: ovs-vsctl add-port br-dc dc-vxlan -- set Interface dc-vxlan type=vxlan options:remote_ip={{ hostvars[ 'dc1' ].private_ip }} options:key=20
-  when: 
-    - inventory_hostname != 'dc1'
-    - bw_vxlan.stdout == ""
 

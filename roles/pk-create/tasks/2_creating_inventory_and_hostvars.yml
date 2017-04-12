@@ -17,7 +17,10 @@
 - name: "Adding records to inventory file under [bmetal]"
   lineinfile:
     dest: "{{playbook_dir}}/hosts"
-#    regexp: '^\[bmetal\]$'
+    regexp: "^{{ item.1.device_name }} "
     insertafter: '^\[bmetal\]$'
     line: "{{ item.1.device_name }} ansible_host={{ pk_public_ip.results[item.0].stdout }} ansible_user=root"
   with_indexed_items: "{{ bmetals }}"
+ 
+- name: "Create bmetal groupvar file"
+  template: src=bmetal.j2 dest="{{ playbook_dir }}/group_vars/bmetal" backup=no

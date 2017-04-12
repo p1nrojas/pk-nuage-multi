@@ -1,0 +1,4 @@
+private_ip_list:
+{% for item in pk_private_ip.results %}
+  - {{ item.stdout }}
+{% endfor %}

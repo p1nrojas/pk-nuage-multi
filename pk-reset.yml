@@ -18,31 +18,84 @@
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          wan_network: true ,
+          sec_rules:
+          [  
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0 
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: sdwan2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          wan_network: true ,
+          sec_rules:
+          [  
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0 
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: dc1 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          wan_network: true ,
-          datacenter_network: true ,
+          sec_rules:
+          [  
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0 
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: dc2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          wan_network: true ,
-          datacenter_network: true ,
+          sec_rules:
+          [  
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0 
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
-
   roles:
-     - pk-reset
+    - pk-reset

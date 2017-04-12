@@ -10,46 +10,92 @@
   gather_facts: no
   remote_user: root
   vars:
-    packet_token: uV2w2VGYYHjwKtqwf7HBVvSB88qg7XZo
-    project_id: bed437ce-6ae7-4b84-a8e0-163e13a12a32
+    packet_token: {{ packet_token }}
+    project_id: {{ project_id }}
     bmetals:
       - { device_name: sdwan1 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          private_ip: 0.0.0.0 ,
-          public_ip: 0.0.0.0 ,
-          wan_network: true ,
+          sec_rules:
+          [
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: sdwan2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          private_ip: 0.0.0.0 ,
-          public_ip: 0.0.0.0 ,
-          wan_network: true ,
+          sec_rules:
+          [
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: dc1 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          private_ip: 0.0.0.0 ,
-          public_ip: 0.0.0.0 ,
-          wan_network: true ,
-          datacenter_network: true ,
+          sec_rules:
+          [
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
       - { device_name: dc2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          private_ip: 0.0.0.0 ,
-          public_ip: 0.0.0.0 ,
-          wan_network: true ,
-          datacenter_network: true ,
+          sec_rules:
+          [
+            { type: tcp ,
+              dport: 22 ,
+              saddr: 0.0.0.0/0
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 147.75.0.0/16
+            } ,
+            { type: udp ,
+              dport: 4789 ,
+              saddr: 10.0.0.0/8
+            }
+          ]
         }
   roles:
     - pk-create
