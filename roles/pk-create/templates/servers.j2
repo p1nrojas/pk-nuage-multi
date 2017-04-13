@@ -11,13 +11,18 @@ public_if: {{ item.1.public_if }}
 private_ip: {{ pk_private_ip.results[item.0].stdout }}
 public_ip: {{ pk_public_ip.results[item.0].stdout }}
 
-{% if item.1.sec_rules is defined %}
+{% if item.1.ext_gateway is defined %}
+ext_gateway: {{ item.1.ext_gateway }}
+{% endif %}
+
+{% if item.1.wan_gateway is defined %}
+wan_gateway: {{ item.1.wan_gateway }}
+{% endif %}
+
+{% if sec_rules is defined %}
 sec_rules:
-{% for rules in item.1.sec_rules %}
-  - { type: {{ rules.type }} ,
-      dport: {{ rules.dport }} ,
-      saddr: {{ rules.saddr }}
-    }
+{% for rules in sec_rules %}
+  - { type: {{ rules.type }} , dport: '{{ rules.dport }}' , saddr: {{ rules.saddr }} }
 {% endfor %}
 {% endif %}
 

@@ -10,6 +10,7 @@
     - br-wan
     - br-dc
     - external
+    - branch
 
 # Creating ovs vxlan ports
 - name: checking vxlan ports at br-wan
@@ -20,6 +21,11 @@
 - name: checking vxlan ports at dc-wan
   shell: ovs-vsctl show | grep dc-vxlan
   register: dc_vxlan
+  ignore_errors: yes
+
+- name: checking vxlan ports at external
+  shell: ovs-vsctl show | grep ext-vxlan
+  register: ext_vxlan
   ignore_errors: yes
 
 - name: creating vxlan connectivity for br-wan
@@ -40,7 +46,7 @@
   shell: ovs-vsctl add-port br-dc dc-vxlan{{ item.0 }} -- set Interface dc-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=20
   when: 
     - item.1 != private_ip
-    - bw_vxlan.stdout == ""
+    - dc_vxlan.stdout == ""
     - inventory_hostname == 'dc1' 
   with_indexed_items: "{{ private_ip_list }}"
 
@@ -48,5 +54,19 @@
   shell: ovs-vsctl add-port br-dc dc-vxlan -- set Interface dc-vxlan type=vxlan options:remote_ip={{ hostvars[ 'dc1' ].private_ip }} options:key=20
   when: 
     - inventory_hostname != 'dc1'
-    - bw_vxlan.stdout == ""
+    - dc_vxlan.stdout == ""
+
+- name: creating vxlan connectivity for external
+  shell: ovs-vsctl add-port external ext-vxlan{{ item.0 }} -- set Interface ext-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=30
+  when: 
+    - item.1 != private_ip
+    - ext_vxlan.stdout == ""
+    - inventory_hostname == 'core' 
+  with_indexed_items: "{{ private_ip_list }}"
+
+- name: creating vxlan connectivity for external
+  shell: ovs-vsctl add-port external ext-vxlan -- set Interface ext-vxlan type=vxlan options:remote_ip={{ hostvars[ 'core' ].private_ip }} options:key=30
+  when: 
+    - inventory_hostname != 'core'
+    - ext_vxlan.stdout == ""
 

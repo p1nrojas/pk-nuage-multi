@@ -1,0 +1,29 @@
+---
+- name: Applying forwardig
+  command: "/sbin/sysctl -w net.ipv4.ip_forward=1"
+
+- name: creating ports at external
+  openvswitch_port:
+    bridge: external
+    port: ext-gw
+    state: present
+    set: Interface ext-gw type=internal
+  when: ext_gateway is defined
+
+- name: setting ip address
+  shell: ifconfig ext-gw {{ ext_gateway }}/24 up
+  when: ext_gateway is defined
+
+- name: creating ports at br-wan
+  openvswitch_port:
+    bridge: br-wan
+    port: wan-gw
+    state: present
+    set: Interface wan-gw type=internal
+  when: wan_gateway is defined
+
+- name: setting ip address
+  shell: ifconfig wan-gw {{ wan_gateway }}/24 up
+  when: wan_gateway is defined
+
+

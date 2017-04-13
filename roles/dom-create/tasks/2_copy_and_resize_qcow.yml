@@ -108,7 +108,7 @@
 
 # Prepare Image removing NetworManager and creating ifcfg-eth0 file
 - name: Prepare Image removing NetworManager and creating ifcfg-eth0 file
-  include: prep_qcow2_image.yml
+  include: 2.1_prep_qcow2_image.yml
   when: 
     - hypervisor is defined
     - Is_NM_enabled is defined

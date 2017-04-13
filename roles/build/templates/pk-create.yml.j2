@@ -18,105 +18,74 @@
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          sec_rules:
-          [
-            { type: tcp ,
-              dport: 22 ,
-              saddr: 0.0.0.0/0
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 147.75.0.0/16
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 10.0.0.0/8
-            }
-          ]
+          ext_gateway: 192.168.0.1 ,
         }
       - { device_name: sdwan1 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          sec_rules:
-          [
-            { type: tcp ,
-              dport: 22 ,
-              saddr: 0.0.0.0/0
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 147.75.0.0/16
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 10.0.0.0/8
-            }
-          ]
+          ext_gateway: 192.168.0.2 ,
+          wan_gateway: 10.250.250.1 ,
         }
       - { device_name: sdwan2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          sec_rules:
-          [
-            { type: tcp ,
-              dport: 22 ,
-              saddr: 0.0.0.0/0
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 147.75.0.0/16
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 10.0.0.0/8
-            }
-          ]
+          ext_gateway: 192.168.0.3 ,
         }
       - { device_name: dc1 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          sec_rules:
-          [
-            { type: tcp ,
-              dport: 22 ,
-              saddr: 0.0.0.0/0
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 147.75.0.0/16
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 10.0.0.0/8
-            }
-          ]
+          ext_gateway: 192.168.0.4 ,
         }
       - { device_name: dc2 ,
           bmetal_plan: baremetal_0 ,
           osystem: centos_7 ,
           facility: sjc1 ,
           public_if: bond0 ,
-          sec_rules:
-          [
-            { type: tcp ,
-              dport: 22 ,
-              saddr: 0.0.0.0/0
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 147.75.0.0/16
-            } ,
-            { type: udp ,
-              dport: 4789 ,
-              saddr: 10.0.0.0/8
-            }
-          ]
+          ext_gateway: 192.168.0.5 ,
         }
+    sec_rules:
+      - { type: tcp , dport: 22 , saddr: 0.0.0.0/0 }
+      # openvswitch vxlan
+      - { type: udp , dport: 4789 , saddr: 147.75.0.0/16 } 
+      - { type: udp , dport: 4789 , saddr: 10.0.0.0/8 } 
+      # ssh port access permissions
+      - { type: tcp , dport: "2022:2030" , saddr: 0.0.0.0/0 }
+      # vsd port access permissions 
+      - { type: tcp , dport: 8443 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 5222 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 61613 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 61614 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 7443 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 443 , saddr: 0.0.0.0/0 }
+      - { type: udp , dport: 29090 , saddr: 0.0.0.0/0 }
+      # util port access permissions
+      - { type: tcp , dport: 11443 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 12443 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 29090 , saddr: 0.0.0.0/0 }
+      # stats port access permissions
+      - { type: tcp , dport: 39090 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 6200 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 5601 , saddr: 0.0.0.0/0 }
+      # webvirtmgr port access permissions
+      - { type: tcp , dport: 8090 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 6080 , saddr: 0.0.0.0/0 }
+      # vsc port access permissions
+      - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 6633 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 179 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 161 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 162 , saddr: 0.0.0.0/0 }
+      # nsg/vrs port access permissions
+      - { type: udp , dport: 4789 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 53 , saddr: 0.0.0.0/0 }
+      - { type: udp , dport: 53 , saddr: 0.0.0.0/0 }
+      - { type: udp , dport: 123 , saddr: 0.0.0.0/0 }
+      - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 } 
   roles:
     - pk-create

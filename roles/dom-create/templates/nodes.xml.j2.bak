@@ -52,7 +52,6 @@
 {% for interface in interfaces %}
     <interface type='bridge'>
       <source bridge='{{ interface.bridge }}'/>
-      <virtualport type='openvswitch'/>
       <model type='{%if rtl8139 is defined %}rtl8139{% else %}virtio{% endif %}'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1{{ loop.index }}' function='0x0'/>
     </interface>
