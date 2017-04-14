@@ -22,6 +22,14 @@
     line: "{{ item.1.device_name }} ansible_host={{ pk_public_ip.results[item.0].stdout }} ansible_user=root"
   with_indexed_items: "{{ bmetals }}"
 
+
+- name: "Adding IPs to inventory file under [bmetal]"
+  replace:
+    dest: "{{playbook_dir}}/hosts"
+    regexp: "^(.*)ansible_host={{ item.1.device_name }}(.*)$"
+    replace: '\1ansible_host={{ pk_public_ip.results[item.0].stdout }}\2'
+  with_indexed_items: "{{ bmetals }}"
+
 - name: "Create bmetal groupvar file"
   template: src=bmetal.j2 dest="{{ playbook_dir }}/group_vars/bmetal" backup=no
 
@@ -29,17 +37,17 @@
   raw: find {{ playbook_dir }}/host_vars -type f -name "*{{ domain }}"
   register: host_files
 
-- debug:
-    msg: "{{ host_files.stdout_lines }}"  
+#- debug:
+#    msg: "{{ host_files.stdout_lines }}"  
 
 - name: create array of public_ips and hosts
   raw: grep 147 hosts | sed -e 's/^\(.*\) .*=\(.*\) .*$/\1 \2/'
   register: bmetal_array
 
-- debug:
-    msg: "{{ bmetal_array.stdout_lines }}"  
+#- debug:
+#    msg: "{{ bmetal_array.stdout_lines }}"  
 
-- name: "Adding records to /etc/hosts under [bmetal]"
+- name: "Adding records to hostvars  under [bmetal]"
   lineinfile:
     dest: "{{ item[1] }}"
     regexp: "^hypervisor: {{ item[0] | regex_replace('^(.*) .*$','\\1') }}$"

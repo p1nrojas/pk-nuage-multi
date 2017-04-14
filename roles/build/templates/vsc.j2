@@ -60,12 +60,24 @@ xmpp:
 system_ip: {{ item.system_ip }}
 vsd_fqdn: {{ item.vsd_fqdn }}
 
+{% if item.interfaces[1].ip is defined %}
 {% if item.pat_rules is defined %}
 pat_rules:
 {% for rule in item.pat_rules %}
   - { interface: {{ rule.interface }} ,
       protocol: {{ rule.protocol }} ,
+      port: {{ rule.port }} ,
+      dest_addr: {{ item.interfaces[1].ip }} ,
       dest_port: {{ rule.dest_port }}
     }
 {% endfor %}
+{% endif %}
+{% if item.pat_rules is defined %}
+  - { interface: {{ public_if }} ,
+      protocol: tcp ,
+      port: {{ item.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1') }} ,
+      dest_addr: {{ item.interfaces[1].ip }} ,
+      dest_port: 22
+    }
+{% endif %}
 {% endif %}

@@ -11,7 +11,7 @@
 [nserver]
 {% for server in servers %}
 {% if server.inventory == "nserver" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }} ansible_user=centos
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -20,7 +20,7 @@
 [vsd]
 {% for server in servers %}
 {% if server.inventory == "vsd" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }} ansible_user=root
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -29,7 +29,7 @@
 [vsc]
 {% for server in vsc_controllers %}
 {% if server.inventory == "vsc" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -38,7 +38,7 @@
 [util]
 {% for server in servers %}
 {% if server.inventory == "util" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }} ansible_user=root
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -47,7 +47,7 @@
 [stat]
 {% for server in servers %}
 {% if server.inventory == "stat" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }} ansible_user=root
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -74,7 +74,7 @@
 [webvirtmgr]
 {% for server in servers %}
 {% if server.inventory == "webvirtmgr" %}
-{{ server.hostname }} ansible_host={{ server.ansible_host }} ansible_user=centos
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
 {% endif %}

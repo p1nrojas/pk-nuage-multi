@@ -1,7 +1,7 @@
 
 - name: "Executing vsd-stats.sh at VSD"
   shell:  "/opt/vsd/vsd-stats.sh -e  {{ inventory_hostname }}  -n nuage_elasticsearch -p 9300"
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
 
 

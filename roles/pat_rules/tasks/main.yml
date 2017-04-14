@@ -6,9 +6,9 @@
     chain: PREROUTING
     in_interface: "{{ item.interface }}"
     protocol: "{{ item.protocol }}"
-    destination_port: "{{ item.dest_port }}"
+    destination_port: "{{ item.port }}"
     jump: DNAT
-    to_destination: "{{ ansible_host }}:{{ item.dest_port }}"
+    to_destination: "{{ item.dest_addr }}:{{ item.dest_port }}"
     state: present
   delegate_to: "{{ hypervisor }}"
   remote_user: root

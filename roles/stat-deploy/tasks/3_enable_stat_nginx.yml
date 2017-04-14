@@ -10,7 +10,7 @@
 
 - name: Executing vsd-stats.sh at VSD
   shell:  /opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u elastic -c elastic -o csp -f pem -t server -d {{ inventory_hostname }}
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
   ignore_errors: true
 
@@ -18,7 +18,7 @@
   fetch:
     src: "/opt/vsd/ejbca/p12/pem/{{ item }}"
     dest: "/tmp"
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
   become: false
   with_items:

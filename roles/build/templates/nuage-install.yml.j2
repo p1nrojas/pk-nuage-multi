@@ -13,12 +13,17 @@
     - webvirtmgr
   remote_user: root
   gather_facts: no
+  vars:
+    ansible_port: 22
   roles:
     - dom-create
+    - pat_rules
 
 - hosts: vsc
   remote_user: root
   gather_facts: no
+  vars:
+    ansible_port: 22
   roles:
     - vsc-create
     - pat_rules

@@ -4,18 +4,18 @@
 
 - name: "Copying certificates from VSD to util server"
   shell:  "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u proxy -c proxy -o csp -d {{ inventory_hostname }} -f pem -t server -s root@{{ ansible_host }}:/opt/SDVPNHAProxy/config/keys/"
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
 
 - name: "Change VSD ejmode to allow"
   command: "/opt/vsd/bin/ejmode allow"
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
  
 - name: "Check services ejmode at VSD"
   command: "/opt/vsd/ejbca/bin/ejbca.sh ra listendentities -S 00"
   register: ejmode_status
-  delegate_to: "{{ vsd_host }}"
+  delegate_to: "{{ hostvars[groups['vsd'][0]].ansible_host }}"
   remote_user: root
 
 - name: "Wait 5 minutes"
