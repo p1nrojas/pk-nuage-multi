@@ -1,0 +1,16 @@
+- name: copy certs to stat
+  copy:
+    src: "/tmp/{{ hostvars[groups['vsd'][0]].inventory_hostname }}/opt/vsd/ejbca/p12/pem/{{ item }}"
+    dest: "/etc/nginx/ssl" 
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - 'elasticCert.pem'
+    - 'elastic-Key.pem'
+
+
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted

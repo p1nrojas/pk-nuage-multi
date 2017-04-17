@@ -1,0 +1,8 @@
+---
+
+# Prepare util server
+- include: 0_util_setup.yml
+
+# Installing and configuring util server
+- include: 1_util_install.yml
+

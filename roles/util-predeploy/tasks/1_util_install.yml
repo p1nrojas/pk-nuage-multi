@@ -1,0 +1,4 @@
+- name: "Install Nuage util thru install.sh"
+  command: ./rpms/install.sh -x {{ vsd_fqdn }} -u {{ inventory_hostname }}
+  remote_user: root
+

@@ -29,8 +29,12 @@
   with_items:
     - nuage-install.yml
     - vsd-deploy.yml
+    - vsd-postinstall.yml
+    - vsc-profiles.yml
+    - stat-predeploy.yml
     - stat-deploy.yml
     - nserver-deploy.yml
+    - util-predeploy.yml
     - util-deploy.yml
     - reset-all-domains.yml
     - pk-create.yml

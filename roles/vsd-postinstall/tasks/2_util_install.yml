@@ -1,0 +1,27 @@
+---
+
+- name: "Copying certificates from VSD to util server"
+  shell:  "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u proxy -c proxy -o csp -d {{ hostvars[groups['util'][0]].inventory_hostname }} -f pem -t server -s root@{{ hostvars[groups['util'][0]].interfaces[0].ip  }}:/opt/SDVPNHAProxy/config/keys/"
+  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  remote_user: root
+
+- name: "Change VSD ejmode to allow"
+  command: "/opt/vsd/bin/ejmode allow"
+  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  remote_user: root
+ 
+- name: "Check services ejmode at VSD"
+  command: "/opt/vsd/ejbca/bin/ejbca.sh ra listendentities -S 00"
+  register: ejmode_status
+  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  remote_user: root
+
+- name: "Wait 5 minutes"
+  pause:
+    minutes: 5
+  when: hostvars[groups['util'][0]].inventory_hostname is defined
+
+- name: "showing output of VSD ejmode"
+  debug:
+    msg: "{{ ejmode_status.stdout }}"
+  when: hostvars[groups['util'][0]].inventory_hostname is defined

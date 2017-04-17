@@ -1,0 +1,4 @@
+- name: "touch file"
+  shell: "touch /tmp/test"
+  delegate_to: "{{ hostvars[ groups['vsc'][0]].ansible_host }}"
+  remote_user: root

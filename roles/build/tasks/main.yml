@@ -26,10 +26,14 @@
     - pk-create.yml
     - pk-reset.yml
     - nuage-install.yml 
+    - util-predeploy.yml
     - util-deploy.yml
     - nserver-deploy.yml
+    - stat-predeploy.yml
     - stat-deploy.yml
     - vsd-deploy.yml
+    - vsd-postinstall.yml
+    - vsc-profiles.yml
     - license.yml
     - health.yml
     - webvirtmgr-deploy.yml

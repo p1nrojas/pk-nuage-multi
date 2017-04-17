@@ -1,0 +1,18 @@
+---
+- name: Executing certMgmt.sh at VSD
+  shell:  /opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u elastic -c elastic -o csp -f pem -t server -d {{ hostvars[groups['stat'][0]].inventory_hostname }}
+  when: hostvars[groups['stat'][0]].inventory_hostname is defined
+  remote_user: root
+  ignore_errors: true
+
+- name: fetch certs from VSD to {{ hostvars[groups['stat'][0]].inventory_hostname }}
+  fetch:
+    src: "/opt/vsd/ejbca/p12/pem/{{ item }}"
+    dest: "/tmp"
+  when: hostvars[groups['stat'][0]].inventory_hostname is defined
+  remote_user: root
+  become: false
+  with_items:
+    - 'elasticCert.pem'
+    - 'elastic-Key.pem'
+

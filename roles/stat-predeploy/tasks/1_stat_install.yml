@@ -1,0 +1,14 @@
+- name: Start elasticsearch on {{ inventory_hostname }}
+  service:
+    name: elasticsearch
+    state: started
+  remote_user: root
+
+- name: create directory /etc/nginx/ssl
+  file:
+    dest: /etc/nginx/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0600
+

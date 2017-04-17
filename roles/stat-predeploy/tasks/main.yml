@@ -1,0 +1,9 @@
+---
+#- include: _test.yml
+# Prepare stat server
+- include: 0_stat_setup.yml
+
+# Installing and configuring stat server
+- include: 1_stat_install.yml
+
+
