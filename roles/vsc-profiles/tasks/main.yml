@@ -1,8 +1,14 @@
-- name: "Add VSC1 to local known_hosts list"
-  local_action: shell ssh-keyscan -t rsa {{ vsc1_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' > {{playbook_dir}}/../.ssh/known_hosts
+- debug:
+    msg: "ssh-keyscan -p {{ ansible_port }} -t rsa {{ ansible_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' >> {{playbook_dir}}/../.ssh/known_hosts"
+
+- name: "Add VSC to local known_hosts list"
+  local_action: shell ssh-keyscan -p {{ ansible_port }} -t rsa {{ ansible_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' >> {{playbook_dir}}/../.ssh/known_hosts
+
+- debug:
+    msg: "command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}"
 
 - name: "Create TLS profile at VSC1"
-  local_action: command python {{playbook_dir}}/roles/util-deploy/files/nuage_tls_profile.py {{ vsc1_fqdn }} {{ vsc1_host }} {{ vsc1_passwd }} {{ vsc1_cert_name }}
+  local_action: command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}
   register: output
 
 - name: Verification Result Failure Status
@@ -12,16 +18,3 @@
 - name: Verification Result Success Status
   debug: var=output.stdout
 
-- name: "Add VSC2 to local known_hosts list"
-  local_action: shell ssh-keyscan -t rsa {{ vsc2_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' > {{playbook_dir}}/../.ssh/known_hosts
-
-- name: "Create TLS profile at VSC2"
-  local_action: command python {{playbook_dir}}/roles/util-deploy/files/nuage_tls_profile.py {{ vsc2_fqdn }} {{ vsc2_host }} {{ vsc2_passwd }} {{ vsc2_cert_name }}
-  register: output
-
-- name: Verification Result Failure Status
-  fail: msg={{ output.stdout }}
-  when: output.stdout != "success"
-
-- name: Verification Result Success Status
-  debug: var=output.stdout
