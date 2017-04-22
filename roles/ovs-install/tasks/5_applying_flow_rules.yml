@@ -1,0 +1,9 @@
+---
+
+- name: deleting flow rules
+  shell: ovs-ofctl del-flows external dl_type=0x0800,tp_dst=67,in_port=1
+  when: dhcp_subnets is defined 
+
+- name: applying flow rules
+  shell: ovs-ofctl add-flow external dl_type=0x0800,nw_proto=17,tp_dst=67,in_port=1,actions=drop
+  when: dhcp_subnets is defined 

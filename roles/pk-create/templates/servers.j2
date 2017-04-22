@@ -10,6 +10,10 @@ facility: {{ item.1.facility }}
 public_if: {{ item.1.public_if }}
 private_ip: {{ pk_private_ip.results[item.0].stdout }}
 public_ip: {{ pk_public_ip.results[item.0].stdout }}
+{% if item.1.range_max is defined %}
+range_max: {{ item.1.range_max }}
+range_min: {{ item.1.range_min }}
+{% endif %}
 
 {% if item.1.ext_gateway is defined %}
 ext_gateway: {{ item.1.ext_gateway }}
@@ -26,3 +30,19 @@ sec_rules:
 {% endfor %}
 {% endif %}
 
+{% if item.1.range_max is defined %}
+{% if item.1.ext_gateway is defined %}
+dhcp_subnets:
+  - { subnet: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0 ,
+      netmask: 255.255.255.0 ,
+      range_min: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ item.1.range_min }} ,
+      range_max: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ item.1.range_max }} ,
+      domain_name: {{ dns_domain }} ,
+      domain_name_server: 8.8.8.8 ,
+      router: {{ item.1.ext_gateway }} ,
+      broadcast_address: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
+      default_lease_time: 600000 ,
+      max_lease_time: 7200000
+    }
+{% endif %}
+{% endif %}
