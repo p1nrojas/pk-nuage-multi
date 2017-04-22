@@ -9,7 +9,7 @@
       - 192.168.0.12
     dns_server_list:
       - 192.168.0.12
-    dns_domain: sdn40r7.lab
+    dns_domain: sdn40r8.lab
     public_if: bond0
     packet_token: "{{ lookup('file', '/home/dev/.packet_token') }}"
     project_id: "{{ lookup('file', '/home/dev/.packet_project_id') }}"
@@ -18,14 +18,14 @@
     ssh_key:
     - "{{ lookup('file', '/home/dev/.ssh/id_rsa.pub') }}"
     servers: 
-      - { hostname: ns1.sdn40r7.lab,
+      - { hostname: ns1.sdn40r8.lab,
           description: "name, ntp and dhcp server" ,
           inventory: nserver ,
           memory: 4194304 ,
           vcpu_num: 2 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/centos7.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7.qcow2" ,
           hypervisor: core,
           ansible_host: 'centos@core:2022' ,
           gateway: 192.168.0.1,
@@ -42,14 +42,14 @@
             { protocol: udp , interface: bond0 , port: 123 , dest_port: 123 }
           ]
          }
-      - { hostname: vsd1.sdn40r7.lab,
+      - { hostname: vsd1.sdn40r8.lab,
           description: "Nuage Stand-Alone VSD, management plane" ,
           inventory: vsd ,
           Is_NM_enabled: true ,
           memory: 16777216 ,
           vcpu_num: 8 ,
-          image_qcow2: /home/dev/images/vsd40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/vsd40r7.qcow2" ,
+          image_qcow2: /home/dev/images/vsd40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsd40r8.qcow2" ,
           hypervisor: core,
           ansible_host: 'root@core:2023' ,
           gateway: 192.168.0.1,
@@ -68,7 +68,7 @@
             { protocol: tcp , interface: bond0 , port: 39090, dest_port: 39090  }
           ]      
          }
-      - { hostname: util.sdn40r7.lab,
+      - { hostname: util.sdn40r8.lab,
           description: "Util server for Nuage VNS" ,
           inventory: util ,
           Is_NM_enabled: true ,
@@ -76,8 +76,8 @@
           Guestfish: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/util40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/util40r7.qcow2" ,
+          image_qcow2: /home/dev/images/util40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/util40r8.qcow2" ,
           hypervisor: core,
           ansible_host: 'root@core:2024' ,
           gateway: 192.168.0.1,
@@ -95,7 +95,7 @@
             { protocol: tcp , interface: bond0 , port: 29090, dest_port: 29090  }
           ]      
          }
-      - { hostname: stat.sdn40r7.lab,
+      - { hostname: stat.sdn40r8.lab,
           description: "Stat server based on ElasticSearch" ,
           inventory: stat ,
           Is_NM_enabled: true ,
@@ -103,8 +103,8 @@
           Guestfish: true ,
           memory: 4194304 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/stat40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/stat40r7.qcow2" ,
+          image_qcow2: /home/dev/images/stat40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/stat40r8.qcow2" ,
           hypervisor: core ,
           ansible_host: 'root@core:2025' ,
           gateway: 192.168.0.1,
@@ -119,15 +119,15 @@
             { protocol: tcp , interface: bond0 , port: 5601 , dest_port: 5601 },
           ]      
          }
-      - { hostname: head1.sdn40r7.lab,
+      - { hostname: head1.sdn40r8.lab,
           description: "NSG-v Head End at Datacenter" ,
           inventory: nsg ,
           No_cloud_init: true ,
           rtl8139: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/nsg40r7.qcow2" ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
           hypervisor: dc1 ,
           interfaces: [
           { name: port1 ,
@@ -144,15 +144,15 @@
 #            { protocol: tcp , interface: bond0 , port: 179 , dest_port: 179 },
           ]      
          }
-      - { hostname: head2.sdn40r7.lab,
+      - { hostname: head2.sdn40r8.lab,
           description: "NSG-v Head End at Datacenter" ,
           inventory: nsg ,
           No_cloud_init: true ,
           rtl8139: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/nsg40r7.qcow2" ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
           hypervisor: dc2 ,
           interfaces: [
           { name: port1 ,
@@ -169,15 +169,15 @@
 #            { protocol: tcp , interface: bond0 , port: 179 , dest_port: 179 },
           ]      
          }
-      - { hostname: nsg1.sdn40r7.lab,
+      - { hostname: nsg1.sdn40r8.lab,
           description: "NSG-v at Branch 1" ,
           inventory: nsg ,
           No_cloud_init: true ,
           rtl8139: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/nsg40r7.qcow2" ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
           hypervisor: sdwan1 ,
           interfaces: [
           { name: port1 ,
@@ -194,15 +194,15 @@
 #            { protocol: tcp , interface: bond0 , port: 179 , dest_port: 179 },
           ]      
          }
-      - { hostname: nsg2.sdn40r7.lab,
+      - { hostname: nsg2.sdn40r8.lab,
           description: "NSG-v at Branch 2" ,
           inventory: nsg ,
           No_cloud_init: true ,
           rtl8139: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/nsg40r7.qcow2" ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
           hypervisor: sdwan2 ,
           interfaces: [
           { name: port1 ,
@@ -219,42 +219,42 @@
 #            { protocol: tcp , interface: bond0 , port: 179 , dest_port: 179 },
           ]      
          }
-      - { hostname: cli1.sdn40r7.lab,
+      - { hostname: cli1.sdn40r8.lab,
           description: "client at branch1" ,
           inventory: client ,
           No_cloud_init: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
           image_qcow2: /home/dev/images/centos7-reverse.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/ubuntu.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/ubuntu.qcow2" ,
           hypervisor: sdwan1 ,
           interfaces: [
           { name: eth0 ,
             bridge: branch }
           ]
          }
-      - { hostname: cli2.sdn40r7.lab,
+      - { hostname: cli2.sdn40r8.lab,
           description: "client at branch2" ,
           inventory: client ,
           No_cloud_init: true ,
           memory: 2097152 ,
           vcpu_num: 2 ,
           image_qcow2: /home/dev/images/centos7-reverse.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/ubuntu.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/ubuntu.qcow2" ,
           hypervisor: sdwan2 ,
           interfaces: [
           { name: eth0 ,
             bridge: branch }
           ]
          }
-      - { hostname: virt.sdn40r7.lab,
+      - { hostname: virt.sdn40r8.lab,
           description: "webvirtmgr service" ,
           inventory: webvirtmgr ,
           memory: 4194304 ,
           vcpu_num: 2 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/centos7-reverse.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-reverse.qcow2" ,
           hypervisor: dc1 ,
           ansible_host: 'centos@dc1:2022' ,
           gateway: 192.168.0.4,
@@ -270,16 +270,16 @@
           ]
          }
     vsc_controllers:
-      - { hostname: vsc1.sdn40r7.lab,
+      - { hostname: vsc1.sdn40r8.lab,
           description: "Nuage VSC - SDN controller" ,
           inventory: vsc ,
-          image_qcow2: /home/dev/images/vsc40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/vsc40r7.qcow2" ,
+          image_qcow2: /home/dev/images/vsc40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2" ,
           hypervisor: sdwan1 ,
           vsc_cert_name: vsc1nsg ,
           vsc_passwd: admin ,
           ansible_host: 'root@sdwan1:2022' ,
-          vsd_fqdn: vsd1.sdn40r7.lab,
+          vsd_fqdn: vsd1.sdn40r8.lab,
           system_ip: 1.1.1.2,
           xmpp_username: vsc01,
           gateway: 192.168.0.2,
@@ -301,16 +301,16 @@
             { protocol: tcp , interface: bond0 , port: 7407 , dest_port: 7407 },
           ]      
         }      
-      - { hostname: vsc2.sdn40r7.lab,
+      - { hostname: vsc2.sdn40r8.lab,
           description: "Nuage VSC - SDN controller" ,
           inventory: vsc ,
-          image_qcow2: /home/dev/images/vsc40r7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r7+files/vsc40r7.qcow2" ,
+          image_qcow2: /home/dev/images/vsc40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2" ,
           hypervisor: sdwan2 ,
           vsc_cert_name: vsc2nsg ,
           vsc_passwd: admin ,
           ansible_host: 'root@sdwan2:2022' ,
-          vsd_fqdn: vsd1.sdn40r7.lab,
+          vsd_fqdn: vsd1.sdn40r8.lab,
           system_ip: 1.1.1.3 ,
           xmpp_username: vsc02,
           gateway: 192.168.0.3,
