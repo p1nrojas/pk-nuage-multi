@@ -67,7 +67,7 @@
   shell: ntpstat | awk 'NR==1{print $1}'
   register: sync_status
   until: sync_status.stdout == "synchronised"
-  retries: 6
+  retries: 5
   delay: 10
   remote_user: root
   ignore_errors: yes 
@@ -88,15 +88,15 @@
     state: started
   remote_user: root
 
-- name: pause of 2 min
+- name: pause of 5 min
   pause:
-    minutes: 2
+    minutes: 5
 
 - name: check ntp sync state
   shell: ntpstat | awk 'NR==1{print $1}'
   register: sync_status
   until: sync_status.stdout == "synchronised"
-  retries: 15
+  retries: 5
   delay: 10
   remote_user: root
 

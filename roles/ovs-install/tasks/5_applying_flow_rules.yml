@@ -1,9 +1,15 @@
 ---
 
 - name: deleting flow rules
-  shell: ovs-ofctl del-flows external dl_type=0x0800,tp_dst=67,in_port=1
+  shell: "{{ item }}"
   when: dhcp_subnets is defined 
+  with_items:
+    - 'ovs-ofctl del-flows external dl_type=0x0800,tp_dst=67,in_port=1'
+    - 'ovs-ofctl del-flows external dl_type=0x0800,tp_dst=68,in_port=1'
 
 - name: applying flow rules
-  shell: ovs-ofctl add-flow external dl_type=0x0800,nw_proto=17,tp_dst=67,in_port=1,actions=drop
+  shell: "{{ item }}"
   when: dhcp_subnets is defined 
+  with_items: 
+    - 'ovs-ofctl add-flow external dl_type=0x0800,nw_proto=17,tp_dst=67,in_port=1,actions=drop'
+    - 'ovs-ofctl add-flow external dl_type=0x0800,nw_proto=17,tp_dst=68,in_port=1,actions=drop'

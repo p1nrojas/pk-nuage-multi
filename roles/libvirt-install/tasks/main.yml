@@ -5,3 +5,5 @@
   become: false
 
 - include: 1_install_libvirt_guestfish.yml
+
+- include: 2_configure_libvirt.yml 
