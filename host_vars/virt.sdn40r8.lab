@@ -1,0 +1,50 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: virt.sdn40r8.lab
+description: webvirtmgr service
+
+image_qcow2: /home/dev/images/centos7.qcow2
+image_url: https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-reverse.qcow2
+hypervisor: 147.75.88.119
+memory_KiB: 4194304
+vcpu_num: 2
+
+
+disk_GB: 20
+
+
+
+gateway: 192.168.0.4
+interfaces:
+  - { name: eth0 ,
+      bridge: external ,
+      ip: 192.168.0.30 ,
+      netmask: 255.255.255.0 }
+ntp_server:
+  - 192.168.0.12
+dns:
+  servers:
+    - 192.168.0.12
+
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 8090 ,
+      dest_addr: 192.168.0.30 ,
+      dest_port: 8090
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 6080 ,
+      dest_addr: 192.168.0.30 ,
+      dest_port: 6080
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2022 ,
+      dest_addr: 192.168.0.30 ,
+      dest_port: 22
+    } 

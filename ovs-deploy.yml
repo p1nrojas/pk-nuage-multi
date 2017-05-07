@@ -1,0 +1,10 @@
+- hosts: bmetal
+  gather_facts: no
+  remote_user: root
+  vars:
+    openvswitch_version: openvswitch-2.7.0
+  roles:
+    - libvirt-install
+    - sec_rules
+    - ovs-install
+    - dhcp-install

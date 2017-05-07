@@ -7,3 +7,5 @@
 - include: 3_creating_ovs_ports.yml
 
 - include: 4_applying_snat.yml
+
+- include: 5_applying_flow_rules.yml
