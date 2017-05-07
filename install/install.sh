@@ -9,12 +9,12 @@ systemctl enable docker >> /tmp/install.log
 
 #Create container images
 echo "$(date) Creating containers..."
-mkdir -p ~/github/packet-sdnlab >> /tmp/install.log
-cd ~/github/packet-sdnlab >> /tmp/install.log
-curl -fsS -o Dockerfile https://raw.githubusercontent.com/p1nrojas/packet-sdnlab/master/install/Dockerfile >> /tmp/install.log
-curl -fsS -o vimrc https://raw.githubusercontent.com/p1nrojas/packet-sdnlab/master/install/vimrc >> /tmp/install.log
-curl -fsS -o bash_profile https://raw.githubusercontent.com/p1nrojas/packet-sdnlab/master/install/bash_profile >> /tmp/install.log
-curl -fsS -o setup.sh https://raw.githubusercontent.com/p1nrojas/packet-sdnlab/master/install/setup.sh >> /tmp/install.log
+mkdir -p ~/github/pk-sdnlab-stdalone >> /tmp/install.log
+cd ~/github/pk-sdnlab-stdalone >> /tmp/install.log
+curl -fsS -o Dockerfile https://raw.githubusercontent.com/p1nrojas/pk-sdnlab-stdalone/master/install/Dockerfile >> /tmp/install.log
+curl -fsS -o vimrc https://raw.githubusercontent.com/p1nrojas/pk-sdnlab-stdalone/master/install/vimrc >> /tmp/install.log
+curl -fsS -o bash_profile https://raw.githubusercontent.com/p1nrojas/pk-sdnlab-stdalone/master/install/bash_profile >> /tmp/install.log
+curl -fsS -o setup.sh https://raw.githubusercontent.com/p1nrojas/pk-sdnlab-stdalone/master/install/setup.sh >> /tmp/install.log
 
 #Asking packet.net token
 echo ">>"
@@ -38,14 +38,14 @@ if [[ $nuage_license_key =~ \ + ]]; then echo "Format isn't right, bye!"; else e
 
 echo "$(date) Passed. Creating container image..."
 
-docker build -t p1nrojas/packet-sdnlab . >> /tmp/install.log
+docker build -t p1nrojas/pk-sdnlab-stdalone . >> /tmp/install.log
 
 #Create data-only container
 echo "$(date) Creating data-only container..."
-docker run -d --name vns-data-only p1nrojas/packet-sdnlab true
+docker run -d --name vns-data-only p1nrojas/pk-sdnlab-stdalone true
 
 echo "$(date) loading app files..."
-docker run -d -i -t --volumes-from vns-data-only --name vns-packet p1nrojas/packet-sdnlab
+docker run -d -i -t --volumes-from vns-data-only --name vns-packet p1nrojas/pk-sdnlab-stdalone
 
 exit 0
 sleep 30
@@ -55,15 +55,15 @@ docker cp vns-data-only:/home/dev/.ssh/id_rsa.pub .
 cat id_rsa.pub >> ~/.ssh/authorized_keys ; rm -f id_rsa.pub
 
 echo "$(date) Creating bare_metal server and preparing weave..."
-docker run --rm --volumes-from vns-data-only p1nrojas/packet-sdnlab /home/dev/packet-sdnlab/packet.sh
+docker run --rm --volumes-from vns-data-only p1nrojas/pk-sdnlab-stdalone /home/dev/pk-sdnlab-stdalone/packet.sh
 
 echo "$(date) Installing Nuage VNS..."
-docker run --rm --volumes-from vns-data-only --network weave --ip 192.168.0.101 p1nrojas/packet-sdnlab /home/dev/packet-sdnlab/nuage.sh
+docker run --rm --volumes-from vns-data-only --network weave --ip 192.168.0.101 p1nrojas/pk-sdnlab-stdalone /home/dev/pk-sdnlab-stdalone/nuage.sh
 
 echo
 echo
 echo "================================================"
 echo "Summary Results"
-docker run --rm --volumes-from vns-data-only p1nrojas/packet-sdnlab cat /home/dev/packet-sdnlab/.summary
+docker run --rm --volumes-from vns-data-only p1nrojas/pk-sdnlab-stdalone cat /home/dev/pk-sdnlab-stdalone/.summary
 
 echo "$(date) done!"

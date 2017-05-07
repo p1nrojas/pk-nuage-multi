@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ ! -f /var/log/ansible/ansible-packet-sdnlab.log ]; then
+if [ ! -f /var/log/ansible/ansible-pk-sdnlab-stdalone.log ]; then
     echo "There is not data. Proceed setup"
-    git clone https://github.com/p1nrojas/packet-sdnlab ~/packet-sdnlab
-    touch /var/log/ansible/ansible-packet-sdnlab.log
+    git clone https://github.com/p1nrojas/pk-sdnlab-stdalone ~/pk-sdnlab-stdalone
+    touch /var/log/ansible/ansible-pk-sdnlab-stdalone.log
     ssh-keygen -t rsa -b 4096 -C "dev@nuage.io" -f ~/.ssh/id_rsa -q -N ""
-    cd /home/dev/packet-sdnlab
+    cd /home/dev/pk-sdnlab-stdalone
     ansible-playbook build.yml
     /bin/bash
 else

@@ -10,8 +10,8 @@ curl -fsSL https://git.io/vSkGs > install.sh; chmod 755 install.sh; ./install.sh
 
 Create app container:
 ```
-docker run -d -i -t --volumes-from vns-data-only --name vns-packet p1nrojas/packet-nuagevns # add /bin/bash to recreate
-docker run -d -i -t --volumes-from vns-data-only --network weave --ip 192.168.0.100 --name vns-install p1nrojas/packet-nuagevns /bin/bash
+docker run -d -i -t --volumes-from vns-data-only --name vns-packet p1nrojas/pk-sdnlab-stdalone # add /bin/bash to recreate
+docker run -d -i -t --volumes-from vns-data-only --network weave --ip 192.168.0.100 --name vns-install p1nrojas/pk-sdnlab-stdalone /bin/bash
 ```
 ...And play!
 ```
