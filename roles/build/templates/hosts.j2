@@ -53,6 +53,15 @@
 {% endif %}
 
 {% if servers is defined %}
+[dc_computes]
+{% for server in servers %}
+{% if server.inventory == "dc_computes" %}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if servers is defined %}
 [nsg]
 {% for server in servers %}
 {% if server.inventory == "nsg" %}

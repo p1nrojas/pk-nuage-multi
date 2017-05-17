@@ -1,0 +1,112 @@
+---
+
+- name: Pull facts on hypervisor
+  action: setup
+  remote_user: root
+
+- name: Install epel-release repo
+  yum: name=epel-release state=present
+  remote_user: root
+
+- name: yum updates
+  yum: name=* state=latest
+  remote_user: root
+
+- name: Install additional packages
+  yum: name={{ item }} state=present
+  with_items:
+   - python-twisted-core
+   - qemu-kvm
+   - libvirt
+   - virt-install
+  remote_user: root
+
+- name: Uncomment vnc_listen in /etc/libvirt/qemu.conf
+  lineinfile:
+    dest: /etc/libvirt/qemu.conf
+    regexp: 'vnc_listen ='
+    line: 'vnc_listen = 0.0.0.0'
+  remote_user: root
+
+- name: Check libvirtd service is running
+  service:
+    name: libvirtd
+    state: started 
+  remote_user: root
+
+- name: Remove  additional packages
+  yum: name={{ item }} state=absent
+  with_items:
+   - python-openvswitch
+   - openvswitch
+  remote_user: root
+
+- name: install the nuage vrs openvswitch rpm from a remote repo
+  yum:
+    name: {{ nuage_vrs_rpm_location }}
+    state: present
+  remote_user: root
+
+- name: Remove  additional packages
+  yum: name={{ item }} state=absent
+  with_items:
+   - openvswitch
+  remote_user: root
+
+- name: install the nuage vrs openvswitch rpm from a remote repo
+  yum:
+    name: {{ nuage_vrs_rpm_location }}
+    state: present
+  remote_user: root
+
+- name: Add ACTIVE_CONTROLLER to /etc/default/openvswitch
+  lineinfile:
+    dest: /etc/default/openvswitch
+    regexp: 'ACTIVE_CONTROLLER='
+    line: 'ACTIVE_CONTROLLER={{ hotsvars[groups['vsc'][2]].ansible_host }}'
+  remote_user: root
+
+- name: Add STANDBY_CONTROLLER to /etc/default/openvswitch
+  lineinfile:
+    dest: /etc/default/openvswitch
+    regexp: 'STANDBY_CONTROLLER='
+    line: 'STANDBY_CONTROLLER={{ hotsvars[groups['vsc'][3]].ansible_host }}'
+  remote_user: root
+
+- name : restarting openvswitch
+  service:
+    name: openvswitch
+    state: restarted
+  remote_user: root
+
+- name: Install docker  packages
+  yum: name={{ item }} state=present
+  with_items:
+   - docker
+   - python-pip
+  remote_user: root
+
+- name: Installing pip packages and upgrade
+  shell: "{{ item }}"
+   - 'pip install docker-py'
+   - 'pip install --upgrade pip'
+   - 'chkconfig docker on'
+  remote_user: root
+
+- name : starting docker
+  service:
+    name: docker
+    state: started
+  remote_user: root
+
+- name: install the dockermon rpm from a remote repo
+  yum:
+    name: {{ nuage_dockermon_rpm_location }}
+    state: present
+  remote_user: root
+
+- name : restarting openvswitch
+  service:
+    name: openvswitch
+    state: restarted
+  remote_user: root

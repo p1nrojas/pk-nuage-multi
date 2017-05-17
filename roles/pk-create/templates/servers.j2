@@ -13,7 +13,7 @@ public_ip: {{ pk_public_ip.results[item.0].stdout }}
 {% if item.1.br_connect is defined %}
 br_connect:
 {% for br in item.1.br_connect %}
-  - { bridge: {{ br.bridge }}{% if br.gateway is defined %}, gateway: {{ br.gateway }}{% endif %}{% if br.mask is defined %}, mask: {{ br.mask }}{% endif %}{% if br.dhcp_min is defined %}, dhcp_min: {{ br.dhcp_min }}{% endif %}{% if br.dhcp_max is defined %}, dhcp_max: {{ br.dhcp_max }}{% endif %} }
+  - { bridge: {{ br.bridge }}{% if br.gateway is defined %}, gateway: {{ br.gateway }}{% endif %}{% if br.prefix is defined %}, prefix: {{ br.prefix }}{% endif %}{% if br.dhcp_min is defined %}, dhcp_min: {{ br.dhcp_min }}{% endif %}{% if br.dhcp_max is defined %}, dhcp_max: {{ br.dhcp_max }}{% endif %} }
 {% endfor %}
 {% endif %}
 

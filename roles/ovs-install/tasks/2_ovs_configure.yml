@@ -8,7 +8,7 @@
     state: present
   with_items: "{{ br_connect }}"
 
- Creating ovs vxlan ports
+# Creating ovs vxlan ports
 - name: "checking vxlan ports {{ item.bridge }}"
   shell: ovs-vsctl show | grep {{ item.vxlan_port }}
   register: vxlan_exist
@@ -17,6 +17,6 @@
 
 - name: creating vxlan connectivity 
   shell: ovs-vsctl add-port {{ item.bridge }} {{ item.vxlan_port }} -- set Interface {{ item.vxlan_port }} type=vxlan options:remote_ip={{ item.vxlan_dest }} options:key={{ item.vxlan_index }}
-  when: vxlan_exist.results == ""
-  with_tems: "{{ vxlan_ports }}" 
+  when: vxlan_exist|failed
+  with_items: "{{ vxlan_ports }}" 
 

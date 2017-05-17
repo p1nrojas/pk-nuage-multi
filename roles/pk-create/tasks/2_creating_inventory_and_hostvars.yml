@@ -66,7 +66,7 @@
 #    msg: "{{ host_files.stdout_lines }}"  
 
 - name: create array of public_ips and hosts
-  raw: grep 147 hosts | sed -e 's/^\(.*\) .*=\(.*\) .*$/\1 \2/'
+  raw: grep 147 hosts | sed -e 's/^\(.*\) .*=\(.*\) .*$/\1 \2/' | grep -v {{ dns_domain }}
   register: bmetal_array
 
 #- debug:

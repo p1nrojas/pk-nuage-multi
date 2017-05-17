@@ -12,5 +12,6 @@
     state: present
   delegate_to: "{{ hypervisor }}"
   remote_user: root
+  ignore_errors: yes
   when: pat_rules is defined
   with_items: "{{ pat_rules }}"
