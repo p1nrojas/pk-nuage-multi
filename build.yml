@@ -412,7 +412,7 @@
             prefix: 24 }
           ],      
           static_routes: [
-            "0.0.0.0/0 next-hop 192.168.0.3" 
+            "0.0.0.0/0 next-hop 192.168.0.1" 
           ],
           pat_rules: [
           ]
