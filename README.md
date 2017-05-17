@@ -1,4 +1,4 @@
-## DO not use. It's under construction
+## Do not use. It's under construction. Check https://github.com/p1nrojas/packet-nuagevns repo instead
 ## Caution! Use it under your own risk. Intended for PoCs and Lab
 
 # Createyour SD-WAN experience at packet.net (Nuage Virtualized Network Services)

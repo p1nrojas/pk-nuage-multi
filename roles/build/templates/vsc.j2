@@ -8,7 +8,9 @@
 image_qcow2: {{ item.image_qcow2 }}
 image_url: {{ item.image_url }}
 hypervisor: {{ item.hypervisor }}
+{% if item.vsc_cert_name is defined %}
 vsc_cert_name: {{ item.vsc_cert_name }}
+{% endif %}
 vsc_passwd: {{ item.vsc_passwd }}
 {% if item is defined %}
 gateway: {{ item.gateway }}

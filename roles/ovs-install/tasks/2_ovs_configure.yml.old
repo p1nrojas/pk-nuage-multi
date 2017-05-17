@@ -1,0 +1,69 @@
+---
+
+# creating ovs bridges
+
+- name: Create bridges at ovs
+  openvswitch_bridge:
+    bridge: "{{ item.name }}"
+    state: present
+  with_items: "{{ bridges }}"
+
+# Creating ovs vxlan ports
+- name: checking vxlan ports {{ item.name }}
+  shell: ovs-vsctl show | grep {{ item.name }}-vxlan
+  register: vxlan_exist
+  ignore_errors: yes
+  with_items: "{{ bridges }}"
+
+- name: checking vxlan ports at dc-wan
+  shell: ovs-vsctl show | grep dc-vxlan
+  register: dc_vxlan
+  ignore_errors: yes
+
+- name: checking vxlan ports at external
+  shell: ovs-vsctl show | grep ext-vxlan
+  register: ext_vxlan
+  ignore_errors: yes
+
+- name: creating vxlan connectivity for br-wan
+  shell: ovs-vsctl add-port br-wan bw-vxlan{{ item.0 }} -- set Interface bw-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=10
+  when: 
+    - item.1 != private_ip
+    - bw_vxlan.stdout == ""
+    - inventory_hostname == 'sdwan1' 
+  with_indexed_items: "{{ private_ip_list }}"
+
+- name: creating vxlan connectivity for br-wan
+  shell: ovs-vsctl add-port br-wan bw-vxlan -- set Interface bw-vxlan type=vxlan options:remote_ip={{ hostvars[ 'sdwan1' ].private_ip }} options:key=10
+  when: 
+    - inventory_hostname != 'sdwan1'
+    - bw_vxlan.stdout == ""
+
+- name: creating vxlan connectivity for br-dc
+  shell: ovs-vsctl add-port br-dc dc-vxlan{{ item.0 }} -- set Interface dc-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=20
+  when: 
+    - item.1 != private_ip
+    - dc_vxlan.stdout == ""
+    - inventory_hostname == 'dc1' 
+  with_indexed_items: "{{ private_ip_list }}"
+
+- name: creating vxlan connectivity for br-dc
+  shell: ovs-vsctl add-port br-dc dc-vxlan -- set Interface dc-vxlan type=vxlan options:remote_ip={{ hostvars[ 'dc1' ].private_ip }} options:key=20
+  when: 
+    - inventory_hostname != 'dc1'
+    - dc_vxlan.stdout == ""
+
+- name: creating vxlan connectivity for external
+  shell: ovs-vsctl add-port external ext-vxlan{{ item.0 }} -- set Interface ext-vxlan{{ item.0 }} type=vxlan options:remote_ip={{ item.1 }} options:key=30
+  when: 
+    - item.1 != private_ip
+    - ext_vxlan.stdout == ""
+    - inventory_hostname == 'core' 
+  with_indexed_items: "{{ private_ip_list }}"
+
+- name: creating vxlan connectivity for external
+  shell: ovs-vsctl add-port external ext-vxlan -- set Interface ext-vxlan type=vxlan options:remote_ip={{ hostvars[ 'core' ].private_ip }} options:key=30
+  when: 
+    - inventory_hostname != 'core'
+    - ext_vxlan.stdout == ""
+

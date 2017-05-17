@@ -10,17 +10,11 @@ facility: {{ item.1.facility }}
 public_if: {{ item.1.public_if }}
 private_ip: {{ pk_private_ip.results[item.0].stdout }}
 public_ip: {{ pk_public_ip.results[item.0].stdout }}
-{% if item.1.range_max is defined %}
-range_max: {{ item.1.range_max }}
-range_min: {{ item.1.range_min }}
-{% endif %}
-
-{% if item.1.ext_gateway is defined %}
-ext_gateway: {{ item.1.ext_gateway }}
-{% endif %}
-
-{% if item.1.wan_gateway is defined %}
-wan_gateway: {{ item.1.wan_gateway }}
+{% if item.1.br_connect is defined %}
+br_connect:
+{% for br in item.1.br_connect %}
+  - { bridge: {{ br.bridge }}{% if br.gateway is defined %}, gateway: {{ br.gateway }}{% endif %}{% if br.mask is defined %}, mask: {{ br.mask }}{% endif %}{% if br.dhcp_min is defined %}, dhcp_min: {{ br.dhcp_min }}{% endif %}{% if br.dhcp_max is defined %}, dhcp_max: {{ br.dhcp_max }}{% endif %} }
+{% endfor %}
 {% endif %}
 
 {% if sec_rules is defined %}
@@ -30,19 +24,33 @@ sec_rules:
 {% endfor %}
 {% endif %}
 
-{% if item.1.range_max is defined %}
-{% if item.1.ext_gateway is defined %}
+{% if item.1.br_connect is defined%}
 dhcp_subnets:
-  - { subnet: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0 ,
+{% for br in item.1.br_connect %}
+{% if br.dhcp_min is defined %}
+  - { subnet: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0 ,
       netmask: 255.255.255.0 ,
-      range_min: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ item.1.range_min }} ,
-      range_max: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ item.1.range_max }} ,
+      range_min: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_min }} ,
+      range_max: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_max }} ,
       domain_name: {{ dns_domain }} ,
       domain_name_server: 8.8.8.8 ,
-      router: {{ item.1.ext_gateway }} ,
-      broadcast_address: {{ item.1.ext_gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
+      router: {{ br.gateway }} ,
+      broadcast_address: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
       default_lease_time: 600000 ,
       max_lease_time: 7200000
     }
 {% endif %}
+{% endfor %}
+{% endif %}
+
+{% if item.1.vxlan is defined%}
+vxlan_ports:
+{% for vxlan in item.1.vxlan %}
+   - { 
+       bridge: {{ vxlan.bridge }} ,
+       vxlan_port : {{ vxlan.vxlan_port }} ,
+       vxlan_dest : {{ vxlan.vxlan_dest }} ,
+       vxlan_index : {{ vxlan.vxlan_index }}
+     } 
+{% endfor %}
 {% endif %}

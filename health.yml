@@ -1,6 +1,0 @@
-- hosts:
-    - vsd
-  remote_user: root
-  gather_facts: no
-  roles:
-    - health-vsd

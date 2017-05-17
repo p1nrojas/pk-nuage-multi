@@ -1,20 +1,27 @@
 - debug:
     msg: "ssh-keyscan -p {{ ansible_port }} -t rsa {{ ansible_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' >> {{playbook_dir}}/../.ssh/known_hosts"
+  when: vsc_cert_name is defined
 
 - name: "Add VSC to local known_hosts list"
   local_action: shell ssh-keyscan -p {{ ansible_port }} -t rsa {{ ansible_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' >> {{playbook_dir}}/../.ssh/known_hosts
+  when: vsc_cert_name is defined
 
 - debug:
     msg: "command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}"
+  when: vsc_cert_name is defined
 
 - name: "Create TLS profile at VSC1"
   local_action: command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}
   register: output
+  when: vsc_cert_name is defined
 
 - name: Verification Result Failure Status
   fail: msg={{ output.stdout }}
-  when: output.stdout != "success"
+  when: 
+    - output.stdout != "success"
+    - vsc_cert_name is defined
 
 - name: Verification Result Success Status
   debug: var=output.stdout
+  when: vsc_cert_name is defined
 

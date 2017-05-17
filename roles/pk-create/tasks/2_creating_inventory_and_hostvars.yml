@@ -10,6 +10,22 @@
   register: pk_public_ip
   with_items: "{{ bmetals }}"
 
+- name: Create var
+  set_fact: 
+    ip_item: "{{ ip_item|default({}) | combine( { 'device_name': item.1.device_name , 'private_ip' : pk_private_ip.results[item.0].stdout } ) }}"
+#  set_fact: ip_item="{ device_name: '{{ item.1.device_name }}' , private_ip: '{{ pk_private_ip.results[item.0].stdout }}'}"
+  with_indexed_items: "{{ bmetals }}"
+  register: ip_item_results
+
+- name: debug
+  debug: var=ip_item_results
+
+- name: make a list
+  set_fact: iphost_list='{{ ip_item_results.results | map(attribute='ansible_facts.ip_item') | list }}'
+
+- name: debug
+  debug: var=iphost_list
+
 - name: Creating host_vars files of servers
   template: src=servers.j2 dest="{{ playbook_dir }}/host_vars/{{ item.1.device_name }}" backup=no
   with_indexed_items: "{{ bmetals }}"  
@@ -22,6 +38,15 @@
     line: "{{ item.1.device_name }} ansible_host={{ pk_public_ip.results[item.0].stdout }} ansible_user=root"
   with_indexed_items: "{{ bmetals }}"
 
+- name: "Adding IPs to host_vars files for vxlans"
+  lineinfile:
+    dest: "{{ playbook_dir }}/host_vars/{{ item[0].device_name }}"
+    regexp: "^       vxlan_dest : {{ item[1].device_name }} ,$"
+    line: '       vxlan_dest : {{ item[1].private_ip }} ,'
+    backrefs: yes
+  with_nested: 
+    - "{{ bmetals }}"
+    - "{{ iphost_list }}"
 
 - name: "Adding IPs to inventory file under [bmetal]"
   replace:
