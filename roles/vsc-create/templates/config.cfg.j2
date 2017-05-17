@@ -165,10 +165,10 @@ echo "BGP Configuration"
 {% if vsc_item != inventory_hostname %}
 {% if hostvars[vsc_item].system_ip != system_ip %}
                 neighbor {{ hostvars[vsc_item].system_ip }}
+                exit
 {% endif %}
 {% endif %}
 {% endfor %}
-                exit
             exit
             no shutdown
         exit
