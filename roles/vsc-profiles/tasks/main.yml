@@ -18,7 +18,7 @@
 - name: Verification Result Failure Status
   fail: msg={{ output.stdout }}
   when: 
-    - output.stdout != "success"
+    - output.stdout is defined 
     - vsc_cert_name is defined
 
 - name: Verification Result Success Status

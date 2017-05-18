@@ -43,7 +43,7 @@
 
 - name: install the nuage vrs openvswitch rpm from a remote repo
   yum:
-    name: {{ nuage_vrs_rpm_location }}
+    name: '{{ nuage_vrs_rpm_location }}'
     state: present
   remote_user: root
 
@@ -55,7 +55,7 @@
 
 - name: install the nuage vrs openvswitch rpm from a remote repo
   yum:
-    name: {{ nuage_vrs_rpm_location }}
+    name: '{{ nuage_vrs_rpm_location }}'
     state: present
   remote_user: root
 
@@ -63,14 +63,14 @@
   lineinfile:
     dest: /etc/default/openvswitch
     regexp: 'ACTIVE_CONTROLLER='
-    line: 'ACTIVE_CONTROLLER={{ hotsvars[groups['vsc'][2]].ansible_host }}'
+    line: "ACTIVE_CONTROLLER={{ hostvars[groups['vsc'][2]].interfaces[1].ip }}"
   remote_user: root
 
 - name: Add STANDBY_CONTROLLER to /etc/default/openvswitch
   lineinfile:
     dest: /etc/default/openvswitch
     regexp: 'STANDBY_CONTROLLER='
-    line: 'STANDBY_CONTROLLER={{ hotsvars[groups['vsc'][3]].ansible_host }}'
+    line: "STANDBY_CONTROLLER={{ hostvars[groups['vsc'][3]].interfaces[1].ip }}"
   remote_user: root
 
 - name : restarting openvswitch
@@ -88,6 +88,7 @@
 
 - name: Installing pip packages and upgrade
   shell: "{{ item }}"
+  with_items:
    - 'pip install docker-py'
    - 'pip install --upgrade pip'
    - 'chkconfig docker on'
@@ -101,7 +102,7 @@
 
 - name: install the dockermon rpm from a remote repo
   yum:
-    name: {{ nuage_dockermon_rpm_location }}
+    name: '{{ nuage_dockermon_rpm_location }}'
     state: present
   remote_user: root
 

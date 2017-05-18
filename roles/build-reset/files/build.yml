@@ -280,7 +280,7 @@
          }
       - { hostname: docker.sdn40r8.lab,
           description: "Docker Server" ,
-          inventory: dc_computes ,
+          inventory: docker ,
           memory: 8388608 ,
           vcpu_num: 4 ,
           disk_GB: 20 ,
@@ -300,7 +300,7 @@
          }
       - { hostname: k8s-master.sdn40r8.lab,
           description: "Kubernetes Master Server" ,
-          inventory: dc_computes ,
+          inventory: kubernetes ,
           memory: 8388608 ,
           vcpu_num: 4 ,
           disk_GB: 20 ,
@@ -320,7 +320,7 @@
          }
       - { hostname: k8s-node1.sdn40r8.lab,
           description: "Kubernetes Node Server" ,
-          inventory: dc_computes ,
+          inventory: kubernetes ,
           memory: 8388608 ,
           vcpu_num: 4 ,
           disk_GB: 20 ,
@@ -340,7 +340,7 @@
          }
       - { hostname: k8s-node2.sdn40r8.lab,
           description: "Kubernetes Node Server" ,
-          inventory: dc_computes ,
+          inventory: kubernetes ,
           memory: 8388608 ,
           vcpu_num: 4 ,
           disk_GB: 20 ,
@@ -412,7 +412,7 @@
             prefix: 24 }
           ],      
           static_routes: [
-            "0.0.0.0/0 next-hop 192.168.0.3" 
+            "0.0.0.0/0 next-hop 192.168.0.1" 
           ],
           pat_rules: [
           ]

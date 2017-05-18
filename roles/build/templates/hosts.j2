@@ -53,9 +53,18 @@
 {% endif %}
 
 {% if servers is defined %}
-[dc_computes]
+[docker]
 {% for server in servers %}
-{% if server.inventory == "dc_computes" %}
+{% if server.inventory == "docker" %}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if servers is defined %}
+[kubernetes]
+{% for server in servers %}
+{% if server.inventory == "kubernetes" %}
 {{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
 {% endif %}
 {% endfor %}
