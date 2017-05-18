@@ -47,3 +47,4 @@
     - health.yml
     - deploy-all.yml
     - webvirtmgr-deploy.yml
+    - docker-deploy.yml
