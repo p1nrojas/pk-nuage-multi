@@ -67,7 +67,7 @@
   shell: ntpstat | awk 'NR==1{print $1}'
   register: sync_status
   until: sync_status.stdout == "synchronised"
-  retries: 5
+  retries: 6
   delay: 10
   remote_user: root
   ignore_errors: yes 
@@ -88,16 +88,12 @@
     state: started
   remote_user: root
 
-- name: pause of 5 min
-  pause:
-    minutes: 5
-
 - name: check ntp sync state
   shell: ntpstat | awk 'NR==1{print $1}'
   register: sync_status
   until: sync_status.stdout == "synchronised"
-  retries: 5
-  delay: 10
+  retries: 30
+  delay: 60
   remote_user: root
 
 - name: moving public key to tmp folder

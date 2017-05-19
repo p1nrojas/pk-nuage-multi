@@ -15,3 +15,43 @@
   ignore_errors: yes
   when: pat_rules is defined
   with_items: "{{ pat_rules }}"
+
+- name: pause 10 seconds
+  pause:
+    seconds: 10
+
+- name: Creating PAT rules thru iptables 
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: "{{ item.interface }}"
+    protocol: "{{ item.protocol }}"
+    destination_port: "{{ item.port }}"
+    jump: DNAT
+    to_destination: "{{ item.dest_addr }}:{{ item.dest_port }}"
+    state: present
+  delegate_to: "{{ hypervisor }}"
+  remote_user: root
+  ignore_errors: yes
+  when: pat_rules is defined
+  with_items: "{{ pat_rules }}"
+
+- name: pause 10 seconds
+  pause:
+    seconds: 10
+
+- name: Creating PAT rules thru iptables 
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: "{{ item.interface }}"
+    protocol: "{{ item.protocol }}"
+    destination_port: "{{ item.port }}"
+    jump: DNAT
+    to_destination: "{{ item.dest_addr }}:{{ item.dest_port }}"
+    state: present
+  delegate_to: "{{ hypervisor }}"
+  remote_user: root
+  ignore_errors: yes
+  when: pat_rules is defined
+  with_items: "{{ pat_rules }}"
