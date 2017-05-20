@@ -106,6 +106,24 @@
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
 {% endfor %}
+
+{% for server in servers %}
+{% if server.inventory == 'kubernetes' %}
+{% if 'k8s-master' in server.hostname  %}
+      - name: k8s-master
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
+{% if 'k8s-node1' in server.hostname  %}
+      - name: k8s-node1
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
+{% if 'k8s-node2' in server.hostname  %}
+      - name: k8s-node2
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
+{% endif %}
+{% endfor %}
+
     bind_zone_services:
       - name: _xmpp-client._tcp
         weight: 10
