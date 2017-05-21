@@ -17,6 +17,6 @@
     auth_token: "{{ packet_token }}"
   with_items: "{{ bmetals }}"
 
-- name: "Waiting up to 3min for server"
+- name: "Waiting up to 10min for server"
   pause:
-    minutes: 3
+    minutes: 10
