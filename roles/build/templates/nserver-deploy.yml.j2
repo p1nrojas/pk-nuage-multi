@@ -121,6 +121,14 @@
       - name: k8s-node2
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
+{% if 'k8s-node3' in server.hostname  %}
+      - name: k8s-node3
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
+{% if 'k8s-node4' in server.hostname  %}
+      - name: k8s-node4
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
 {% endif %}
 {% endfor %}
 
