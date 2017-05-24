@@ -132,6 +132,15 @@
 {% endif %}
 {% endfor %}
 
+{% for server in servers %}
+{% if server.inventory == 'docker' %}
+{% if 'docker' in server.hostname  %}
+      - name: docker
+        ip: {{ server.interfaces[0].ip }}
+{% endif %}
+{% endif %}
+{% endfor %}
+
     bind_zone_services:
       - name: _xmpp-client._tcp
         weight: 10
