@@ -20,9 +20,9 @@
           facility: sjc1 ,
           public_if: bond0 ,
           br_connect: [
-            { bridge: core, gateway: 192.168.0.1, prefix: 24, dhcp_min: 110, dhcp_max: 140 },
-            { bridge: wan, gateway: 10.250.250.1, prefix: 24, dhcp_min: 110, dhcp_max: 140 },
-            { bridge: inet, gateway: 80.80.80.1, prefix: 24, dhcp_min: 110, dhcp_max: 140 },
+            { bridge: core, gateway: 192.168.0.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 192.168.0.12 },
+            { bridge: wan, gateway: 10.250.250.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 10.250.250.2 },
+            { bridge: inet, gateway: 80.80.80.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 80.80.80.2 },
             { bridge: branch1 },
             { bridge: branch2 }
           ] ,

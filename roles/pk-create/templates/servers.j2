@@ -33,7 +33,7 @@ dhcp_subnets:
       range_min: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_min }} ,
       range_max: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_max }} ,
       domain_name: {{ dns_domain }} ,
-      domain_name_server: 8.8.8.8 ,
+      domain_name_server: {{ br.dns }} ,
       router: {{ br.gateway }} ,
       broadcast_address: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
       default_lease_time: 600000 ,
