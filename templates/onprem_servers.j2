@@ -1,0 +1,53 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+
+device_name: {{ item.1.device_name }} 
+public_if: {{ item.1.public_if }}
+private_ip: {{ item.1.device_ip }}
+public_ip: {{ item.1.device_ip }}
+{% if item.1.br_connect is defined %}
+br_connect:
+{% for br in item.1.br_connect %}
+  - { bridge: {{ br.bridge }}{% if br.gateway is defined %}, gateway: {{ br.gateway }}{% endif %}{% if br.prefix is defined %}, prefix: {{ br.prefix }}{% endif %}{% if br.dhcp_min is defined %}, dhcp_min: {{ br.dhcp_min }}{% endif %}{% if br.dhcp_max is defined %}, dhcp_max: {{ br.dhcp_max }}{% endif %} }
+{% endfor %}
+{% endif %}
+
+{% if sec_rules is defined %}
+sec_rules:
+{% for rules in sec_rules %}
+  - { type: {{ rules.type }} , dport: '{{ rules.dport }}' , saddr: {{ rules.saddr }} }
+{% endfor %}
+{% endif %}
+
+{% if item.1.br_connect is defined%}
+dhcp_subnets:
+{% for br in item.1.br_connect %}
+{% if br.dhcp_min is defined %}
+  - { subnet: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0 ,
+      netmask: 255.255.255.0 ,
+      range_min: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_min }} ,
+      range_max: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_max }} ,
+      domain_name: {{ dns_domain }} ,
+      domain_name_server: {{ br.dns }} ,
+      router: {{ br.gateway }} ,
+      broadcast_address: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
+      default_lease_time: 600000 ,
+      max_lease_time: 7200000
+    }
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if item.1.vxlan is defined%}
+vxlan_ports:
+{% for vxlan in item.1.vxlan %}
+   - { 
+       bridge: {{ vxlan.bridge }} ,
+       vxlan_port : {{ vxlan.vxlan_port }} ,
+       vxlan_dest : {{ vxlan.vxlan_dest }} ,
+       vxlan_index : {{ vxlan.vxlan_index }}
+     } 
+{% endfor %}
+{% endif %}

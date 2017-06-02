@@ -1,0 +1,4 @@
+private_ip_list:
+{% for item in bmetals %}
+  - {{ item.device_ip }}
+{% endfor %}
