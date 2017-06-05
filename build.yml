@@ -184,7 +184,7 @@
             bridge: core }
           ]      
          }
-      - { hostname: nsg1.sdn40r8.lab,
+      - { hostname: nsg-branch1-1.sdn40r8.lab,
           description: "NSG-v at Branch 1" ,
           inventory: nsg ,
           No_cloud_init: true ,
@@ -200,16 +200,66 @@
           { name: port2 ,
             bridge: inet },
           { name: port3 ,
+            bridge: branch1 },
+          { name: port4 ,
+            bridge: branch1 },
+          { name: port5 ,
+            bridge: branch1 },
+          { name: port6 ,
             bridge: branch1 }
-#          ],      
-#          pat_rules: [
-#            { protocol: udp , interface: bond0 , port: 4789 , dest_port: 4789 },
-#            { protocol: udp , interface: bond0 , port: 4500 , dest_port: 4500 },
-#            { protocol: udp , interface: bond0 , port: 500 , dest_port: 500 },
-#            { protocol: tcp , interface: bond0 , port: 179 , dest_port: 179 },
           ]      
          }
-      - { hostname: nsg2.sdn40r8.lab,
+      - { hostname: nsg-branch1-2.sdn40r8.lab,
+          description: "NSG-v at Branch 1" ,
+          inventory: nsg ,
+          No_cloud_init: true ,
+          rtl8139: true ,
+          memory: 4194304 ,
+          vcpu_num: 2 ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
+          hypervisor: core ,
+          interfaces: [
+          { name: port1 ,
+            bridge: wan },
+          { name: port2 ,
+            bridge: inet },
+          { name: port3 ,
+            bridge: branch1 },
+          { name: port4 ,
+            bridge: branch1 },
+          { name: port5 ,
+            bridge: branch1 },
+          { name: port6 ,
+            bridge: branch1 }
+          ]      
+         }
+      - { hostname: nsg-branch1-3.sdn40r8.lab,
+          description: "NSG-v at Branch 1" ,
+          inventory: nsg ,
+          No_cloud_init: true ,
+          rtl8139: true ,
+          memory: 4194304 ,
+          vcpu_num: 2 ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
+          hypervisor: core ,
+          interfaces: [
+          { name: port1 ,
+            bridge: wan },
+          { name: port2 ,
+            bridge: inet },
+          { name: port3 ,
+            bridge: branch1 },
+          { name: port4 ,
+            bridge: branch1 },
+          { name: port5 ,
+            bridge: branch1 },
+          { name: port6 ,
+            bridge: branch1 }
+          ]      
+         }
+      - { hostname: nsg-branch2-1.sdn40r8.lab,
           description: "NSG-v at Branch 2" ,
           inventory: nsg ,
           No_cloud_init: true ,
@@ -225,6 +275,62 @@
           { name: port2 ,
             bridge: inet },
           { name: port3 ,
+            bridge: branch2 },
+          { name: port4 ,
+            bridge: branch2 },
+          { name: port5 ,
+            bridge: branch2 },
+          { name: port6 ,
+            bridge: branch2 }
+          ]      
+         }
+      - { hostname: nsg-branch2-2.sdn40r8.lab,
+          description: "NSG-v at Branch 2" ,
+          inventory: nsg ,
+          No_cloud_init: true ,
+          rtl8139: true ,
+          memory: 4194304 ,
+          vcpu_num: 2 ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
+          hypervisor: core ,
+          interfaces: [
+          { name: port1 ,
+            bridge: wan },
+          { name: port2 ,
+            bridge: inet },
+          { name: port3 ,
+            bridge: branch2 },
+          { name: port4 ,
+            bridge: branch2 },
+          { name: port5 ,
+            bridge: branch2 },
+          { name: port6 ,
+            bridge: branch2 }
+          ]      
+         }
+      - { hostname: nsg-branch2-3.sdn40r8.lab,
+          description: "NSG-v at Branch 2" ,
+          inventory: nsg ,
+          No_cloud_init: true ,
+          rtl8139: true ,
+          memory: 4194304 ,
+          vcpu_num: 2 ,
+          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
+          hypervisor: core ,
+          interfaces: [
+          { name: port1 ,
+            bridge: wan },
+          { name: port2 ,
+            bridge: inet },
+          { name: port3 ,
+            bridge: branch2 },
+          { name: port4 ,
+            bridge: branch2 },
+          { name: port5 ,
+            bridge: branch2 },
+          { name: port6 ,
             bridge: branch2 }
           ]      
          }
@@ -234,7 +340,7 @@
           No_cloud_init: true ,
           memory: 4194304 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/centos7-20170509-reverse.qcow2.qcow2 ,
+          image_qcow2: /home/dev/images/ubuntu.qcow2 ,
           image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/ubuntu.qcow2" ,
           hypervisor: core ,
           interfaces: [
@@ -248,7 +354,7 @@
           No_cloud_init: true ,
           memory: 4194304 ,
           vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/centos7-20170509-reverse.qcow2.qcow2 ,
+          image_qcow2: /home/dev/images/ubuntu.qcow2 ,
           image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/ubuntu.qcow2" ,
           hypervisor: core ,
           interfaces: [
@@ -263,7 +369,7 @@
           vcpu_num: 2 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
           hypervisor: core ,
           ansible_host: 'centos@core:2030' ,
           gateway: 192.168.0.1,
@@ -285,7 +391,7 @@
           vcpu_num: 4 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
           hypervisor: core ,
           ansible_host: 'centos@core:2029' ,
           gateway: 192.168.0.1,
@@ -305,7 +411,7 @@
           vcpu_num: 4 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
           hypervisor: core ,
           ansible_host: 'centos@core:2015' ,
           gateway: 192.168.0.1,
@@ -325,7 +431,7 @@
           vcpu_num: 4 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
           hypervisor: core ,
           ansible_host: 'centos@core:2016' ,
           gateway: 192.168.0.1,
@@ -345,7 +451,7 @@
           vcpu_num: 4 ,
           disk_GB: 20 ,
           image_qcow2: /home/dev/images/centos7.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2.qcow2" ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
           hypervisor: core ,
           ansible_host: 'centos@core:2017' ,
           gateway: 192.168.0.1,
@@ -353,6 +459,46 @@
           { name: eth0 ,
             bridge: core,
             ip: 192.168.0.17 ,
+            netmask: 255.255.255.0 }
+          ],
+          pat_rules: [
+          ]
+         }
+      - { hostname: k8s-node3.sdn40r8.lab,
+          description: "Kubernetes Node Server" ,
+          inventory: kubernetes ,
+          memory: 8388608 ,
+          vcpu_num: 4 ,
+          disk_GB: 20 ,
+          image_qcow2: /home/dev/images/centos7.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+          hypervisor: core ,
+          ansible_host: 'centos@core:2018' ,
+          gateway: 192.168.0.1,
+          interfaces: [
+          { name: eth0 ,
+            bridge: core,
+            ip: 192.168.0.18 ,
+            netmask: 255.255.255.0 }
+          ],
+          pat_rules: [
+          ]
+         }
+      - { hostname: k8s-node4.sdn40r8.lab,
+          description: "Kubernetes Node Server" ,
+          inventory: kubernetes ,
+          memory: 8388608 ,
+          vcpu_num: 4 ,
+          disk_GB: 20 ,
+          image_qcow2: /home/dev/images/centos7.qcow2 ,
+          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+          hypervisor: core ,
+          ansible_host: 'centos@core:2019' ,
+          gateway: 192.168.0.1,
+          interfaces: [
+          { name: eth0 ,
+            bridge: core,
+            ip: 192.168.0.19 ,
             netmask: 255.255.255.0 }
           ],
           pat_rules: [
