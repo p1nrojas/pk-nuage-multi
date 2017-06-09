@@ -1,0 +1,84 @@
+---
+# build.yml: Create your host and group var files from this
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    ntp_server_list:
+      - "{{ lab_network }}.12"
+    dns_server_list:
+      - "{{ lab_network }}.12"
+    dns_domain: "{{ lab_domain }}"
+    nuage_vrs_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-openvswitch-4.0.8-172.el7.x86_64.rpm"
+    nuage_dockermon_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-docker-monitor-4.0.8-172.el7.x86_64.rpm"
+    public_if: bond0
+    packet_token: "{{ lookup('file', '/home/dev/.packet_token') }}"
+    project_id: "{{ lookup('file', '/home/dev/.packet_project_id') }}"
+    nuage_license_key: "{{ lookup('file', '/home/dev/.nuage_license_key') }}"
+    summary_file: "/home/dev/packet-nuagevns/.summary"
+    ssh_key:
+    - "{{ lookup('file', '/home/dev/.ssh/id_rsa.pub') }}"
+
+  pre_tasks:
+
+    - name: Read instances settings from file
+      include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml 
+
+  tasks:
+
+    - name: Create directories
+      file: path={{ playbook_dir }}/{{ item }}/ state=directory
+      with_items:
+        - host_vars
+        - group_vars
+        - extras
+
+    - name: Create host_vars files for servers
+      template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ servers }}"
+
+    - name: Create host_vars files for VSC's
+      template: src=vsc.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ vsc_controllers }}"
+
+    - name: Creating bash files {{ item }} to run all playbooks at once
+      template: src={{ item }}.j2 backup=no dest={{ playbook_dir }}/{{ item }}
+      with_items:
+        - nuage.sh
+        - pk-create.sh
+        - pk-reset.sh
+
+    - name: Change permissions to packet.sh
+      file:
+        path: "{{ playbook_dir }}/{{ item }}"
+        mode: 0755
+      with_items:
+        - nuage.sh
+        - pk-create.sh
+        - pk-reset.sh
+  
+    - name: Create hosts file
+      template: src=hosts.j2 dest="{{ playbook_dir }}/hosts" backup=no
+
+    - name: Create group_vars/all file
+      template: src=group_vars.all.j2 dest="{{ playbook_dir }}/group_vars/all" backup=no
+
+    - name: Create vsd_script.py file in extras
+      template: src=vsd_script.py.j2 dest="{{ playbook_dir }}/extras/vsd_script.py" backup=no
+
+    - name: Create YML files
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/{{ item }}" backup=no
+      with_items:
+        - deploy-all.yml
+        - reset-all-domains.yml
+        - pk-create.yml
+        - pk-reset.yml
+        - nuage-install.yml
+        - util-predeploy.yml
+        - util-deploy.yml
+        - nserver-deploy.yml
+        - stat-predeploy.yml
+        - stat-deploy.yml
+        - vsd-deploy.yml
+        - vsd-postinstall.yml
+        - vsc-profiles.yml 

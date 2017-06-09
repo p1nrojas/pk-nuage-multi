@@ -67,7 +67,7 @@ dns:
 {% if item.pat_rules is defined %}
 pat_rules:
 {% for rule in item.pat_rules %}
-  - { interface: {{ rule.interface }} ,
+  - { interface: {{ public_if }} ,
       protocol: {{ rule.protocol }} ,
       port: {{ rule.port }} ,
       dest_addr: {{ item.interfaces[0].ip }} ,
