@@ -234,31 +234,6 @@
             bridge: branch1 }
           ]      
          }
-      - { hostname: nsg-branch1-3.sdn40r8.lab,
-          description: "NSG-v at Branch 1" ,
-          inventory: nsg ,
-          No_cloud_init: true ,
-          rtl8139: true ,
-          memory: 4194304 ,
-          vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
-          hypervisor: core ,
-          interfaces: [
-          { name: port1 ,
-            bridge: wan },
-          { name: port2 ,
-            bridge: inet },
-          { name: port3 ,
-            bridge: branch1 },
-          { name: port4 ,
-            bridge: branch1 },
-          { name: port5 ,
-            bridge: branch1 },
-          { name: port6 ,
-            bridge: branch1 }
-          ]      
-         }
       - { hostname: nsg-branch2-1.sdn40r8.lab,
           description: "NSG-v at Branch 2" ,
           inventory: nsg ,
@@ -285,31 +260,6 @@
           ]      
          }
       - { hostname: nsg-branch2-2.sdn40r8.lab,
-          description: "NSG-v at Branch 2" ,
-          inventory: nsg ,
-          No_cloud_init: true ,
-          rtl8139: true ,
-          memory: 4194304 ,
-          vcpu_num: 2 ,
-          image_qcow2: /home/dev/images/nsg40r8.qcow2 ,
-          image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nsg40r8.qcow2" ,
-          hypervisor: core ,
-          interfaces: [
-          { name: port1 ,
-            bridge: wan },
-          { name: port2 ,
-            bridge: inet },
-          { name: port3 ,
-            bridge: branch2 },
-          { name: port4 ,
-            bridge: branch2 },
-          { name: port5 ,
-            bridge: branch2 },
-          { name: port6 ,
-            bridge: branch2 }
-          ]      
-         }
-      - { hostname: nsg-branch2-3.sdn40r8.lab,
           description: "NSG-v at Branch 2" ,
           inventory: nsg ,
           No_cloud_init: true ,
