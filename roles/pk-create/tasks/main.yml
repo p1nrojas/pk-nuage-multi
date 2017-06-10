@@ -1,8 +1,0 @@
----
-
-# Creating Packet device
- - include: 1_creating_packet_server.yml
-
-# Obtaining IP address
- - include: 2_creating_inventory_and_hostvars.yml
-

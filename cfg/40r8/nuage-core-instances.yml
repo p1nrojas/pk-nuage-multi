@@ -9,11 +9,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core,
       ansible_host: 'centos@core:2012' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       ntpservers: local , 
       nameservers: [ 8.8.8.8 , 8.8.4.4 ] ,
       interfaces: [
-        { name: eth0 , bridge: core, ip: "{{ lab_network }}.12" , netmask: 255.255.255.0 },
+        { name: eth0 , bridge: core, ip: "{{ lab_network_prefix }}.12" , netmask: 255.255.255.0 },
         { name: eth1 , bridge: wan, ip: 10.250.250.2 , netmask: 255.255.255.0 },
         { name: eth2 , bridge: inet, ip: 80.80.80.2 , netmask: 255.255.255.0 }
       ] ,
@@ -33,11 +33,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsd40r8.qcow2" ,
       hypervisor: core,
       ansible_host: 'root@core:2020' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.20" ,
+        ip: "{{ lab_network_prefix }}.20" ,
         netmask: 255.255.255.0 }
       ], 
       pat_rules: [
@@ -61,11 +61,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/util40r8.qcow2" ,
       hypervisor: core,
       ansible_host: 'root@core:2023' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.23" ,
+        ip: "{{ lab_network_prefix }}.23" ,
         netmask: 255.255.255.0 }
       ],      
       pat_rules: [
@@ -88,11 +88,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/stat40r8.qcow2" ,
       hypervisor: core ,
       ansible_host: 'root@core:2024' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.24" ,
+        ip: "{{ lab_network_prefix }}.24" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -301,11 +301,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2030' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.28" ,
+        ip: "{{ lab_network_prefix }}.28" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -323,11 +323,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2029' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.29" ,
+        ip: "{{ lab_network_prefix }}.29" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -343,11 +343,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2015' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.15" ,
+        ip: "{{ lab_network_prefix }}.15" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -363,11 +363,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2016' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.16" ,
+        ip: "{{ lab_network_prefix }}.16" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -383,11 +383,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2017' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.17" ,
+        ip: "{{ lab_network_prefix }}.17" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -403,11 +403,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2018' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.18" ,
+        ip: "{{ lab_network_prefix }}.18" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -423,11 +423,11 @@ servers:
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
       hypervisor: core ,
       ansible_host: 'centos@core:2019' ,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: core,
-        ip: "{{ lab_network }}.19" ,
+        ip: "{{ lab_network_prefix }}.19" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -446,17 +446,17 @@ vsc_controllers:
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.1,
       xmpp_username: vsc01,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
         bridge: core },
       { name: control ,
         bridge: core,
-        ip: "{{ lab_network }}.31" ,
+        ip: "{{ lab_network_prefix }}.31" ,
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
       ],
       pat_rules: [
         { protocol: tcp , port: 56213 , dest_port: 56213 },
@@ -477,17 +477,17 @@ vsc_controllers:
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.2 ,
       xmpp_username: vsc02,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
         bridge: core },
       { name: control ,
         bridge: core,
-        ip: "{{ lab_network }}.32" ,
+        ip: "{{ lab_network_prefix }}.32" ,
         prefix: 24 }
       ],      
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
       ],
       pat_rules: [
       ]
@@ -504,17 +504,17 @@ vsc_controllers:
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.3,
       xmpp_username: vsc03,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
         bridge: core },
       { name: control ,
         bridge: core,
-        ip: "{{ lab_network }}.33" ,
+        ip: "{{ lab_network_prefix }}.33" ,
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
       ],
       pat_rules: [
       ]      
@@ -531,17 +531,17 @@ vsc_controllers:
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.4,
       xmpp_username: vsc04,
-      gateway: "{{ lab_network }}.1",
+      gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
         bridge: core },
       { name: control ,
         bridge: core,
-        ip: "{{ lab_network }}.34" ,
+        ip: "{{ lab_network_prefix }}.34" ,
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
       ],
       pat_rules: [
       ]      
