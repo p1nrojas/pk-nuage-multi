@@ -1,6 +1,6 @@
 bmetals:
   - { device_name: core ,
-      bmetal_plan: baremetal_2 ,
+      bmetal_plan: baremetal_0 ,
       osystem: centos_7 ,
       facility: sjc1 ,
       public_if: bond0 ,

@@ -8,7 +8,7 @@
   remote_user: root
   gather_facts: no
   vars:
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'vsd' %}
     vsd_fqdn: {{ server.hostname }}
     vsd_host: {{ server.interfaces[0].ip }}

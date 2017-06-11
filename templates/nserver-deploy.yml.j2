@@ -10,7 +10,7 @@
   become_method: sudo
   vars:
 # Ansible vars for DNS service 
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
     ansible_hostname: {{ server.interfaces[0].ip }}
 {% endif %}
@@ -20,14 +20,14 @@
     bind_acls:
       - name: acl1
         match_list:
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
           - {{ server.interfaces[0].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
 {% endif %}
 {% endfor %}
       - name: acl2
         match_list:
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
           - {{ server.interfaces[1].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
           - {{ server.interfaces[2].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
@@ -36,7 +36,7 @@
     bind_listen_ipv4:
       - any
     bind_allow_query:
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
       - {{ server.interfaces[0].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
       - {{ server.interfaces[1].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
@@ -50,12 +50,12 @@
       - 4.4.4.4
     bind_zone_name: {{ dns_domain }}
     bind_zone_networks:
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
       - '{{ server.interfaces[0].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}'
 {% endif %}
 {% endfor %}
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
     bind_zone_master_server_ip: {{ server.interfaces[0].ip }}
 {% endif %}
@@ -64,7 +64,7 @@
       - ns1
     bind_zone_hosts:
       - name: ns1
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
@@ -73,12 +73,12 @@
           - ntp
           - dns
       - name: '@'
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
 {% endfor %}
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'vsd' %}
       - name: vsd1
         ip: {{ server.interfaces[0].ip }}
@@ -93,21 +93,30 @@
       - name: vsc2
         ip: {{ vsc.interfaces[1].ip }}
 {% endif %}
+{% if 'vsc3' in vsc.hostname  %}
+      - name: vsc3
+        ip: {{ vsc.interfaces[1].ip }}
+{% endif %}
+{% if 'vsc4' in vsc.hostname  %}
+      - name: vsc4
+        ip: {{ vsc.interfaces[1].ip }}
+{% endif %}
 {% endfor %}
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'util' %}
       - name: util
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
 {% endfor %}
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'stat' %}
       - name: stat
         ip: {{ server.interfaces[0].ip }}
 {% endif %}
 {% endfor %}
 
-{% for server in servers %}
+{% if k8s_instances is defined %}
+{% for server in k8s_instances %}
 {% if server.inventory == 'kubernetes' %}
 {% if 'k8s-master' in server.hostname  %}
       - name: k8s-master
@@ -132,7 +141,7 @@
 {% endif %}
 {% endfor %}
 
-{% for server in servers %}
+{% for server in k8s_instances %}
 {% if server.inventory == 'docker' %}
 {% if 'docker' in server.hostname  %}
       - name: docker
@@ -140,18 +149,19 @@
 {% endif %}
 {% endif %}
 {% endfor %}
+{% endif %}
 
     bind_zone_services:
       - name: _xmpp-client._tcp
         weight: 10
         port: 5222
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'vsd' %}
         target: {{ server.hostname }}
 {% endif %}
 {% endfor %}
 # ntp vars
-{% for server in servers %}
+{% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
     ntp_restrict_net: {{ server.interfaces[0].ip | regex_replace('^([0-9]*)\.[0-9]*\.[0-9]*\.[0-9]*$', '\\1') }}.0.0.0
 {% endif %}
