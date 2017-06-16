@@ -9,8 +9,6 @@
     dns_server_list:
       - "{{ lab_network_prefix }}.12"
     dns_domain: "{{ lab_domain }}"
-    nuage_vrs_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-openvswitch-4.0.8-172.el7.x86_64.rpm"
-    nuage_dockermon_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-docker-monitor-4.0.8-172.el7.x86_64.rpm"
     public_if: bond0
     nuage_license_key: "{{ lookup('file', '/home/dev/.nuage_license_key') }}"
     summary_file: "/home/dev/packet-nuagevns/.summary"
@@ -67,6 +65,10 @@
     - name: Create YML files
       template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no
       with_items:
+        - ovs-deploy.yml
+        - license.yml
+        - docker-deploy.yml
+        - webvirtmgr-deploy.yml
         - deploy-all.yml
         - reset-all-domains.yml
         - nuage-install.yml

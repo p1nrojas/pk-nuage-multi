@@ -76,6 +76,28 @@ core_instances:
         { protocol: tcp , port: 29090, dest_port: 29090  }
       ]      
      }
+  - { hostname: "virt.{{ lab_domain }}",
+      description: "webvirtmgr service" ,
+      inventory: webvirtmgr ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2030' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.30" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+        { protocol: tcp , port: 8090 , dest_port: 8090 },
+        { protocol: tcp , port: 6080 , dest_port: 6080 }
+      ]
+     }
   - { hostname: "stat.{{ lab_domain }}",
       description: "Stat server based on ElasticSearch" ,
       inventory: stat ,
