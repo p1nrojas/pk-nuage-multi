@@ -97,7 +97,7 @@ nsgTemplate4Name = 'NSGE_2WAN_4LAN'
 {% if nsg_instances is defined %}
 {% for server in nsg_instances %}
 {% if server.inventory == "nsg" %}
-NSGName{{ loop.index}}={{ server.hostname }}
+NSGName{{ loop.index}}="{{ server.hostname | regex_replace('^(.*)\..*\..*$', '\\1') }}"
 {% endif %}
 {% endfor %}
 {% else %}
@@ -126,26 +126,31 @@ zone3Description = "Texas"
 subnet1Name = "Data_Subnet_Br1"
 subnet1IpAddr = "192.1.10.0"
 subnet1Prefix = "255.255.255.0"
+subnet1Gateway = "192.1.10.1"
 subnet1DhcpMinRange = "192.1.10.10"
 subnet1DhcpMaxRange = "192.1.10.99"
 subnet2Name = "Guest_Subnet_Br1"
 subnet2IpAddr = "192.1.11.0"
 subnet2Prefix = "255.255.255.0"
+subnet2Gateway = "192.1.11.1"
 subnet2DhcpMinRange = "192.1.11.10"
 subnet2DhcpMaxRange = "192.1.11.99"
 subnet3Name = "Data_Subnet_Br2"
 subnet3IpAddr = "192.1.20.0"
 subnet3Prefix = "255.255.255.0"
+subnet3Gateway = "192.1.20.1"
 subnet3DhcpMinRange = "192.1.20.10"
 subnet3DhcpMaxRange = "192.1.20.99"
 subnet4Name = "DMZ_Subnet_HQ"
 subnet4IpAddr = "192.168.0.0"
 subnet4Prefix = "255.255.255.0"
+subnet4Gateway = "192.168.0.99"
 subnet4DhcpMinRange = "192.168.0.150"
 subnet4DhcpMaxRange = "192.168.0.200"
 subnet5Name = "Mgmt_Subnet_HQ"
 subnet5IpAddr = "192.1.31.0"
 subnet5Prefix = "255.255.255.0"
+subnet5Gateway = "192.1.31.1"
 subnet5DhcpMinRange = "192.1.31.10"
 subnet5DhcpMaxRange = "192.1.31.99"
 
@@ -156,21 +161,25 @@ dczone1Description = "DataCenter"
 dcsubnet1Name = "VMs"
 dcsubnet1IpAddr = "192.1.50.0"
 dcsubnet1Prefix = "255.255.255.0"
+dcsubnet1Gateway = "192.1.50.1"
 dcsubnet1DhcpMinRange = "192.1.50.10"
 dcsubnet1DhcpMaxRange = "192.1.50.99"
 dcsubnet2Name = "Containers"
 dcsubnet2IpAddr = "192.1.60.0"
 dcsubnet2Prefix = "255.255.255.0"
+dcsubnet2Gateway = "192.1.60.1"
 dcsubnet2DhcpMinRange = "192.1.60.10"
 dcsubnet2DhcpMaxRange = "192.1.60.99"
 dcsubnet3Name = "Appliances"
 dcsubnet3IpAddr = "192.1.70.0"
 dcsubnet3Prefix = "255.255.255.0"
+dcsubnet3Gateway = "192.1.70.1"
 dcsubnet3DhcpMinRange = "192.1.70.10"
 dcsubnet3DhcpMaxRange = "192.1.70.99"
 dcsubnet4Name = "Bare_Metal_Servers"
 dcsubnet4IpAddr = "192.1.80.0"
 dcsubnet4Prefix = "255.255.255.0"
+dcsubnet4Gateway = "192.1.80.1"
 dcsubnet4DhcpMinRange = "192.1.80.10"
 dcsubnet4DhcpMaxRange = "192.1.80.99"
 
@@ -627,11 +636,11 @@ def func_create_zone(csprootSession,domain,zoneName,ZoneDecription):
 ###########################################
 # Creating subnets                        #
 ###########################################
-def func_create_subnet(csprootSession,zone,subnetName,zoneDescription,SubnetIpAddr,SubnetPrefix,dhcpminRange,dhcpmaxRange):
+def func_create_subnet(csprootSession,zone,subnetName,zoneDescription,SubnetIpAddr,SubnetPrefix,SubnetGateway,dhcpminRange,dhcpmaxRange):
     new_subnet = zone.subnets.get_first(filter="name == '%s'" % subnetName)
     if not new_subnet:
         print 'INFO: Creating A Subnet', subnetName
-        new_subnet=vspk.NUSubnet(name=subnetName,description=zoneDescription,address=SubnetIpAddr,netmask=SubnetPrefix)
+        new_subnet=vspk.NUSubnet(name=subnetName,description=zoneDescription,address=SubnetIpAddr,netmask=SubnetPrefix,gateway=SubnetGateway)
         zone.create_child(new_subnet)
 
         # Define DHCP pools type BRIDGE in these subnets
@@ -758,15 +767,15 @@ def main():
 
     # create a new subnets
     subnet1_zone1 = func_create_subnet(csprootSession,new_zone1,subnet1Name,zone1Description,subnet1IpAddr,
-                                           subnet1Prefix,subnet1DhcpMinRange,subnet1DhcpMaxRange)
+                                           subnet1Prefix,subnet1Gateway,subnet1DhcpMinRange,subnet1DhcpMaxRange)
     subnet2_zone1 = func_create_subnet(csprootSession,new_zone1,subnet2Name,zone1Description,subnet2IpAddr,
-                                           subnet2Prefix,subnet2DhcpMinRange,subnet2DhcpMaxRange)
+                                           subnet2Prefix,subnet2Gateway,subnet2DhcpMinRange,subnet2DhcpMaxRange)
     subnet1_zone2 = func_create_subnet(csprootSession,new_zone2,subnet3Name,zone2Description,subnet3IpAddr,
-                                           subnet3Prefix,subnet3DhcpMinRange,subnet3DhcpMaxRange)
+                                           subnet3Prefix,subnet3Gateway,subnet3DhcpMinRange,subnet3DhcpMaxRange)
     subnet1_zone3 = func_create_subnet(csprootSession,new_zone3,subnet4Name,zone3Description,subnet4IpAddr,
-                                           subnet4Prefix,subnet4DhcpMinRange,subnet4DhcpMaxRange)
+                                           subnet4Prefix,subnet4Gateway,subnet4DhcpMinRange,subnet4DhcpMaxRange)
     subnet2_zone3 = func_create_subnet(csprootSession,new_zone3,subnet5Name,zone3Description,subnet5IpAddr,
-                                           subnet5Prefix,subnet5DhcpMinRange,subnet5DhcpMaxRange)
+                                           subnet5Prefix,subnet5Gateway,subnet5DhcpMinRange,subnet5DhcpMaxRange)
 
     ############################################# 
     # create a new "DC" Domain, Zones, Subnets
@@ -781,16 +790,16 @@ def main():
     new_dc_zone1 = func_create_zone(csprootSession,new_dc_domain,dczone1Name,dczone1Description)
     # create a new subnets
     dc_subnet1_zone1 = func_create_subnet(csprootSession,new_dc_zone1,dcsubnet1Name,dczone1Description,dcsubnet1IpAddr,
-                                           dcsubnet1Prefix,dcsubnet1DhcpMinRange,dcsubnet1DhcpMaxRange)
+                                           dcsubnet1Prefix,dcsubnet1Gateway,dcsubnet1DhcpMinRange,dcsubnet1DhcpMaxRange)
     dc_subnet2_zone1 = func_create_subnet(csprootSession,new_dc_zone1,dcsubnet2Name,dczone1Description,dcsubnet2IpAddr,
-                                           dcsubnet2Prefix,dcsubnet2DhcpMinRange,dcsubnet2DhcpMaxRange)
+                                           dcsubnet2Prefix,dcsubnet2Gateway,dcsubnet2DhcpMinRange,dcsubnet2DhcpMaxRange)
     dc_subnet3_zone1 = func_create_subnet(csprootSession,new_dc_zone1,dcsubnet3Name,dczone1Description,dcsubnet3IpAddr,
-                                           dcsubnet3Prefix,dcsubnet3DhcpMinRange,dcsubnet3DhcpMaxRange)
+                                           dcsubnet3Prefix,dcsubnet3Gateway,dcsubnet3DhcpMinRange,dcsubnet3DhcpMaxRange)
     dc_subnet4_zone1 = func_create_subnet(csprootSession,new_dc_zone1,dcsubnet4Name,dczone1Description,dcsubnet4IpAddr,
-                                           dcsubnet4Prefix,dcsubnet4DhcpMinRange,dcsubnet4DhcpMaxRange)
+                                           dcsubnet4Prefix,dcsubnet4Gateway,dcsubnet4DhcpMinRange,dcsubnet4DhcpMaxRange)
 
     ############################################# 
-    # create 3 New NSGs Instances; one from each template
+    # create 3 New NSGs4Instances; one from each template
     ############################################# 
 {% if nsg_instances is defined %}
 {% for server in nsg_instances %}
