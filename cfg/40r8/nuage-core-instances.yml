@@ -1,3 +1,5 @@
+vsd_enterprise: ACME_Corp
+
 core_instances: 
   - { hostname: "ns1.{{ lab_domain }}",
       description: "name, ntp server" ,

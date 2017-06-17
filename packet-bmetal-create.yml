@@ -119,4 +119,14 @@
         backrefs: yes
       with_nested:
          - "{{ bmetal_array.stdout_lines }}"
-         - "{{ host_files.stdout_lines }}"    
+         - "{{ host_files.stdout_lines }}"  
+
+    - name: "replacing records at vsd_script.py"
+      replace:
+        dest: "{{playbook_dir}}/extras/vsd_script.py"
+        regexp: "xx{{ item.1.device_name }}xx"
+        replace: "{{ pk_public_ip.results[item.0].stdout }}" 
+      with_indexed_items: "{{ bmetals }}"
+
+
+

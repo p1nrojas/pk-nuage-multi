@@ -34,17 +34,8 @@
 ############################################# 
 
 # Define Global Variables
-{% if core_instances is defined %}
-{% for server in core_instances %}
-{% if server.inventory == "vsd" %}
-vsd_ip = 'xx{{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }}xx'
-api_url = "https://xx{{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }}xx:8443"
-{% endif %}
-{% endfor %}
-{% else %}
-ERROR! NO VSD DEFINED!!!!!!!
-ERROR! NO VSD DEFINED!!!!!!!
-{% endif %}
+vsd_ip = 'xxcorexx'
+api_url = "https://xxcorexx:8443"
 username = "csproot"
 password = "csproot"
 enterprise = "csp"
@@ -53,34 +44,22 @@ enterprise = "csp"
 userName1 = "proxy"
 userName2 = "vnsportal"
 userEntName1 = "admin"
-userEmail = "proxy@{{ dns_domain }}"
+userEmail = "proxy@sdn40r8.lab"
 
 # CSPRoot VNS Infrastructure Gateway settings
 infrGwName = 'GW_Profile_OneFactorAuth'
 upgradeAction = 'UPGRADE_AT_BOOTSTRAPPING'
-{% if core_instances is defined %}
-{% for server in core_instances %}
-{% if server.inventory == "util" %}
-lab_fqdn = '{{ server.hostname }}'
-{% endif %}
-{% endfor %}
-{% else %}
-ERROR! NO UTIL DEFINED!!!!!!!
-ERROR! NO UTIL  DEFINED!!!!!!!
-{% endif %}
+lab_fqdn = 'util.sdn40r8.lab'
 
 # CSPRoot VNS Infrastructure VSC settings
-{% if vsc_controllers is defined %}
-{% for server in vsc_controllers %}
-{% if server.inventory == "vsc" %}
-infrVsc{{ loop.index }}Name = '{{ server.hostname }}'
-VSC{{ loop.index }}_IP = "{{ server.interfaces[1].ip  }}"
-{% endif %}
-{% endfor %}
-{% else %}
-ERROR! NO VSC DEFINED!!!!!
-ERROR! NO VSC DEFINED!!!!!
-{% endif %}
+infrVsc1Name = 'vsc1.sdn40r8.lab'
+VSC1_IP = "192.168.0.31"
+infrVsc2Name = 'vsc2.sdn40r8.lab'
+VSC2_IP = "192.168.0.32"
+infrVsc3Name = 'vsc3.sdn40r8.lab'
+VSC3_IP = "192.168.0.33"
+infrVsc4Name = 'vsc4.sdn40r8.lab'
+VSC4_IP = "192.168.0.34"
 
 # CSPRoot VNS Infrastructure SSH Access settings
 infrAccessName='Infra_Access_Profile'
@@ -94,22 +73,19 @@ nsgTemplate3Name = 'NSGV_2WAN_4LAN'
 nsgTemplate4Name = 'NSGE_2WAN_4LAN'
 
 # Create NSG instances from the NSG templates
-{% if nsg_instances is defined %}
-{% for server in nsg_instances %}
-{% if server.inventory == "nsg" %}
-NSGName{{ loop.index}}={{ server.hostname }}
-{% endif %}
-{% endfor %}
-{% else %}
-ERROR! NO NSGs DEFINED!!!!
-ERROR! NO NSGs DEFINED!!!!
-{% endif %}
+NSGName1=head1.sdn40r8.lab
+NSGName2=head2.sdn40r8.lab
+NSGName3=border.sdn40r8.lab
+NSGName4=nsg-branch1-1.sdn40r8.lab
+NSGName5=nsg-branch1-2.sdn40r8.lab
+NSGName6=nsg-branch2-1.sdn40r8.lab
+NSGName7=nsg-branch2-2.sdn40r8.lab
 
 # Variables for Organization Profile
 infrOrganizationProfileName = 'Org_Profile'
 
 # Variables for Enterprise/Domain templates
-enterpriseName = "{{ vsd_enterprise }}"
+enterpriseName = "ACME_Corp"
 enterpriseLocalAS = "65001"
 brdomainTemplate = "Branch_domain_template"
 dcdomainTemplate = "DC_domain_template"
@@ -792,16 +768,13 @@ def main():
     ############################################# 
     # create 3 New NSGs Instances; one from each template
     ############################################# 
-{% if nsg_instances is defined %}
-{% for server in nsg_instances %}
-{% if server.inventory == "nsg" %}
-    func_create_nsg(new_enterprise,{{ server.vsd_template }},NSGName{{ loop.index}})
-{% endif %}
-{% endfor %}
-{% else %}
-ERROR! NO NSGs DEFINED!!!!
-ERROR! NO NSGs DEFINED!!!!
-{% endif %}
+    func_create_nsg(new_enterprise,nsgtemplate_2w_1l,NSGName1)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_1l,NSGName2)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_1l,NSGName3)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_4l,NSGName4)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_4l,NSGName5)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_4l,NSGName6)
+    func_create_nsg(new_enterprise,nsgtemplate_2w_4l,NSGName7)
     
  
     #sys.exit()
