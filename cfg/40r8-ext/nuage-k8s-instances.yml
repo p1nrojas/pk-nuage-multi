@@ -1,0 +1,123 @@
+nuage_vrs_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-openvswitch-4.0.8-172.el7.x86_64.rpm"
+nuage_dockermon_rpm_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/nuage-docker-monitor-4.0.8-172.el7.x86_64.rpm"
+k8s_instances: 
+  - { hostname: "docker.{{ lab_domain }}",
+      description: "Docker Server" ,
+      inventory: docker ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2029' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.29" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "k8s-master.{{ lab_domain }}",
+      description: "Kubernetes Master Server" ,
+      inventory: kubernetes ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2015' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.15" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "k8s-node1.{{ lab_domain }}",
+      description: "Kubernetes Node Server" ,
+      inventory: kubernetes ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2016' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.16" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "k8s-node2.{{ lab_domain }}",
+      description: "Kubernetes Node Server" ,
+      inventory: kubernetes ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2017' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.17" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "k8s-node3.{{ lab_domain }}",
+      description: "Kubernetes Node Server" ,
+      inventory: kubernetes ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2018' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.18" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "k8s-node4.{{ lab_domain }}",
+      description: "Kubernetes Node Server" ,
+      inventory: kubernetes ,
+      memory: 8388608 ,
+      vcpu_num: 4 ,
+      disk_GB: 20 ,
+      image_qcow2: /home/dev/images/centos7.qcow2 ,
+      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/centos7-20170509-reverse.qcow2" ,
+      hypervisor: core ,
+      ansible_host: 'centos@core:2019' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: core,
+        ip: "{{ lab_network_prefix }}.19" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+      ]
+     }

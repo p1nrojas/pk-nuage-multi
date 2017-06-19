@@ -24,7 +24,7 @@ sec_rules:
 {% endfor %}
 {% endif %}
 
-{% if item.1.br_connect is defined%}
+{% if item.1.br_connect[0].dhcp_min is defined%}
 dhcp_subnets:
 {% for br in item.1.br_connect %}
 {% if br.dhcp_min is defined %}
