@@ -29,11 +29,8 @@
         - util-predeploy.yml
         - util-deploy.yml
         - reset-all-domains.yml
-        - pk-create.yml
-        - pk-create.sh
-        - pk-reset.yml
-        - pk-reset.sh
         - ovs-deploy.yml
+        - ovs-reset.yml
         - nuage.sh
         - license.yml
         - health.yml

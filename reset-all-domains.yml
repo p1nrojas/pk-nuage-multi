@@ -1,0 +1,18 @@
+---
+- hosts:
+    - vsd
+    - nserver
+    - vsc
+    - stat
+    - nsg
+    - util
+    - client
+    - webvirtmgr
+    - docker
+    - kubernetes
+  remote_user: root
+  gather_facts: no
+  vars:
+    ansible_port: 22
+  roles:
+    - dom-reset

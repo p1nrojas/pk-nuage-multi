@@ -28,7 +28,7 @@ interfaces:
 {% endfor %}
 static_route_list: 
 {% for route in item.static_routes %}
-  - {{ route }}
+  - "{{ route }}"
 {% endfor %} 
 {% endif %}
 {% if item.ntpservers is defined %}

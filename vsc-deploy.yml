@@ -5,7 +5,7 @@
     ansible_port: 22
   roles:
     - vsc-create
-    - pat_rules
+#    - pat_rules
 
 
 

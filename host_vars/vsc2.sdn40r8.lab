@@ -1,0 +1,66 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: vsc2.sdn40r8.lab
+# Description: Nuage VSC - SDN controller
+
+image_qcow2: /home/dev/images/vsc40r8.qcow2
+image_url: https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2
+hypervisor: 147.75.69.129
+vsc_cert_name: vsc2nsg
+vsc_passwd: admin
+gateway: 192.168.0.2
+interfaces:
+  - { name: bof ,
+      bridge: core }
+  - { name: control ,
+      bridge: core ,
+      ip: 192.168.0.32 ,
+      prefix: 24 }
+static_route_list: 
+  - "0.0.0.0/0 next-hop 192.168.0.2"
+  - "80.80.80.0/24 next-hop 192.168.0.1"
+  - "10.250.250.0/24 next-hop 192.168.0.1"
+ 
+ntp_server:
+  - 192.168.0.12
+dns:
+  servers:
+    - 192.168.0.12
+xmpp:
+  username: vsc02
+system_ip: 1.1.1.2
+vsd_fqdn: vsd1.sdn40r8.lab
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 56213 ,
+      dest_addr: 192.168.0.32 ,
+      dest_port: 56213
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 6633 ,
+      dest_addr: 192.168.0.32 ,
+      dest_port: 6633
+    }
+  - { interface: bond0 ,
+      protocol: udp ,
+      port: 123 ,
+      dest_addr: 192.168.0.32 ,
+      dest_port: 123
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 7407 ,
+      dest_addr: 192.168.0.32 ,
+      dest_port: 7407
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2032 ,
+      dest_addr: 192.168.0.32 ,
+      dest_port: 22
+    }

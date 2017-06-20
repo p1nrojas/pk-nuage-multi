@@ -1,12 +1,12 @@
 ---
 
-#- include: 1_ovs_install.yml 
+- include: 1_ovs_install.yml 
 
 - include: 2_ovs_configure.yml
 
 - include: 3_creating_ovs_ports.yml
 
-#- include: 4_applying_snat.yml
+- include: 4_applying_snat.yml
 
 # - include: 5_applying_flow_rules.yml
 # still in deplopment. for additional features in the future

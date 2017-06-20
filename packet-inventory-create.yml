@@ -59,8 +59,11 @@
     - name: Create group_vars/all file
       template: src=group_vars.all.j2 dest="{{ playbook_dir }}/group_vars/all" backup=no
 
-    - name: Create vsd_script.py file in extras
-      template: src=vsd_script.py.j2 dest="{{ playbook_dir }}/extras/vsd_script.py" backup=no
+    - name: Create files in extras
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
+      with_items:
+        - vsd_script.py
+        - k8s-hosts-inventory
 
     - name: Create YML files
       template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no
@@ -79,6 +82,6 @@
         - stat-deploy.yml
         - vsd-deploy.yml
         - vsd-postinstall.yml
-        - vsc-profiles.yml 
+        - vsc-profiles.yml
 
 
