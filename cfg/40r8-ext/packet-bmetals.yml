@@ -12,19 +12,45 @@ bmetals:
         { bridge: branch2 }
       ] ,
       vxlan: [
-        { bridge: core, vxlan_port: core-2-sdn01 , vxlan_dest: sdn01 , vxlan_index: 10 }  
+        { bridge: core, vxlan_port: core-2-vns1 , vxlan_dest: vns1 , vxlan_index: 10 },  
+        { bridge: core, vxlan_port: core-2-vcs1 , vxlan_dest: vcs1 , vxlan_index: 20 },  
+        { bridge: core, vxlan_port: core-2-vcs2 , vxlan_dest: vcs2 , vxlan_index: 30 }  
       ]
     }
-  - { device_name: sdn01 ,
+  - { device_name: vns1 ,
       bmetal_plan: baremetal_0 ,
       osystem: centos_7 ,
       facility: sjc1 ,
       public_if: bond0 ,
       br_connect: [
-        { bridge: core , root: core }
+        { bridge: core , root: core , gateway: "{{ lab_network_prefix }}.2", prefix: 24 }
       ] ,
       vxlan: [
-        { bridge: core, vxlan_port: sdn01-2-core , vxlan_dest: core , vxlan_index: 10 }  
+        { bridge: core, vxlan_port: vns1-2-core , vxlan_dest: core , vxlan_index: 10 }  
+      ]
+    }
+  - { device_name: vcs1 ,
+      bmetal_plan: baremetal_0 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: core , root: core , gateway: "{{ lab_network_prefix }}.3", prefix: 24 }
+      ] ,
+      vxlan: [
+        { bridge: core, vxlan_port: vcs1-2-core , vxlan_dest: core , vxlan_index: 20 }  
+      ]
+    }
+  - { device_name: vcs2 ,
+      bmetal_plan: baremetal_0 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: core , root: core , gateway: "{{ lab_network_prefix }}.4", prefix: 24 }
+      ] ,
+      vxlan: [
+        { bridge: core, vxlan_port: vcs2-2-core , vxlan_dest: core , vxlan_index: 30 }  
       ]
     }
 sec_rules:

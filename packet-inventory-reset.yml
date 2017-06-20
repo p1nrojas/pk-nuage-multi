@@ -4,9 +4,6 @@
 
   tasks:
 
-    - name: Are you sure?
-      pause: prompt='This operation will overwrite build.yml and destroy host_vars! Press return to continue. Press Ctrl+c and then "a" to abort'
-
     - name: Destroy the host_vars directory and its contents
       file: path={{ playbook_dir }}/host_vars/ state=absent
 

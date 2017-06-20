@@ -147,7 +147,9 @@ vsc_controllers:
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1", 
+        "80.80.80.0/0 next-hop {{ lab_network_prefix }}.1" , 
+        "10.250.250.0/0 next-hop {{ lab_network_prefix }}.1" , 
       ],
       pat_rules: [
         { protocol: tcp , port: 56213 , dest_port: 56213 },
@@ -161,14 +163,14 @@ vsc_controllers:
       inventory: vsc ,
       image_qcow2: /home/dev/images/vsc40r8.qcow2 ,
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2" ,
-      hypervisor: sdn01 ,
+      hypervisor: vns1 ,
       vsc_cert_name: vsc2nsg ,
       vsc_passwd: admin ,
-      ansible_host: 'root@sdn01:2032' ,
+      ansible_host: 'root@vns1:2032' ,
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.2 ,
       xmpp_username: vsc02,
-      gateway: "{{ lab_network_prefix }}.1",
+      gateway: "{{ lab_network_prefix }}.2",
       interfaces: [
       { name: bof ,
         bridge: core },
@@ -178,7 +180,9 @@ vsc_controllers:
         prefix: 24 }
       ],      
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.2", 
+        "80.80.80.0/0 next-hop {{ lab_network_prefix }}.1" , 
+        "10.250.250.0/0 next-hop {{ lab_network_prefix }}.1" , 
       ],
       pat_rules: [
         { protocol: tcp , port: 56213 , dest_port: 56213 },
@@ -192,14 +196,14 @@ vsc_controllers:
       inventory: vsc ,
       image_qcow2: /home/dev/images/vsc40r8.qcow2 ,
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2" ,
-      hypervisor: core ,
+      hypervisor: vcs1 ,
 #          vsc_cert_name: vsc3nsg , # no TLS profile required
       vsc_passwd: admin ,
-      ansible_host: 'root@core:2033' ,
+      ansible_host: 'root@vcs1:2033' ,
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.3,
       xmpp_username: vsc03,
-      gateway: "{{ lab_network_prefix }}.1",
+      gateway: "{{ lab_network_prefix }}.3",
       interfaces: [
       { name: bof ,
         bridge: core },
@@ -209,9 +213,15 @@ vsc_controllers:
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.3" , 
+        "80.80.80.0/0 next-hop {{ lab_network_prefix }}.1" , 
+        "10.250.250.0/0 next-hop {{ lab_network_prefix }}.1" , 
       ],
       pat_rules: [
+        { protocol: tcp , port: 56213 , dest_port: 56213 },
+        { protocol: tcp , port: 6633 , dest_port: 6633 },
+        { protocol: udp , port: 123 , dest_port: 123 },
+        { protocol: tcp , port: 7407 , dest_port: 7407 },
       ]      
     }      
   - { hostname: "vsc4.{{ lab_domain }}",
@@ -219,14 +229,14 @@ vsc_controllers:
       inventory: vsc ,
       image_qcow2: /home/dev/images/vsc40r8.qcow2 ,
       image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/vsc40r8.qcow2" ,
-      hypervisor: core ,
+      hypervisor: vcs2 ,
 #          vsc_cert_name: vsc4nsg , # no TLS profile required
       vsc_passwd: admin ,
-      ansible_host: 'root@core:2034' ,
+      ansible_host: 'root@vcs2:2034' ,
       vsd_fqdn: "vsd1.{{ lab_domain }}",
       system_ip: 1.1.1.4,
       xmpp_username: vsc04,
-      gateway: "{{ lab_network_prefix }}.1",
+      gateway: "{{ lab_network_prefix }}.4",
       interfaces: [
       { name: bof ,
         bridge: core },
@@ -236,8 +246,14 @@ vsc_controllers:
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.1" 
+        "0.0.0.0/0 next-hop {{ lab_network_prefix }}.4" ,
+        "80.80.80.0/0 next-hop {{ lab_network_prefix }}.1" , 
+        "10.250.250.0/0 next-hop {{ lab_network_prefix }}.1" , 
       ],
       pat_rules: [
+        { protocol: tcp , port: 56213 , dest_port: 56213 },
+        { protocol: tcp , port: 6633 , dest_port: 6633 },
+        { protocol: udp , port: 123 , dest_port: 123 },
+        { protocol: tcp , port: 7407 , dest_port: 7407 },
       ]      
     }      

@@ -1,0 +1,14 @@
+- hosts: bmetal
+  gather_facts: no
+  remote_user: root
+  vars:
+    openvswitch_version: openvswitch-2.7.0
+  tasks:
+
+# creating ovs bridges
+
+    - name: Create bridges at ovs
+      openvswitch_bridge:
+        bridge: "{{ item.bridge }}"
+        state: absent
+      with_items: "{{ br_connect }}"
