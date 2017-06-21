@@ -1,6 +1,6 @@
 ## Caution! Use it under your own risk. Intended for PoCs and Lab
 
-# Createyour SDN experience (WAN and DC end-to-end programability on VXLANs) at packet.net (Nuage Virtualized Network Services)
+# Createyour SDN experience (WAN and DC end-to-end programability on VXLANs) at packet.net
 
 This playbook will create a Bare Metal Type 2 server at packet.net and install a whole Nuage VNS solution to try things like Zero Touch Bootstrapping and  Application Aware Routing. Also, you can play segmenting traffic and using ACLs between WAN Branches and Containers on Kubernetes
 
@@ -26,12 +26,12 @@ Install docker on your laptop or any Linux server with access to Internet. You m
 Create a folder in your latop/server and run the following.
 
 ```
-curl -fsSL https://https://git.io/vQkzV > download.sh; chmod 755 download.sh; ./download.sh
+curl -fsSL https://git.io/vQkzV > download.sh; chmod 755 download.sh; ./download.sh
 ```
 This script will download some files to create your docker image.
 
 ```
-docker build -t p1nrojas/pk-sdnlab-stdalone
+docker build -t p1nrojas/pk-sdnlab-stdalone .
 ``` 
 
 Let's start with the data-only-container and then with the app one.
@@ -50,7 +50,7 @@ Get access to the project at ~/pk-sdnlab-stdalone and check your cfg folder with
 Then, run the following to build your lab inventory and host_vars files, and create the packet server on the project you have chosen.
 
 ```
-pk-create.sh 40r8
+./pk-create.sh 40r8
 ```
 
 And finally, run the playbook (take about 60min)
