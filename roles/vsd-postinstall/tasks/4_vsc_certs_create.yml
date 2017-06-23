@@ -11,48 +11,29 @@
   when: hostvars[groups['util'][0]].inventory_hostname is defined
   remote_user: root
 
-- name: "Waiting VSC1 until 3min for server to come back"
+- name: "Waiting VSC until 3min for server to come back"
   wait_for:
     port: 22 
-    host: "{{ vsc1_host }}"
+    host: "{{ item.vsc_host }}"
     search_regex: OpenSSH
     delay: 15
     timeout: 180
   remote_user: root
+  with_items: "{{ vsc_list }}"
   ignore_errors: yes
 
-- name: "Waiting VSC2 until 3min for server to come back"
-  wait_for:
-    port: 22 
-    host: "{{ vsc2_host }}"
-    search_regex: OpenSSH
-    delay: 15
-    timeout: 180
-  remote_user: root
-  ignore_errors: yes
-
-- name: "Add VSC1 to VSD known_hosts list"
-  shell: "ssh-keyscan -t rsa {{ vsc1_host  }} | sed -e 's/#.*$//' | sed -e '/^$/d' > /root/.ssh/known_hosts"
+- name: "Add VSC to VSD known_hosts list"
+  shell: "ssh-keyscan -t rsa {{ item.vsc_host  }} | sed -e 's/#.*$//' | sed -e '/^$/d' > /root/.ssh/known_hosts"
   when: hostvars[groups['util'][0]].inventory_hostname is defined
+  with_items: "{{ vsc_list }}"
   remote_user: root
 
-- name: "copying certificates to VSC1"
+- name: "copying certificates to VSC"
   expect:
-    command: "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u {{ vsc1_cert_name }} -c {{ vsc1_cert_name }} -d {{ vsc1_fqdn }}  -f pem -t server -o csp -s admin@{{ vsc1_host }}:/"
+    command: "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u {{ item.vsc_cert_name }} -c {{ item.vsc_cert_name }} -d {{ item.vsc_fqdn }}  -f pem -t server -o csp -s admin@{{ item.vsc_host }}:/"
     responses:
-      (?i)password: "{{ vsc1_passwd }}"
+      (?i)password: "{{ item.vsc_passwd }}"
   remote_user: root
+  with_items: "{{ vsc_list }}"
   when: hostvars[groups['util'][0]].inventory_hostname is defined
 
-- name: "Add VSC2 to VSD known_hosts list"
-  shell: "ssh-keyscan -t rsa {{ vsc2_host }} | sed -e 's/#.*$//' | sed -e '/^$/d' > /root/.ssh/known_hosts"
-  when: hostvars[groups['util'][0]].inventory_hostname is defined
-  remote_user: root
-
-- name: "copying certificates to VSC2"
-  expect:
-    command: "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u {{ vsc2_cert_name }} -c {{ vsc2_cert_name }} -d {{ vsc2_fqdn }}  -f pem -t server -o csp -s admin@{{ vsc2_host }}:/"
-    responses:
-      (?i)password: "{{ vsc1_passwd }}"
-  when: hostvars[groups['util'][0]].inventory_hostname is defined
-  remote_user: root

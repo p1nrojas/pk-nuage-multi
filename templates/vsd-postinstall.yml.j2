@@ -14,15 +14,12 @@
     vsd_host: {{ server.interfaces[0].ip }}
 {% endif %}
 {% endfor %}
+    vsc_list: [
 {% for vsc in vsc_controllers %}
-{% if 'vsc1' in vsc.hostname %}
-    vsc1_fqdn: {{ vsc.hostname }}
-    vsc1_host: {{ vsc.interfaces[1].ip }}
-{% endif %}
-{% if 'vsc2' in vsc.hostname %}
-    vsc2_fqdn: {{ vsc.hostname }}
-    vsc2_host: {{ vsc.interfaces[1].ip }}
+{% if vsc.vsc_cert_name is defined %}
+    { vsc_fqdn: {{ vsc.hostname }} , vsc_host: {{ vsc.interfaces[1].ip }}, vsc_cert_name: {{ vsc.vsc_cert_name }}, vsc_passwd: {{ vsc.vsc_passwd }} } ,
 {% endif %}
 {% endfor %}
+    ]
   roles:
     - vsd-postinstall

@@ -9,6 +9,7 @@
 
     - name: Create bridges at ovs
       openvswitch_bridge:
-        bridge: "{{ item.bridge }}"
+        bridge: "{{ '{' }}{{ '{' }} item.bridge {{ '}' }}{{ '}' }}"
         state: absent
-      with_items: "{{ br_connect }}"
+      with_items: "{{ '{' }}{{ '{' }} br_connect {{ '}' }}{{ '}' }}"
+      when: br_connect is defined

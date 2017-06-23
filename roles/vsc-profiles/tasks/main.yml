@@ -10,7 +10,7 @@
     msg: "command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}"
   when: vsc_cert_name is defined
 
-- name: "Create TLS profile at VSC1"
+- name: "Create TLS profile at VSC"
   local_action: command python {{playbook_dir}}/roles/vsc-profiles/files/nuage_tls_profile.py {{ inventory_hostname }} {{ ansible_port }} {{ ansible_host }} {{ vsc_passwd }} {{ vsc_cert_name }}
   register: output
   when: vsc_cert_name is defined
