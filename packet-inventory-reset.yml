@@ -31,9 +31,7 @@
         - reset-all-domains.yml
         - ovs-deploy.yml
         - ovs-reset.yml
-        - nuage.sh
         - license.yml
-        - health.yml
         - deploy-all.yml
         - webvirtmgr-deploy.yml
         - docker-deploy.yml

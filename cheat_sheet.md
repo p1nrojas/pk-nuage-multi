@@ -6,10 +6,10 @@ source /home/dev/ansible/hacking/env-setup
 ```
 And then
 ```
-ansible-playbook -e nuage_release=40r8 -e lab_domain=sdn40r8.lab -e lab_network_prefix=192.168.0 build-packet.yml
+ansible-playbook -e nuage_release=40r9-multi -e lab_domain=sdn40r9.lab -e lab_network_prefix=192.168.0 build-packet.yml
 ```
 
 To destroy everything:
 ```
-ansible-playbook -e nuage_release=40r8 -e lab_domain=sdn40r8.lab -e lab_network_prefix=192.168.0 build-packet-reset.yml
+ansible-playbook -e nuage_release=40r9-multi -e lab_domain=sdn40r9.lab -e lab_network_prefix=192.168.0 build-packet-reset.yml
 ```
