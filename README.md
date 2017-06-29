@@ -30,24 +30,24 @@ Install docker on your laptop or any Linux server with access to Internet. You m
 Create a folder in your latop/server and run the following.
 
 ```
-curl -fsSL https://git.io/vQkzV > download.sh; chmod 755 download.sh; ./download.sh
+curl -fsSL https://git.io/Nu4g30 > download.sh; chmod 755 download.sh; ./download.sh
 ```
 This script will download some files to create your docker image.
 
 ```
-docker build -t p1nrojas/pk-sdnlab-stdalone .
+docker build -t p1nrojas/pk-nuage-multi .
 ``` 
 
 Let's start with the data-only-container and then with the app one.
 
 ```
-docker run -d --name pk-data-only p1nrojas/pk-sdnlab-stdalone true
-docker run -d -i -t --volumes-from pk-data-only --name pk-ansible  p1nrojas/pk-sdnlab-stdalone
+docker run -d --name pk-nuage-data-only p1nrojas/pk-nuage-multi true
+docker run -d -i -t --volumes-from pk-nuage-data-only --name pk-nuage-ansible  p1nrojas/pk-nuage-multi
 ```
 
 Get access to a container
 ```
-docker exec -i -t pk-ansible /bin/bash
+docker exec -i -t pk-nuage-ansible /bin/bash
 ```
 
 Get access to the project at ~/pk-sdnlab-stdalone and check your cfg folder with the settings of your lab. You don't need to modify anything.
