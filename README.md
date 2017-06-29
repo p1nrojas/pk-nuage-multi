@@ -30,7 +30,7 @@ Install docker on your laptop or any Linux server with access to Internet. You m
 Create a folder in your latop/server and run the following.
 
 ```
-curl -fsSL https://git.io/Nu4g30 > download.sh; chmod 755 download.sh; ./download.sh
+curl -fsSL https://git.io/Nu4g31 > download.sh; chmod 755 download.sh; ./download.sh
 ```
 This script will download some files to create your docker image.
 
