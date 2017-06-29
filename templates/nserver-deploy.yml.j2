@@ -27,10 +27,15 @@
 {% endfor %}
       - name: acl2
         match_list:
+          - 10.0.0.0/8
 {% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
+{% if server.interfaces[1] is defined %}
           - {{ server.interfaces[1].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
+{% endif %}
+{% if server.interfaces[2] is defined %}
           - {{ server.interfaces[2].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
+{% endif %}
 {% endif %}
 {% endfor %}
     bind_listen_ipv4:
@@ -39,8 +44,12 @@
 {% for server in core_instances %}
 {% if server.inventory == 'nserver' %}
       - {{ server.interfaces[0].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
+{% if server.interfaces[1] is defined %}
       - {{ server.interfaces[1].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
+{% endif %}
+{% if server.interfaces[2] is defined %}
       - {{ server.interfaces[2].ip | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0/24
+{% endif %}
 {% endif %}
 {% endfor %}
       - 127.0.0.0/8

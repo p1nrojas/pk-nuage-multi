@@ -16,9 +16,6 @@ core_instances:
       nameservers: [ 8.8.8.8 , 8.8.4.4 ] ,
       interfaces: [
         { name: eth0 , bridge: core, ip: "{{ lab_network_prefix }}.12" , netmask: 255.255.255.0 },
-        { name: eth1 , bridge: wan, ip: 10.250.250.2 , netmask: 255.255.255.0 },
-        { name: eth2 , bridge: inet, ip: 80.80.80.2 , netmask: 255.255.255.0 },
-        { name: eth3 , bridge: 3rdnet, ip: 55.55.55.2 , netmask: 255.255.255.0 }
       ] ,
       pat_rules: [
         { protocol: tcp , port: 53 , dest_port: 53 },

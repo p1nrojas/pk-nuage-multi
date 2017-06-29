@@ -1,16 +1,16 @@
 ---
 
 - include: 0_stat_vsd_settings.yml
-  when: hostvars[groups['stat'][0]].inventory_hostname is defined
+  when: groups['stat']|length > 0
 
 - include: 1_enable_stat_nginx.yml 
-  when: hostvars[groups['stat'][0]].inventory_hostname is defined
+  when: groups['stat']|length > 0
 
 - include: 2_util_install.yml
-  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  when: groups['util']|length > 0
 
 - include: 3_create_proxy_user.yml
-  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  when: groups['util']|length > 0
 
 - include: 4_vsc_certs_create.yml 
-  when: hostvars[groups['util'][0]].inventory_hostname is defined
+  when: groups['util']|length > 0

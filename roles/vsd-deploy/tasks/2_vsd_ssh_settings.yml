@@ -13,10 +13,10 @@
 - name: "Add stat to VSD known_hosts list"
   shell: "ssh-keyscan -t rsa {{ hostvars[groups['stat'][0]].interfaces[0].ip }} | sed -e 's/#.*$//' | sed -e '/^$/d' > /root/.ssh/known_hosts"
   remote_user: root
-  when: hostvars[ groups['stat'][0]].interfaces[0].ip is defined
+  when: groups['stat']|length > 0
 
 - name: "Add util to VSD known_hosts list"
   shell: "ssh-keyscan -t rsa {{ hostvars[groups['util'][0]].interfaces[0].ip }} | sed -e 's/#.*$//' | sed -e '/^$/d' > /root/.ssh/known_hosts"
   remote_user: root
-  when: hostvars[ groups['util'][0]].interfaces[0].ip is defined
+  when: groups['util']|length > 0
 

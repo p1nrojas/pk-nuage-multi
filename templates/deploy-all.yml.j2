@@ -1,14 +1,14 @@
 ---
-- include: ovs-deploy.yml
-- include: nuage-install.yml
-- include: nserver-deploy.yml
-- include: vsd-deploy.yml
-- include: stat-predeploy.yml
-- include: util-predeploy.yml
-- include: vsd-postinstall.yml
-- include: stat-deploy.yml
-- include: util-deploy.yml
-- include: vsc-profiles.yml
-- include: webvirtmgr-deploy.yml
-- include: docker-deploy.yml
-- include: license.yml
+- import_playbook: ovs-deploy.yml
+- import_playbook: nuage-install.yml
+- import_playbook: nserver-deploy.yml
+- import_playbook: vsd-deploy.yml
+- import_playbook: stat-predeploy.yml
+- import_playbook: util-predeploy.yml
+- import_playbook: vsd-postinstall.yml
+- import_playbook: stat-deploy.yml
+- import_playbook: util-deploy.yml
+- import_playbook: vsc-profiles.yml
+- import_playbook: webvirtmgr-deploy.yml
+- import_playbook: docker-deploy.yml
+- import_playbook: license.yml

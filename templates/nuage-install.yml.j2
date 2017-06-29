@@ -17,6 +17,7 @@
   gather_facts: no
   vars:
     ansible_port: 22
+    ansible_user: root
   roles:
     - dom-create
     - pat_rules
@@ -26,6 +27,7 @@
   gather_facts: no
   vars:
     ansible_port: 22
+    ansible_user: root
   roles:
     - vsc-create
     - pat_rules

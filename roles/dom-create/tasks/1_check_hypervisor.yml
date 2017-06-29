@@ -3,6 +3,7 @@
 - name: Pull facts on hypervisor
   action: setup
   delegate_to: "{{ hypervisor }}"
+  remote_user: root
   when: hypervisor is defined
 
 - name: List the Virtual Machine
