@@ -23,5 +23,5 @@ dns:
 {% endfor %}
 domain: {{ dns_domain }}
 
-nuage_vrs_rpm_location: {{ nuage_vrs_rpm_location }} 
-nuage_dockermon_rpm_location: {{ nuage_dockermon_rpm_location }}
+{% if nuage_vrs_rpm_location is defined %}nuage_vrs_rpm_location: {{ nuage_vrs_rpm_location }}{% endif %} 
+{% if nuage_dockermon_rpm_location is defined %}nuage_dockermon_rpm_location: {{ nuage_dockermon_rpm_location }}{% endif %}
