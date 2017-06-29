@@ -10,6 +10,7 @@ RUN yum -y install curl && yum clean all
 RUN yum -y install git && yum clean all
 
 # install sdk from nuage
+RUN rm -rf /usr/lib/python2.7/site-packages/chardet*
 RUN pip install vspk
 RUN pip install pexpect
 RUN pip install packet-python
@@ -19,11 +20,11 @@ RUN pip install django
 RUN useradd dev
 RUN mkdir -p /home/dev/.ssh
 RUN mkdir -p /home/dev/images
-RUN mkdir -p /home/dev/pk-sdnlab-stdalone
+RUN mkdir -p /home/dev/pk-nuage-multi
 RUN mkdir -p /var/log/ansible
 RUN chown -R dev:dev /home/dev
 RUN chown -R dev:dev /var/log/ansible
-VOLUME /home/dev/pk-sdnlab-stdalone
+VOLUME /home/dev/pk-nuage-multi
 VOLUME /home/dev/.ssh
 VOLUME /var/log/ansible
 WORKDIR /home/dev
