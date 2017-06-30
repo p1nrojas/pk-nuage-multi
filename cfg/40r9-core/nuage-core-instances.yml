@@ -26,6 +26,7 @@ core_instances:
   - { hostname: "vsd1.{{ lab_domain }}",
       description: "Nuage Stand-Alone VSD, management plane" ,
       inventory: vsd ,
+      vsd_version: 'v4_0' ,
       Is_NM_enabled: true ,
       memory: 25165824 ,
       vcpu_num: 8 ,

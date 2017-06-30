@@ -1,0 +1,87 @@
+#
+#
+
+[nuage_pstack]
+#
+#
+
+[nuage_pstack:children]
+nuage_pstack_controller
+nuage_pstack_node
+#
+# The cluster group contains two subgroups: controller and node
+#
+
+[nuage_pstack_controller]
+{% if bmetals is defined %}
+{% for server in bmetals %}
+{% if 'os-control' in server.device_name %}
+os-ans-control ansible_host={{ server.device_name }} ansible_user=root
+{% endif %}
+{% endfor %}
+{% endif %}
+#
+# The controller group should have only ONE FQDN defined/specified
+#
+
+[nuage_pstack_controller:vars]
+{% if core_instances is defined %}
+{% for server in core_instances %}
+{% if server.inventory == "vsd" %}
+vsd_ip='xx{{ server.hypervisor }}xx'
+{% endif %}
+{% if server.inventory == "nserver" %}
+ntp_server='xx{{ server.hypervisor }}xx'
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if bmetals is defined %}
+nova_list=[{% for server in bmetals %}{% if 'nova' in server.device_name %}'xx{{ server.device_name }}xx',{% endif %}{% endfor %}]
+{% endif %}
+password='admin'
+temp_dir='/tmp/nuage/'
+net_partition_name='{{ vsd_enterprise }}'
+files_location='{{ files_location }}'
+rpm_nuagenetlib='{{ rpm_nuagenetlib }}'
+rpm_nuage_openstack_heat='{{ rpm_nuage_openstack_heat }}'
+rpm_nuage_openstack_horizon='{{ rpm_nuage_openstack_horizon }}'
+rpm_nuage_openstack_neutron='{{ rpm_nuage_openstack_neutron }}'
+rpm_nuage_openstack_neutronclient='{{ rpm_nuage_openstack_neutronclient }}'
+nuage_openstack_upgrade_files='{{ nuage_openstack_upgrade_files }}'
+# If you need to specify a specific ip address for the controller, uncomment the above and edit
+
+[nuage_pstack_node]
+{% if bmetals is defined %}
+{% for server in bmetals %}
+{% if 'nova' in server.device_name %}
+{{ server.device_name }} ansible_host={{ server.device_name }} ansible_user=root
+{% endif %}
+{% endfor %}
+{% endif %}
+#
+# FQDNs of hosts assigned the Kubernetes cluster node role
+#
+
+[nuage_pstack_node:vars]
+{% if core_instances is defined %}
+{% for server in core_instances %}
+{% if server.inventory == "nserver" %}
+ntp_server='xx{{ server.hypervisor }}xx'
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if vsc_controllers is defined %}
+{% for server in vsc_controllers %}
+{% if server.vrs_controller_role is defined %}
+{% if server.vrs_controller_role == 'active' %}
+active_controller='xx{{ server.hypervisor }}xx' 
+{% endif %}
+{% if server.vrs_controller_role == 'pasive' %}
+standby_controller='xx{{ server.hypervisor }}xx' 
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+temp_dir='/tmp/nuage/'
+files_location='{{ files_location }}'
+rpm_nuage_openvswitch='{{ rpm_nuage_openvswitch }}'

@@ -12,8 +12,10 @@
 
   pre_tasks:
 
-    - name: Read instances settings from file
-      include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
+    - include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
+    - include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml
+    - include_vars: cfg/{{ nuage_release }}/nuage-sdwan-instances.yml
+    - include_vars: cfg/{{ nuage_release }}/nuage-cloud-instances.yml
 
   tasks:
 
@@ -100,6 +102,16 @@
         regexp: "^(.*)ansible_host={{ item.1.device_name }}(.*)$"
         replace: '\1ansible_host={{ pk_public_ip.results[item.0].stdout }}\2'
       with_indexed_items: "{{ bmetals }}"
+      when: k8s_instances is defined
+
+
+    - name: "Adding IPs to inventory file extras"
+      replace:
+        dest: "{{playbook_dir}}/extras/openstack-hosts-inventory"
+        regexp: "^(.*)ansible_host={{ item.1.device_name }}(.*)$"
+        replace: '\1ansible_host={{ pk_public_ip.results[item.0].stdout }}\2'
+      with_indexed_items: "{{ bmetals }}"
+      when: openstack_release is defined
 
     - name: "Create bmetal groupvar file"
       template: src=bmetal.j2 dest="{{ playbook_dir }}/group_vars/bmetal" backup=no
@@ -134,6 +146,15 @@
         regexp: "xx{{ item.1.device_name }}xx"
         replace: "{{ pk_public_ip.results[item.0].stdout }}" 
       with_indexed_items: "{{ bmetals }}"
+      when: nsg_instances is defined
+
+    - name: "replacing records at vsd_script.py"
+      replace:
+        dest: "{{playbook_dir}}/extras/openstack-hosts-inventory"
+        regexp: "xx{{ item.1.device_name }}xx"
+        replace: "{{ pk_public_ip.results[item.0].stdout }}" 
+      with_indexed_items: "{{ bmetals }}"
+      when: openstack_release is defined
 
 
 

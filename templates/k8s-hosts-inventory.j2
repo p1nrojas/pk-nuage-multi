@@ -25,10 +25,38 @@ nuage_k8s_node
 
 [nuage_k8s_master:vars]
 master_ip_address_configured={{ server.interfaces[0].ip }}
-# If you need to specify a specific ip address for the master, uncomment the above and edit
 {% endif %}
 {% endfor %}
 {% endif %}
+{% if core_instances is defined %}
+{% for server in core_instances %}
+{% if server.inventory == "vsd" %}
+vsd_api_url='https://{{ server.interfaces[0].ip }}:8443'
+vsp_version='{{ server.vsd_version }}'
+{% endif %}
+{% if server.inventory == "nserver" %}
+ntp_server='{{ server.interfaces[0].ip }}'
+{% endif %}
+{% endfor %}
+{% endif %}
+enterprise='{{ vsd_enterprise }}'
+domain=Kubernetes
+{% if vsc_controllers is defined %}
+{% for server in vsc_controllers %}
+{% if server.vrs_controller_role is defined %}
+{% if server.vrs_controller_role == 'active' %}
+vsc_active_ip='{{ server.interfaces[1].ip }}'
+{% endif %}
+{% if server.vrs_controller_role == 'pasive' %}
+vsc_standby_ip='{{ server.interfaces[1].ip }}'
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+uplink_interface=eth0
+nuage_monitor_rpm='{{ files_location }}{{ nuage_dockermon_rpm_location }}'
+vrs_rpm='{{ files_location }}{{ rpm_nuage_openvswitch }}'
+plugin_rpm='{{ files_location }}{{ k8s_plugin_rpm }}'
 
 [nuage_k8s_node]
 {% if k8s_instances is defined %}
@@ -42,7 +70,7 @@ master_ip_address_configured={{ server.interfaces[0].ip }}
 # FQDNs of hosts assigned the Kubernetes cluster node role
 #
 
-#[nodes:vars]
+#[nuage_k8s_node:vars]
 
 
 
