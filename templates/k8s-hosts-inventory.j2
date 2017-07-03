@@ -54,7 +54,7 @@ vsc_standby_ip='{{ server.interfaces[1].ip }}'
 {% endfor %}
 {% endif %}
 uplink_interface=eth0
-nuage_monitor_rpm='{{ files_location }}{{ nuage_dockermon_rpm_location }}'
+nuage_monitor_rpm='{{ files_location }}{{ nuage_kubemon_rpm_location }}'
 vrs_rpm='{{ files_location }}{{ rpm_nuage_openvswitch }}'
 plugin_rpm='{{ files_location }}{{ k8s_plugin_rpm }}'
 

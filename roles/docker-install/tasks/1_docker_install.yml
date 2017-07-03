@@ -43,7 +43,7 @@
 
 - name: install the nuage vrs openvswitch rpm from a remote repo
   yum:
-    name: '{{ nuage_vrs_rpm_location }}'
+    name: '{{ files_location }}{{ nuage_vrs_rpm_location }}'
     state: present
   remote_user: root
 
@@ -55,7 +55,7 @@
 
 - name: install the nuage vrs openvswitch rpm from a remote repo
   yum:
-    name: '{{ nuage_vrs_rpm_location }}'
+    name: '{{ files_location }}{{ nuage_vrs_rpm_location }}'
     state: present
   remote_user: root
 
@@ -102,7 +102,7 @@
 
 - name: install the dockermon rpm from a remote repo
   yum:
-    name: '{{ nuage_dockermon_rpm_location }}'
+    name: '{{ files_location }}{{ nuage_dockermon_rpm_location }}'
     state: present
   remote_user: root
 

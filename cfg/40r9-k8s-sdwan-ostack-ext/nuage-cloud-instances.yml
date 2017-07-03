@@ -2,6 +2,7 @@ files_location: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r9+files/'
 # docker vars:
 nuage_vrs_rpm_location: "nuage-openvswitch40r9.rpm"
 nuage_dockermon_rpm_location: "docker-monitor40r9.rpm"
+nuage_kubemon_rpm_location: "nuagekubemon40r9.rpm"
 k8s_plugin_rpm: 'nuage-k8s-plugin40r9.rpm'
 # openstack vars:
 openstack_release: 'mitaka'
