@@ -1,0 +1,10 @@
+files_location: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r9+files/'
+#openstack vars:
+openstack_release: 'mitaka'
+rpm_nuagenetlib: 'nuagenetlib40r9.rpm'
+rpm_nuage_openstack_heat: 'nuage-openstack-heat40r9.rpm'
+rpm_nuage_openstack_horizon: 'nuage-openstack-horizon40r9.rpm'
+rpm_nuage_openstack_neutron: 'nuage-openstack-neutron40r9.rpm'
+rpm_nuage_openstack_neutronclient: 'nuage-openstack-neutronclient40r9.rpm'
+nuage_openstack_upgrade_files: 'nuage-openstack-upgrade40r9.tar.gz'
+rpm_nuage_openvswitch: 'nuage-openvswitch40r9.rpm'
