@@ -1,0 +1,69 @@
+bmetals:
+  - { device_name: core ,
+      bmetal_plan: baremetal_1 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: core, gateway: "{{ lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },
+      ] ,
+      vxlan: [
+      ]
+    }
+  - { device_name: nova1 ,
+      bmetal_plan: baremetal_1 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+    }
+  - { device_name: nova2 ,
+      bmetal_plan: baremetal_1 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+    }
+  - { device_name: os-control1 ,
+      bmetal_plan: baremetal_0 ,
+      osystem: centos_7 ,
+      facility: sjc1 ,
+      public_if: bond0 ,
+    }
+
+sec_rules:
+  - { type: tcp , dport: 22 , saddr: 0.0.0.0/0 }
+  # openvswitch vxlan
+  - { type: udp , dport: 4789 , saddr: 147.75.0.0/16 } 
+  - { type: udp , dport: 4789 , saddr: 10.0.0.0/8 } 
+  # ssh port access permissions
+  - { type: tcp , dport: "2000:2040" , saddr: 0.0.0.0/0 }
+  # vsd port access permissions 
+  - { type: tcp , dport: 8443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 5222 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 61613 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 61614 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 7443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 443 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 29090 , saddr: 0.0.0.0/0 }
+  # util port access permissions
+  - { type: tcp , dport: 11443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 12443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 29090 , saddr: 0.0.0.0/0 }
+  # stats port access permissions
+  - { type: tcp , dport: 39090 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6200 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 5601 , saddr: 0.0.0.0/0 }
+  # webvirtmgr port access permissions
+  - { type: tcp , dport: 8090 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6080 , saddr: 0.0.0.0/0 }
+  # vsc port access permissions
+  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6633 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 179 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 161 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 162 , saddr: 0.0.0.0/0 }
+  # nsg/vrs port access permissions
+  - { type: udp , dport: 4789 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 53 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 53 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 123 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 } 
