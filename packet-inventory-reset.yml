@@ -34,4 +34,5 @@
         - license.yml
         - deploy-all.yml
         - webvirtmgr-deploy.yml
-        - docker-deploy-4.0.yml
+        - docker-deploy-libnetwork.yml
+        - docker-deploy-dockermon.yml
