@@ -1,0 +1,13 @@
+- hosts: localhost
+  tasks:
+    - name: "Get info about projects"
+      uri:
+        url: "http://api.packet.net/projects"
+        method: GET
+        return_content: yes
+        headers:
+          X-Auth-Token: 'huMci4HmyoaGQZTUFtG6EgZFBCa5Vidw'
+      register: project_response
+
+    - debug:
+        var: project_response

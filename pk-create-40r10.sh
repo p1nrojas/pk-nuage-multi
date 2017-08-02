@@ -37,8 +37,6 @@ echo "$(date) Here we go!"
 # ansible-playbook build.yml
 
 # Activating hacking in ansible
-echo "$(date) Activating hacking in ansible"
-source /home/dev/ansible/hacking/env-setup
 
 cd /home/dev/pk-sdnlab-stdalone 
 

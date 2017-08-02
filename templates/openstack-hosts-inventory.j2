@@ -25,6 +25,7 @@ os-ans-control ansible_host={{ server.device_name }} ansible_user=root
 #
 
 [nuage_pstack_controller:vars]
+openstack_release='{{ openstack_release }}'
 {% if core_instances is defined %}
 {% for server in core_instances %}
 {% if server.inventory == "vsd" %}
@@ -42,7 +43,7 @@ password='admin'
 temp_dir='/tmp/nuage/'
 net_partition_name='{{ vsd_enterprise }}'
 files_location='{{ files_location }}'
-rpm_nuagenetlib='{{ rpm_nuagenetlib }}'
+{% if rpm_nuagenetlib is defined %}rpm_nuagenetlib='{{ rpm_nuagenetlib }}'{% endif %}
 rpm_nuage_openstack_heat='{{ rpm_nuage_openstack_heat }}'
 rpm_nuage_openstack_horizon='{{ rpm_nuage_openstack_horizon }}'
 rpm_nuage_openstack_neutron='{{ rpm_nuage_openstack_neutron }}'
