@@ -2,7 +2,7 @@ bmetals:
   - { device_name: core ,
       bmetal_plan: baremetal_2 ,
       osystem: centos_7 ,
-      facility: sjc1 ,
+      facility: ewr1 ,
       public_if: bond0 ,
       br_connect: [
         { bridge: core, gateway: "{{ lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },

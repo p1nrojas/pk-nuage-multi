@@ -4,7 +4,7 @@ nuage_vrs_rpm_location: "nuage-openvswitch5.0.2.rpm"
 nuage_dockermon_rpm_location: "docker-monitor5.0.2.rpm"
 nuage_kubemon_rpm_location: "nuagekubemon5.0.2.rpm"
 k8s_plugin_rpm: 'nuage-k8s-plugin5.0.2.rpm'
-rpm_nuagenetlib: 'nuagenetlib5.0.2.rpm'
+nuage_libnetwork_rpm_location: 'libnetwork5.0.2.rpm'
 rpm_nuage_openvswitch: "nuage-openvswitch5.0.2.rpm"
 
 k8s_instances: 
