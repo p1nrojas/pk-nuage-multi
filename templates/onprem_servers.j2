@@ -3,8 +3,8 @@
 # will be lost if reset-build or build is run
 #
 
-device_name: {{ item.1.device_name }} 
-public_if: {{ item.1.public_if }}
+device_name: {{ item.1.device_name }}
+public_if: {% if item.1.public_if is defined %}{{ item.1.public_if }}{% else %}{{public_if}}{% endif %} 
 private_ip: {{ item.1.device_ip }}
 public_ip: {{ item.1.device_ip }}
 {% if item.1.br_connect is defined %}

@@ -10,13 +10,22 @@
   gather_facts: no
   remote_user: root
   vars:
-    dns_domain: sdn40r8.lab
+    ntp_server_list:
+      - "{{ lab_network_prefix }}.12"
+    dns_server_list:
+      - "{{ lab_network_prefix }}.12"
+    dns_domain: "{{ lab_domain }}"
+#    public_if: bond0
+    nuage_license_key: "{{ lookup('file', '/home/dev/.nuage_license_key') }}"
+    summary_file: "/home/dev/packet-nuagevns/.summary"
+    ssh_key:
+    - "{{ lookup('file', '/home/dev/.ssh/id_rsa.pub') }}"
+
     bmetals:
       - { device_name: core ,
-          device_ip: 172.16.0.10 ,
-          public_if: eth0 ,
+          device_ip: "{{ host_ip }}" ,
           br_connect: [
-            { bridge: core, gateway: 192.168.0.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 192.168.0.12 },
+            { bridge: core, gateway: "{{ lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },
             { bridge: wan, gateway: 10.250.250.1, prefix: 24, dhcp_min: 110, dhcp_max: 140 , dns: 10.250.250.2 },
             { bridge: inet, gateway: 80.80.80.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 80.80.80.2 },
             { bridge: branch1 },
@@ -62,7 +71,39 @@
       - { type: udp , dport: 123 , saddr: 0.0.0.0/0 }
       - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 } 
 
+  pre_tasks:
+
+    - include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml 
+    - include_vars: cfg/{{ nuage_release }}/nuage-sdwan-instances.yml 
+    - include_vars: cfg/{{ nuage_release }}/nuage-cloud-instances.yml 
+
   tasks:    
+
+    - name: Getting interface for host_ip
+      shell: "ip a | grep {{ host_ip }} | awk '{ print $NF }'"
+      register: eth_if
+      delegate_to: "{{ host_ip }}"
+
+    - fail:
+        msg: "No interface detected at host"
+      when: eth_if.stdout | length == 0
+
+    - name: Set inteface
+      set_fact:
+        public_if: "{{ eth_if.stdout }}"
+
+    - debug:
+        var: public_if
+
+    - name: Create directories
+      file: path={{ playbook_dir }}/{{ item }}/ state=directory
+      with_items:
+        - host_vars
+        - group_vars
+        - extras
+
+    - name: Create hosts file
+      template: src=hosts.j2 dest="{{ playbook_dir }}/hosts" backup=no
     
     - name: Create var
       set_fact: 
@@ -112,7 +153,7 @@
       template: src=onprem_bmetal.j2 dest="{{ playbook_dir }}/group_vars/bmetal" backup=no
     
     - name: list of host files and store it in register
-      raw: find {{ playbook_dir }}/host_vars -type f -name "*{{ domain }}"
+      raw: find {{ playbook_dir }}/host_vars -type f -name "*{{ dns_domain }}"
       register: host_files
     
     #- debug:
@@ -134,3 +175,69 @@
       with_nested: 
          - "{{ bmetal_array.stdout_lines }}"
          - "{{ host_files.stdout_lines }}"
+
+    - name: Create host_vars files for core_instances
+      template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ core_instances }}"
+
+    - name: Create host_vars files for VSC's
+      template: src=vsc.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ vsc_controllers }}"
+
+    - name: Create host_vars files for nsg_instances
+      template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ nsg_instances }}"
+      when: nsg_instances is defined
+
+    - name: Create host_vars files for desktops
+      template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ desktops }}"
+      when: desktops is defined
+
+    - name: Create host_vars files for k8s_instances
+      template: src=servers.j2 backup=no dest={{ playbook_dir }}/host_vars/{{ item.hostname }}
+      with_items: "{{ k8s_instances }}"
+      when: k8s_instances is defined
+
+    - name: Create group_vars/all file
+      template: src=group_vars.all.j2 dest="{{ playbook_dir }}/group_vars/all" backup=no
+
+    - name: Create files in extras
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
+      with_items:
+        - vsd_script.py
+      when: nsg_instances is defined
+
+    - name: Create files in extras
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
+      with_items:
+        - k8s-hosts-inventory
+      when: k8s_instances is defined
+
+    - name: Create files in extras
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
+      with_items:
+        - openstack-hosts-inventory
+      when: openstack_release is defined
+
+    - name: Create YML files
+      template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no
+      with_items:
+        - ovs-deploy.yml
+        - ovs-reset.yml
+        - license.yml
+        - docker-deploy.yml
+        - webvirtmgr-deploy.yml
+        - deploy-all.yml
+        - reset-all-domains.yml
+        - nuage-install.yml
+        - util-predeploy.yml
+        - util-deploy.yml
+        - nserver-deploy.yml
+        - stat-predeploy.yml
+        - stat-deploy.yml
+        - vsd-deploy.yml
+        - vsd-postinstall.yml
+        - vsc-profiles.yml
+
+

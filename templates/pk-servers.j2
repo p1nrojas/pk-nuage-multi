@@ -7,7 +7,7 @@ device_name: {{ item.1.device_name }}
 bmetal_plan: {{ item.1.bmetal_plan }}
 osystem: {{ item.1.osystem }} 
 facility: {{ item.1.facility }} 
-public_if: {{ item.1.public_if }}
+public_if: {% if item.1.public_if is defined %}{{ item.1.public_if }}{% else %}{{public_if}}{% endif %}
 private_ip: {{ pk_private_ip.results[item.0].stdout }}
 public_ip: {{ pk_public_ip.results[item.0].stdout }}
 {% if item.1.br_connect is defined %}

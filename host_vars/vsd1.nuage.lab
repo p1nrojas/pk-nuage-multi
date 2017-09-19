@@ -1,0 +1,74 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: vsd1.nuage.lab
+description: Nuage Stand-Alone VSD, management plane
+
+image_qcow2: /home/dev/images/vsd40r9.qcow2
+image_url: https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r9+files/vsd40r9.qcow2
+hypervisor: core
+memory_KiB: 25165824
+vcpu_num: 8
+
+
+
+Is_NM_enabled: True
+
+
+gateway: 172.16.1.1
+interfaces:
+  - { name: eth0 ,
+      bridge: core ,
+      ip: 172.16.1.20 ,
+      netmask: 255.255.255.0 }
+ntp_server:
+  - 172.16.1.12
+dns:
+  servers:
+    - 172.16.1.12
+
+
+pat_rules:
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 8443 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 8443
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 5222 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 5222
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 61613 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 61613
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 61614 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 61614
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 7443 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 7443
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 39090 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 39090
+    } 
+  - { interface: enp0s20f1 ,
+      protocol: tcp ,
+      port: 2020 ,
+      dest_addr: 172.16.1.20 ,
+      dest_port: 22
+    } 
