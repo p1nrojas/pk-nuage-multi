@@ -42,6 +42,6 @@ cd /home/dev/pk-sdnlab-stdalone
 
 # Creating Packet.net device
 echo "$(date) Creating packet device for SDWAN"
-ansible-playbook -e nuage_release=${1} -e lab_domain=sdn40r10.lab -e lab_network_prefix=192.168.0 build-packet.yml
+ansible-playbook -e nuage_release=${1} -e lab_domain=sdn502.lab -e lab_network_prefix=192.168.0 build-packet.yml
 
 echo "$(date) Ready to start installing Nuage"

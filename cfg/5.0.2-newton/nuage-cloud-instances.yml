@@ -1,0 +1,9 @@
+files_location: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/'
+#openstack vars:
+openstack_release: 'newton'
+rpm_nuage_openstack_heat: 'newton-nuage-openstack-heat40r10.rpm'
+rpm_nuage_openstack_horizon: 'newton-nuage-openstack-horizon40r10.rpm'
+rpm_nuage_openstack_neutron: 'newton-nuage-openstack-neutron40r10.rpm'
+rpm_nuage_openstack_neutronclient: 'newton-nuage-openstack-neutronclient40r10.rpm'
+nuage_openstack_upgrade_files: 'newton-nuage-openstack-upgrade40r10.tar.gz'
+rpm_nuage_openvswitch: 'nuage-openvswitch40r10.rpm'
