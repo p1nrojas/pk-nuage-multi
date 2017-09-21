@@ -1,0 +1,39 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: vsc4.sdn511u1.lab
+# Description: Nuage VSC - SDN controller
+
+image_qcow2: /home/dev/images/vsc5.1.1.qcow2
+image_url: https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/vsc5.1.1.qcow2
+hypervisor: core
+vsc_passwd: admin
+gateway: 192.168.0.1
+interfaces:
+  - { name: bof ,
+      bridge: core }
+  - { name: control ,
+      bridge: core ,
+      ip: 192.168.0.34 ,
+      prefix: 24 }
+static_route_list: 
+  - "0.0.0.0/0 next-hop 192.168.0.1"
+ 
+ntp_server:
+  - 192.168.0.12
+dns:
+  servers:
+    - 192.168.0.12
+xmpp:
+  username: vsc04
+system_ip: 1.1.1.4
+vsd_fqdn: vsd1.sdn511u1.lab
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2034 ,
+      dest_addr: 192.168.0.34 ,
+      dest_port: 22
+    }

@@ -14,6 +14,11 @@ To destroy everything:
 ansible-playbook -e nuage_release=40r9-core -e lab_domain=sdn40r9.lab -e lab_network_prefix=192.168.0 build-packet-reset.yml
 ```
 
+to manage that onpremises:
+```
+ansible-playbook -e nuage_release=40r10-k8s-sdwan -e lab_domain=nuage.lab -e lab_network_prefix=172.16.1 -e host_ip=192.168.2.24 onprem-create-inventory.yml
+```
+
 Available Configurations
 ```
 # Release 40r8 with Kubernetes*, Docker and Util/NSGs
@@ -30,3 +35,5 @@ Available Configurations
 
 * requires additional playbook to finish the setup
 ```
+
+

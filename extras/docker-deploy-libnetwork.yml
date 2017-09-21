@@ -27,7 +27,7 @@
       remote_user: root
     
     - name: Install additional packages
-      yum: name={{ item }} state=present
+      yum: name=docker-deploy-libnetwork.yml state=present
       with_items:
        - python-twisted-core
        - qemu-kvm
@@ -49,7 +49,7 @@
       remote_user: root
     
     - name: Remove  additional packages
-      yum: name={{ item }} state=absent
+      yum: name=docker-deploy-libnetwork.yml state=absent
       with_items:
        - python-openvswitch
        - openvswitch
@@ -57,19 +57,19 @@
     
     - name: install the nuage vrs openvswitch rpm from a remote repo
       yum:
-        name: '{{ files_location }}{{ nuage_vrs_rpm_location }}'
+        name: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/nuage-openvswitch5.1.1.rpm'
         state: present
       remote_user: root
     
     - name: Remove  additional packages
-      yum: name={{ item }} state=absent
+      yum: name=docker-deploy-libnetwork.yml state=absent
       with_items:
        - openvswitch
       remote_user: root
     
     - name: install the nuage vrs openvswitch rpm from a remote repo
       yum:
-        name: '{{ files_location }}{{ nuage_vrs_rpm_location }}'
+        name: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/nuage-openvswitch5.1.1.rpm'
         state: present
       remote_user: root
     
@@ -77,14 +77,14 @@
       lineinfile:
         dest: /etc/default/openvswitch
         regexp: 'ACTIVE_CONTROLLER='
-        line: "ACTIVE_CONTROLLER={% if vsc_controllers[2].interfaces[1].ip is defined %}{{ vsc_controllers[2].interfaces[1].ip }}{% endif %}"
+        line: "ACTIVE_CONTROLLER=192.168.0.33"
       remote_user: root
     
     - name: Add STANDBY_CONTROLLER to /etc/default/openvswitch
       lineinfile:
         dest: /etc/default/openvswitch
         regexp: 'STANDBY_CONTROLLER='
-        line: "STANDBY_CONTROLLER={% if vsc_controllers[3].interfaces[1].ip is defined %}{{ vsc_controllers[3].interfaces[1].ip }}{% endif %}"
+        line: "STANDBY_CONTROLLER=192.168.0.34"
       remote_user: root
     
     - name : restarting openvswitch
@@ -96,14 +96,14 @@
 # Installing docker and nuage related components
     
     - name: Install docker  packages
-      yum: name={{ item }} state=present
+      yum: name=docker-deploy-libnetwork.yml state=present
       with_items:
        - docker
        - python-pip
       remote_user: root
     
     - name: Installing pip packages and upgrade
-      shell: "{{ item }}"
+      shell: "docker-deploy-libnetwork.yml"
       with_items:
        - 'pip install docker-py'
        - 'pip install --upgrade pip'
@@ -118,7 +118,7 @@
     
     - name: install libnetwork-nuage rpm from a remote repo
       yum:
-        name: '{{ files_location }}{{ nuage_libnetwork_rpm_location }}'
+        name: 'https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/libnetwork5.1.1.rpm'
         state: present
       remote_user: root
 
@@ -126,7 +126,7 @@
       lineinfile:
         dest: /etc/default/nuage-libnetwork.yaml
         regexp: 'url:'
-        line: "url: https://{{ core_instances[1].interfaces[0].ip }}:8443"
+        line: "url: https://192.168.0.20:8443"
         state: present
       remote_user: root
 
