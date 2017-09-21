@@ -1,0 +1,76 @@
+# Inventory Dynamically created for https://github.com/p1nrojas/ansible-kubeadm-nuage
+# Inventory Dynamically created for https://github.com/p1nrojas/ansible-kubeadm-nuage
+# Inventory Dynamically created for https://github.com/p1nrojas/ansible-kubeadm-nuage
+#
+
+[nuage_k8s]
+#
+#
+
+[nuage_k8s:children]
+nuage_k8s_master
+nuage_k8s_node
+#
+# The cluster group contains two subgroups: master and node
+#
+
+[nuage_k8s_master]
+{% if k8s_instances is defined %}
+{% for server in k8s_instances %}
+{% if server.inventory == "kubernetes"  and 'Master' in server.description %}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
+#
+# The master group should have only ONE FQDN defined/specified
+#
+
+[nuage_k8s_master:vars]
+master_ip_address_configured={{ server.interfaces[0].ip }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if core_instances is defined %}
+{% for server in core_instances %}
+{% if server.inventory == "vsd" %}
+vsd_api_url='https://{{ server.interfaces[0].ip }}:8443'
+vsp_version='{{ server.vsd_version }}'
+{% endif %}
+{% if server.inventory == "nserver" %}
+ntp_server='{{ server.interfaces[0].ip }}'
+{% endif %}
+{% endfor %}
+{% endif %}
+enterprise='{{ vsd_enterprise }}'
+domain=Kubernetes
+{% if vsc_controllers is defined %}
+{% for server in vsc_controllers %}
+{% if server.vrs_controller_role is defined %}
+{% if server.vrs_controller_role == 'active' %}
+vsc_active_ip='{{ server.interfaces[1].ip }}'
+{% endif %}
+{% if server.vrs_controller_role == 'pasive' %}
+vsc_standby_ip='{{ server.interfaces[1].ip }}'
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+uplink_interface=eth0
+{% if nuage_kubemon_rpm_location is defined %}nuage_monitor_rpm='{{ files_location }}{{ nuage_kubemon_rpm_location }}'{% endif %}
+vrs_rpm='{{ files_location }}{{ rpm_nuage_openvswitch }}'
+{% if nuage_k8s_plugin_rpm is defined %}plugin_rpm='{{ files_location }}{{ k8s_plugin_rpm }}'{% endif %}
+
+[nuage_k8s_node]
+{% if k8s_instances is defined %}
+{% for server in k8s_instances %}
+{% if server.inventory == "kubernetes"  and 'Node' in server.description %}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
+{% endif %}
+{% endfor %}
+{% endif %}
+#
+# FQDNs of hosts assigned the Kubernetes cluster node role
+#
+
+#[nuage_k8s_node:vars]
+
+
+

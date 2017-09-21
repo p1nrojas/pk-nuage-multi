@@ -1,5 +1,5 @@
 # files release dependant
-url_location_base: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/"
+url_base_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/"
 url_elasticsearch_qcow2: "elastic5.1.1.qcow2"
 url_libnetwork_rpm: "libnetwork5.1.1.rpm"
 url_newton_openstack_nova_esxi_rpm: "newton-el7/nuage-nova-esxi-14.0.0-5.1.1_21_nuage.noarch.rpm"

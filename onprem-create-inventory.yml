@@ -73,9 +73,10 @@
 
   pre_tasks:
 
-    - include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml 
-    - include_vars: cfg/{{ nuage_release }}/nuage-sdwan-instances.yml 
-    - include_vars: cfg/{{ nuage_release }}/nuage-cloud-instances.yml 
+    - include_vars: "cfg/{{ nuage_release }}/files_location.yml" 
+    - include_vars: "cfg/{{ nuage_release }}/nuage-core-instances.yml" 
+    - include_vars: "cfg/{{ nuage_release }}/nuage-sdwan-instances.yml" 
+    - include_vars: "cfg/{{ nuage_release }}/nuage-cloud-instances.yml" 
 
   tasks:    
 
@@ -211,7 +212,7 @@
     - name: Create files in extras
       template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
       with_items:
-        - k8s-hosts-inventory
+        - onprem-k8s-hosts-inventory
       when: k8s_instances is defined
 
     - name: Create files in extras

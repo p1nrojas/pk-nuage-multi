@@ -7,8 +7,8 @@ nsg_instances:
       rtl8139: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: port1 ,
@@ -33,8 +33,8 @@ nsg_instances:
       rtl8139: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: port1 ,
@@ -53,8 +53,8 @@ nsg_instances:
       rtl8139: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: port1 ,
@@ -65,7 +65,7 @@ nsg_instances:
         bridge: core }
       ]      
      }
-  - { hostname: "nsg-branch1-1.{{ lab_domain }}",
+  - { hostname: "nsg-branch1.{{ lab_domain }}",
       description: "NSG-v at Branch 1" ,
       inventory: nsg ,
       vsd_template: nsgtemplate_2w_4l ,
@@ -73,8 +73,8 @@ nsg_instances:
       rtl8139: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: port1 ,
@@ -82,42 +82,10 @@ nsg_instances:
       { name: port2 ,
         bridge: inet },
       { name: port3 ,
-        bridge: branch1 },
-      { name: port4 ,
-        bridge: branch1 },
-      { name: port5 ,
-        bridge: branch1 },
-      { name: port6 ,
         bridge: branch1 }
       ]      
      }
-  - { hostname: "nsg-branch1-2.{{ lab_domain }}",
-      description: "NSG-v at Branch 1" ,
-      inventory: nsg ,
-      vsd_template: nsgtemplate_2w_4l ,
-      No_cloud_init: true ,
-      rtl8139: true ,
-      memory: 4194304 ,
-      vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
-      hypervisor: core ,
-      interfaces: [
-      { name: port1 ,
-        bridge: wan },
-      { name: port2 ,
-        bridge: inet },
-      { name: port3 ,
-        bridge: branch1 },
-      { name: port4 ,
-        bridge: branch1 },
-      { name: port5 ,
-        bridge: branch1 },
-      { name: port6 ,
-        bridge: branch1 }
-      ]      
-     }
-  - { hostname: "nsg-branch2-1.{{ lab_domain }}",
+  - { hostname: "nsg-branch2.{{ lab_domain }}",
       description: "NSG-v at Branch 2" ,
       inventory: nsg ,
       vsd_template: nsgtemplate_2w_4l ,
@@ -125,8 +93,8 @@ nsg_instances:
       rtl8139: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: port1 ,
@@ -134,38 +102,6 @@ nsg_instances:
       { name: port2 ,
         bridge: inet },
       { name: port3 ,
-        bridge: branch2 },
-      { name: port4 ,
-        bridge: branch2 },
-      { name: port5 ,
-        bridge: branch2 },
-      { name: port6 ,
-        bridge: branch2 }
-      ]      
-     }
-  - { hostname: "nsg-branch2-2.{{ lab_domain }}",
-      description: "NSG-v at Branch 2" ,
-      inventory: nsg ,
-      vsd_template: nsgtemplate_2w_4l ,
-      No_cloud_init: true ,
-      rtl8139: true ,
-      memory: 4194304 ,
-      vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/nsg40r10.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r10+files/nsg40r10.qcow2" ,
-      hypervisor: core ,
-      interfaces: [
-      { name: port1 ,
-        bridge: wan },
-      { name: port2 ,
-        bridge: inet },
-      { name: port3 ,
-        bridge: branch2 },
-      { name: port4 ,
-        bridge: branch2 },
-      { name: port5 ,
-        bridge: branch2 },
-      { name: port6 ,
         bridge: branch2 }
       ]      
      }
@@ -177,8 +113,8 @@ desktops:
       No_cloud_init: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/ubuntu.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/ubuntu.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: eth0 ,
@@ -191,8 +127,8 @@ desktops:
       No_cloud_init: true ,
       memory: 4194304 ,
       vcpu_num: 2 ,
-      image_qcow2: /home/dev/images/ubuntu.qcow2 ,
-      image_url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/ubuntu.qcow2" ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
       hypervisor: core ,
       interfaces: [
       { name: eth0 ,
