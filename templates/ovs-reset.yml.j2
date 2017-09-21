@@ -7,7 +7,7 @@
 
 # creating ovs bridges
 
-    - name: Create bridges at ovs
+    - name: Destroying bridges at ovs
       openvswitch_bridge:
         bridge: "{{ '{' }}{{ '{' }} item.bridge {{ '}' }}{{ '}' }}"
         state: absent
