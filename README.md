@@ -63,7 +63,7 @@ AA/XXsIm0IjowLCJhbGxvd2VkQVZSU0dzQ291bnQiOjAsImlzQ2x1c3RlckxpY2Vuc2UiOmZhbHNlLCJ
 
 Get access to the project at ~/pk-sdnlab-stdalone and check your cfg folder with the settings of your lab. You don't need to modify anything.
 Then, run the following to build your lab inventory and host_vars files, and create the packet server on the project you have chosen.
-
+```
 ansible-playbook -e nuage_release=5.1.1u1-docker-sdwan -e lab_domain=nuage511u1.lab -e lab_network_prefix=192.168.0 -e aws_access_key=AKIAKAKAKAKAGGHHXA build-packet.yml```
 ```
 
