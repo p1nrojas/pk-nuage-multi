@@ -17,6 +17,7 @@
 
   pre_tasks:
 
+    - include_vars: "cfg/{{ nuage_release }}/files_location.yml"
     - include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
     - include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml 
     - include_vars: cfg/{{ nuage_release }}/nuage-sdwan-instances.yml 
@@ -79,16 +80,10 @@
       when: openstack_release is defined
 
     - name: Create files in extras docker
-      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
+      template: src={{ item }}.j2 dest="{{ playbook_dir }}/{{ item }}" backup=no
       with_items:
         - docker-deploy-libnetwork.yml
       when: nuage_libnetwork_rpm_location is defined
-
-    - name: Create files in extras docker
-      template: src={{ item }}.j2 dest="{{ playbook_dir }}/extras/{{ item }}" backup=no
-      with_items:
-        - docker-deploy-dockermon.yml
-      when: nuage_dockermon_rpm_location is defined
 
     - name: Create YML files
       template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no

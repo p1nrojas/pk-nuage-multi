@@ -11,6 +11,7 @@ RUN yum -y install git && yum clean all
 
 # install sdk from nuage
 RUN rm -rf /usr/lib/python2.7/site-packages/chardet*
+RUN rm -rf /usr/lib/python2.7/site-packages/idna*
 RUN pip install vspk
 RUN pip install pexpect
 RUN pip install django
@@ -30,7 +31,6 @@ WORKDIR /home/dev
 ENV HOME /home/dev
 ADD vimrc /home/dev/.vimrc
 ADD setup.sh /home/dev/setup.sh
-ADD .nuage_license_key /home/dev/.nuage_license_key
 RUN chmod 755 /home/dev/setup.sh
 ADD bash_profile /home/dev/.bash_profile
 RUN mkdir -p /home/dev/.vim/autoload /home/dev/.vim/bundle

@@ -23,7 +23,7 @@ This project as two settings: 40r8 and 40r8-ext. Latter has multiple bare metals
 
 ## Prepare your enviroment
 
-Install docker on your laptop or any Linux server with access to Internet. You must have your Token ID, Project ID and Nuage License key at your reach.
+Install docker on your laptop or any Linux server with access to Internet. You must have your Token ID, Project ID, AWS Access Key and Nuage License key at your reach.
 
 ## How to start
 
@@ -50,11 +50,21 @@ Get access to a container
 docker exec -i -t pk-nuage-ansible /bin/bash
 ```
 
+You have to set now your Token ID, Project ID, and Nuage License key as follow:
+
+```
+[dev@45c85051d25c pk-nuage-multi]$ cat ~/.packet_token
+HiKrLxoXOococoosjdhk1xRfza
+[dev@45c85051d25c pk-nuage-multi]$ cat ~/.packet_project_id
+bed437ce-6ae7-4b84-a8e0-90895ac3a12a32
+[dev@45c85051d25c pk-nuage-multi]$ cat ~/.nuage_license_key
+AA/XXsIm0IjowLCJhbGxvd2VkQVZSU0dzQ291bnQiOjAsImlzQ2x1c3RlckxpY2Vuc2UiOmZhbHNlLCJleHBpcmF0aW9uRGF0ZSI6IjExLzMwLzIwMTcgMTI6MDA6MDAgQU0iLCJlbmNyeXB0aW9uTW9kZSI6dHJ1ZSwibGljZW5zZUVudGl0aWVzIjpudWxsLCJhZGRpdGlvbmFsU3VwcG9ydGVkVmVyc2lvbnMiOiIxMDAiLCJsaWNlbnNlZEZlYXR1cmUiOiJWU1MifQ==
+```
+
 Get access to the project at ~/pk-sdnlab-stdalone and check your cfg folder with the settings of your lab. You don't need to modify anything.
 Then, run the following to build your lab inventory and host_vars files, and create the packet server on the project you have chosen.
 
-```
-./pk-create.sh 40r8
+ansible-playbook -e nuage_release=5.1.1u1-docker-sdwan -e lab_domain=nuage511u1.lab -e lab_network_prefix=192.168.0 -e aws_access_key=AKIAKAKAKAKAGGHHXA build-packet.yml```
 ```
 
 And finally, run the playbook (take about 60min)

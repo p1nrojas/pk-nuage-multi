@@ -27,7 +27,7 @@
       remote_user: root
     
     - name: Install additional packages
-      yum: name={{ item }} state=present
+      yum: name={{ '{' }}{{ '{' }} item {{ '}' }}{{ '}' }} state=present
       with_items:
        - python-twisted-core
        - qemu-kvm
@@ -49,7 +49,7 @@
       remote_user: root
     
     - name: Remove  additional packages
-      yum: name={{ item }} state=absent
+      yum: name={{ '{' }}{{ '{' }} item {{ '}' }}{{ '}' }} state=absent
       with_items:
        - python-openvswitch
        - openvswitch
@@ -62,7 +62,7 @@
       remote_user: root
     
     - name: Remove  additional packages
-      yum: name={{ item }} state=absent
+      yum: name={{ '{' }}{{ '{' }} item {{ '}' }}{{ '}' }} state=absent
       with_items:
        - openvswitch
       remote_user: root
@@ -96,14 +96,14 @@
 # Installing docker and nuage related components
     
     - name: Install docker  packages
-      yum: name={{ item }} state=present
+      yum: name={{ '{' }}{{ '{' }} item {{ '}' }}{{ '}' }} state=present
       with_items:
        - docker
        - python-pip
       remote_user: root
     
     - name: Installing pip packages and upgrade
-      shell: "{{ item }}"
+      shell: "{{ '{' }}{{ '{' }} item {{ '}' }}{{ '}' }}"
       with_items:
        - 'pip install docker-py'
        - 'pip install --upgrade pip'

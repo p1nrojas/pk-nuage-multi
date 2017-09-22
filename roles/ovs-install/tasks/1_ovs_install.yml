@@ -73,8 +73,7 @@
 
 - name: download openvswitch files for release {{ openvswitch_version }}
   get_url:
-#    url: "http://openvswitch.org/releases/{{ openvswitch_version }}.tar.gz"
-    url: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/40r8+files/{{ openvswitch_version }}.tar.gz"
+    url: "http://openvswitch.org/releases/{{ openvswitch_version }}.tar.gz"
     dest: "/home/ovs/rpmbuild/SOURCES/{{ openvswitch_version }}.tar.gz"
     mode: 0666
     owner: ovs
