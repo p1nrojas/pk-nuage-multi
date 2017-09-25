@@ -4,9 +4,10 @@
 #
 
 device_name: {{ item.1.device_name }} 
-public_if: {{ item.1.public_if }}
+public_if: {{ public_if }}
 private_ip: {{ item.1.device_ip }}
 public_ip: {% if item.1.public_if is defined %}{{ item.1.public_if }}{% else %}{{public_if}}{% endif %}
+
 {% if item.1.br_connect is defined %}
 br_connect:
 {% for br in item.1.br_connect %}
