@@ -1,5 +1,5 @@
 # files release dependant
-url_base_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/5.1.1u1-files/"
+url_base_location: "https://192.168.2.24/5.1.1u1-files/"
 url_elasticsearch_qcow2: "elastic5.1.1.qcow2"
 url_libnetwork_rpm: "libnetwork5.1.1.rpm"
 url_newton_openstack_nova_esxi_rpm: "newton-el7/nuage-nova-esxi-14.0.0-5.1.1_21_nuage.noarch.rpm"
@@ -25,6 +25,6 @@ url_vsc_qcow2: "vsc5.1.1.qcow2"
 url_vsd_qcow2: "vsd5.1.1.qcow2"
 
 # common files
-url_common_base_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/"
+url_common_base_location: "https://192.168.2.24/common-files/"
 url_centos_reverse_qcow2: "centos7-20170509-reverse.qcow2"
 url_ubuntu_desktop_qcow2: "ubuntu.qcow2"

@@ -12,6 +12,7 @@
 
   pre_tasks:
 
+    - include_vars: "cfg/{{ nuage_release }}/elastic_ip.yml"
     - include_vars: "cfg/{{ nuage_release }}/files_location.yml"
     - include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
     - include_vars: cfg/{{ nuage_release }}/nuage-core-instances.yml

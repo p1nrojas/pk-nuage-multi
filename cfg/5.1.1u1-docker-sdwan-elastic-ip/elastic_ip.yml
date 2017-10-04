@@ -1,0 +1,7 @@
+prefix_elastic_ip: 29
+gateway_elastic_ip: 55.55.55.121
+util_elastic_ip: 55.55.55.122
+vsc1_elastic_ip: 55.55.55.123
+vsc2_elastic_ip: 55.55.55.124
+vsc3_elastic_ip: 55.55.55.125
+vsc4_elastic_ip: 55.55.55.126

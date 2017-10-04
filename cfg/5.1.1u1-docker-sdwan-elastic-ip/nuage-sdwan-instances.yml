@@ -1,0 +1,137 @@
+nsg_instances: 
+  - { hostname: "head1.{{ lab_domain }}",
+      description: "NSG-v Head End at Datacenter" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: port1 ,
+        bridge: wan },
+      { name: port2 ,
+        bridge: inet },
+      { name: port3 ,
+        bridge: core }
+#          ],      
+#          pat_rules: [
+#            { protocol: udp , port: 4789 , dest_port: 4789 },
+#            { protocol: udp , port: 4500 , dest_port: 4500 },
+#            { protocol: udp , port: 500 , dest_port: 500 },
+#            { protocol: tcp , port: 179 , dest_port: 179 },
+      ]      
+     }
+  - { hostname: "head2.{{ lab_domain }}",
+      description: "NSG-v Head End at Datacenter" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: port1 ,
+        bridge: wan },
+      { name: port2 ,
+        bridge: inet },
+      { name: port3 ,
+        bridge: core }
+      ]      
+     }
+  - { hostname: "border.{{ lab_domain }}",
+      description: "NSG-v Head End at Datacenter" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: port1 ,
+        bridge: wan },
+      { name: port2 ,
+        bridge: inet },
+      { name: port3 ,
+        bridge: core }
+      ]      
+     }
+  - { hostname: "nsg-branch1.{{ lab_domain }}",
+      description: "NSG-v at Branch 1" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_4l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: port1 ,
+        bridge: wan },
+      { name: port2 ,
+        bridge: inet },
+      { name: port3 ,
+        bridge: branch1 }
+      ]      
+     }
+  - { hostname: "nsg-branch2.{{ lab_domain }}",
+      description: "NSG-v at Branch 2" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_4l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: port1 ,
+        bridge: wan },
+      { name: port2 ,
+        bridge: inet },
+      { name: port3 ,
+        bridge: branch2 }
+      ]      
+     }
+
+desktops:
+  - { hostname: "cli1.{{ lab_domain }}",
+      description: "client at branch1" ,
+      inventory: client ,
+      No_cloud_init: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: eth0 ,
+        bridge: branch1 }
+      ]
+     }
+  - { hostname: "cli2.{{ lab_domain }}",
+      description: "client at branch2" ,
+      inventory: client ,
+      No_cloud_init: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
+      hypervisor: core ,
+      interfaces: [
+      { name: eth0 ,
+        bridge: branch2 }
+      ]
+     }
