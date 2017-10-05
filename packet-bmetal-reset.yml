@@ -11,6 +11,7 @@
   pre_tasks:
 
     - name: Read instances settings from file
+      include_vars: cfg/{{ nuage_release }}/elastic_ip.yml
       include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
 
   tasks:

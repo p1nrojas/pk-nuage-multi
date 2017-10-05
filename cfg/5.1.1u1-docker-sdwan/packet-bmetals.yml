@@ -10,22 +10,7 @@ bmetals:
         { bridge: inet, gateway: 80.80.80.1, prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: 80.80.80.2 },
         { bridge: branch1 },
         { bridge: branch2 }
-      ] ,
-      vxlan: [
-        { bridge: core, vxlan_port: core-2-jumpbox , vxlan_dest: jumpbox , vxlan_index: 10 }  
-      ]
-    }
-  - { device_name: jumpbox ,
-      bmetal_plan: baremetal_0 ,
-      osystem: centos_7 ,
-      facility: ewr1 ,
-      public_if: bond0 ,
-      br_connect: [
-        { bridge: core , root: core }
-      ] ,
-      vxlan: [
-        { bridge: core, vxlan_port: jumpbox-2-core , vxlan_dest: core , vxlan_index: 10 }  
-      ]
+      ] 
     }
 sec_rules:
   - { type: tcp , dport: 22 , saddr: 0.0.0.0/0 }

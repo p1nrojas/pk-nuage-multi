@@ -20,9 +20,9 @@ core_instances:
         { name: eth2 , bridge: inet, ip: 80.80.80.2 , netmask: 255.255.255.0 }
       ] ,
       pat_rules: [
-        { protocol: tcp , port: 53 , dest_port: 53 },
-        { protocol: udp , port: 53 , dest_port: 53 },
-        { protocol: udp , port: 123 , dest_port: 123 }
+#        { protocol: tcp , port: 53 , dest_port: 53 },
+#        { protocol: udp , port: 53 , dest_port: 53 },
+#        { protocol: udp , port: 123 , dest_port: 123 }
       ]
      }
   - { hostname: "vsd1.{{ lab_domain }}",
@@ -45,11 +45,11 @@ core_instances:
       ], 
       pat_rules: [
         { protocol: tcp , port: 8443 , dest_port: 8443 },
-        { protocol: tcp , port: 5222 , dest_port: 5222 },
-        { protocol: tcp , port: 61613 , dest_port: 61613 },
-        { protocol: tcp , port: 61614 , dest_port: 61614 },
-        { protocol: tcp , port: 7443 , dest_port: 7443 },
-        { protocol: tcp , port: 39090, dest_port: 39090  }
+#        { protocol: tcp , port: 5222 , dest_port: 5222 },
+#        { protocol: tcp , port: 61613 , dest_port: 61613 },
+#        { protocol: tcp , port: 61614 , dest_port: 61614 },
+#        { protocol: tcp , port: 7443 , dest_port: 7443 },
+#        { protocol: tcp , port: 39090, dest_port: 39090  }
       ]      
      }
   - { hostname: "util.{{ lab_domain }}",
@@ -76,11 +76,11 @@ core_instances:
         netmask: 255.255.255.0 }
       ],      
       pat_rules: [
-        { protocol: tcp , port: 11443 , dest_port: 11443 },
-        { protocol: tcp , port: 12443 , dest_port: 12443 },
-        { protocol: tcp , port: 514 , dest_port: 514 },
-        { protocol: tcp , port: 443 , dest_port: 443 },
-        { protocol: tcp , port: 29090, dest_port: 29090  }
+#        { protocol: tcp , port: 11443 , dest_port: 11443 },
+#        { protocol: tcp , port: 12443 , dest_port: 12443 },
+#        { protocol: tcp , port: 514 , dest_port: 514 },
+#        { protocol: tcp , port: 443 , dest_port: 443 },
+#        { protocol: tcp , port: 29090, dest_port: 29090  }
       ]      
      }
   - { hostname: "virt.{{ lab_domain }}",
@@ -101,8 +101,8 @@ core_instances:
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
-        { protocol: tcp , port: 8090 , dest_port: 8090 },
-        { protocol: tcp , port: 6080 , dest_port: 6080 }
+#        { protocol: tcp , port: 8090 , dest_port: 8090 },
+#        { protocol: tcp , port: 6080 , dest_port: 6080 }
       ]
      }
   - { hostname: "stat.{{ lab_domain }}",
@@ -125,8 +125,8 @@ core_instances:
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
-        { protocol: tcp , port: 6200 , dest_port: 6200 },
-        { protocol: tcp , port: 5601 , dest_port: 5601 },
+#        { protocol: tcp , port: 6200 , dest_port: 6200 },
+#        { protocol: tcp , port: 5601 , dest_port: 5601 },
       ]      
      }
 vsc_controllers:
@@ -157,10 +157,10 @@ vsc_controllers:
         "0.0.0.0/0 next-hop {{ gateway_elastic_ip }}" 
       ],
       pat_rules: [
-        { protocol: tcp , port: 56213 , dest_port: 56213 },
-        { protocol: tcp , port: 6633 , dest_port: 6633 },
-        { protocol: udp , port: 123 , dest_port: 123 },
-        { protocol: tcp , port: 7407 , dest_port: 7407 },
+#        { protocol: tcp , port: 56213 , dest_port: 56213 },
+#        { protocol: tcp , port: 6633 , dest_port: 6633 },
+#        { protocol: udp , port: 123 , dest_port: 123 },
+#        { protocol: tcp , port: 7407 , dest_port: 7407 },
       ]      
     }      
   - { hostname: "vsc2.{{ lab_domain }}",
