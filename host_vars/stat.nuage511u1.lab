@@ -1,0 +1,50 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: stat.nuage511u1.lab
+description: Stat server based on ElasticSearch
+
+image_qcow2: /home/dev/images/elastic5.1.1.qcow2?Signature=6fsjqVo22rB66PS8i3j59Lg%2Fx7E%3D&Expires=1510002581&AWSAccessKeyId=AKIAJRASYTVFMFESS6XA
+image_url: https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/elastic5.1.1.qcow2?Signature=6fsjqVo22rB66PS8i3j59Lg%2Fx7E%3D&Expires=1510002581&AWSAccessKeyId=AKIAJRASYTVFMFESS6XA
+hypervisor: 147.75.107.169
+memory_KiB: 16777216
+vcpu_num: 8
+
+
+
+Is_NM_enabled: True
+No_cloud_init: True
+Guestfish: True
+gateway: 192.168.100.1
+interfaces:
+  - { name: eth0 ,
+      bridge: core ,
+      ip: 192.168.100.24 ,
+      netmask: 255.255.255.0 }
+ntp_server:
+  - 192.168.100.12
+dns:
+  servers:
+    - 192.168.100.12
+
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 6200 ,
+      dest_addr: 192.168.100.24 ,
+      dest_port: 6200
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 5601 ,
+      dest_addr: 192.168.100.24 ,
+      dest_port: 5601
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2024 ,
+      dest_addr: 192.168.100.24 ,
+      dest_port: 22
+    } 

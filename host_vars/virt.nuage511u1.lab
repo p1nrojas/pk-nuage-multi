@@ -1,0 +1,50 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: virt.nuage511u1.lab
+description: webvirtmgr service
+
+image_qcow2: /home/dev/images/centos7-20170509-reverse.qcow2
+image_url: https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/centos7-20170509-reverse.qcow2
+hypervisor: 147.75.107.169
+memory_KiB: 4194304
+vcpu_num: 2
+
+
+disk_GB: 20
+
+
+
+gateway: 192.168.100.1
+interfaces:
+  - { name: eth0 ,
+      bridge: core ,
+      ip: 192.168.100.30 ,
+      netmask: 255.255.255.0 }
+ntp_server:
+  - 192.168.100.12
+dns:
+  servers:
+    - 192.168.100.12
+
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 8090 ,
+      dest_addr: 192.168.100.30 ,
+      dest_port: 8090
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 6080 ,
+      dest_addr: 192.168.100.30 ,
+      dest_port: 6080
+    } 
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2030 ,
+      dest_addr: 192.168.100.30 ,
+      dest_port: 22
+    } 

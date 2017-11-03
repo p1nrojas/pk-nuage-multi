@@ -15,8 +15,10 @@
   with_items:
    - openssl-devel
    - gcc
+   - net-tools
    - make
    - python-devel
+   - python-six
    - openssl-devel
    - kernel-devel
    - kernel-debug-devel
