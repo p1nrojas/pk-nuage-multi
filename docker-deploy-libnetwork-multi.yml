@@ -91,25 +91,38 @@
        - python-openvswitch
        - openvswitch
       remote_user: root
+
+    - name: Copy rpm  from url for openvswitch
+      get_url:
+        url: "{{ files_location }}{{ nuage_vrs_rpm_location }}"
+        dest: "/tmp/openvswitch.rpm"
+      remote_user: root
     
     - name: install the nuage vrs openvswitch rpm from a remote repo
       yum:
-        name: 'https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/nuage-openvswitch5.1.1.rpm?Signature=O0zmgWUdFhZfsJZmig7zacQWaAE%3D&Expires=1510002585&AWSAccessKeyId=AKIAJRASYTVFMFESS6XA'
+        name: '/tmp/openvswitch.rpm'
         state: present
       remote_user: root
-    
+
+    - name: Add ACTIVE_CONTROLLER to /etc/default/openvswitch
+      lineinfile:
+        dest: /etc/default/openvswitch
+        regexp: 'NETWORK_UPLINK_INTF='
+        line: "NETWORK_UPLINK_INTF=eth0"
+      remote_user: root
+
     - name: Add ACTIVE_CONTROLLER to /etc/default/openvswitch
       lineinfile:
         dest: /etc/default/openvswitch
         regexp: 'ACTIVE_CONTROLLER='
-        line: "ACTIVE_CONTROLLER=192.168.100.33"
+        line: "ACTIVE_CONTROLLER={{ hostvars[groups['vsc'][2]].interfaces[1].ip }}"
       remote_user: root
     
     - name: Add STANDBY_CONTROLLER to /etc/default/openvswitch
       lineinfile:
         dest: /etc/default/openvswitch
         regexp: 'STANDBY_CONTROLLER='
-        line: "STANDBY_CONTROLLER=192.168.100.34"
+        line: "STANDBY_CONTROLLER={{ hostvars[groups['vsc'][3]].interfaces[1].ip }}"
       remote_user: root
     
     - name : restarting openvswitch
@@ -119,10 +132,16 @@
       remote_user: root
 
 # Installing docker and nuage related components
+
+    - name: Copy rpm  from url for libnetwork
+      get_url:
+        url: "{{ files_location }}{{ nuage_libnetwork_rpm_location }}"
+        dest: "/tmp/libnetwork.rpm"
+      remote_user: root
     
     - name: install libnetwork-nuage rpm from a remote repo
       yum:
-        name: 'https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/libnetwork5.1.1.rpm?Signature=5%2Ftbd8p7RmKgcDEYeMjBprF123g%3D&Expires=1510002582&AWSAccessKeyId=AKIAJRASYTVFMFESS6XA'
+        name: '/tmp/libnetwork.rpm'
         state: present
       remote_user: root
 
@@ -147,3 +166,39 @@
         name: nuage-libnetwork
         state: restarted
       remote_user: root
+
+    - file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
+      remote_user: root
+
+    - name: create /etc/systemd/system/docker.service.d/docker.conf
+      template:
+        src: docker.conf.j2
+        dest: /etc/systemd/system/docker.service.d/docker.conf
+      remote_user: root
+
+    - name: create /etc/init.d/ovs-restart
+      template:
+        src: ovs-restart.j2
+        dest: /etc/init.d/ovs-restart
+        mode: '0755'
+      remote_user: root
+
+    - name: enabling ovs-restart script at boot
+      shell: 'chkconfig ovs-restart on'
+      remote_user: root
+
+    - name: create /usr/lib/systemd/system/docker.socket
+      template:
+        src: docker.socket.j2
+        dest: /usr/lib/systemd/system/docker.socket
+      remote_user: root
+
+    - name: rebooting
+      command: reboot -h now
+      remote_user: root
+
+
+
+

@@ -80,12 +80,6 @@
         - openstack-hosts-inventory
       when: openstack_release is defined
 
-    - name: Create files in extras docker
-      template: src={{ item }}.j2 dest="{{ playbook_dir }}/{{ item }}" backup=no
-      with_items:
-        - docker-deploy-libnetwork.yml
-      when: nuage_libnetwork_rpm_location is defined
-
     - name: Create YML files
       template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no
       with_items:
