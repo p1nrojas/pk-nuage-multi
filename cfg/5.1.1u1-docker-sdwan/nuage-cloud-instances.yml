@@ -3,7 +3,7 @@
 nuage_vrs_rpm_location: "{{ url_openvswitch_rpm }}"
 rpm_nuage_openvswitch: "{{ url_openvswitch_rpm }}"
 rpm_nuagenetlib: '{{ url_libnetwork_rpm }}'
-nuage_dockermon_rpm_location: 'not_suppoerted'
+nuage_dockermon_rpm_location: 'not_supported'
 nuage_kubemon_rpm_location: '{{ url_kubemon_rpm }}'
 k8s_plugin_rpm: 'not_supported'
 nuage_libnetwork_rpm_location: '{{ url_libnetwork_rpm }}'

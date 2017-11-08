@@ -1,0 +1,64 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: vsc1.nuage511u1.lab
+# Description: Nuage VSC - SDN controller
+
+image_qcow2: /home/dev/images/vsc5.1.1.qcow2?Signature=qGJvREJhnB7gkkIfktfegKp7X1I%3D&Expires=1510668655&AWSAccessKeyId=AKIAILPH3QRIVPNRV5IA
+image_url: https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/vsc5.1.1.qcow2?Signature=qGJvREJhnB7gkkIfktfegKp7X1I%3D&Expires=1510668655&AWSAccessKeyId=AKIAILPH3QRIVPNRV5IA
+hypervisor: 147.75.107.39
+vsc_cert_name: vsc1nsg
+vsc_passwd: admin
+gateway: 192.168.0.1
+interfaces:
+  - { name: bof ,
+      bridge: core }
+  - { name: control ,
+      bridge: core ,
+      ip: 192.168.0.31 ,
+      prefix: 24 }
+static_route_list: 
+  - "0.0.0.0/0 next-hop 192.168.0.1"
+ 
+ntp_server:
+  - 192.168.0.12
+dns:
+  servers:
+    - 192.168.0.12
+xmpp:
+  username: vsc01
+system_ip: 1.1.1.1
+vsd_fqdn: vsd1.nuage511u1.lab
+
+pat_rules:
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 56213 ,
+      dest_addr: 192.168.0.31 ,
+      dest_port: 56213
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 6633 ,
+      dest_addr: 192.168.0.31 ,
+      dest_port: 6633
+    }
+  - { interface: bond0 ,
+      protocol: udp ,
+      port: 123 ,
+      dest_addr: 192.168.0.31 ,
+      dest_port: 123
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 7407 ,
+      dest_addr: 192.168.0.31 ,
+      dest_port: 7407
+    }
+  - { interface: bond0 ,
+      protocol: tcp ,
+      port: 2031 ,
+      dest_addr: 192.168.0.31 ,
+      dest_port: 22
+    }

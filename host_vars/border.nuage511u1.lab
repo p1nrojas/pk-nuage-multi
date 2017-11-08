@@ -1,0 +1,39 @@
+# *** WARNING ***
+# This is a generated file. Manual changes to this file
+# will be lost if reset-build or build is run
+#
+# Server name: border.nuage511u1.lab
+description: NSG-v Head End at Datacenter
+
+image_qcow2: /home/dev/images/nsg5.1.1.qcow2?Signature=R51J9fmnihq89dAKBQhvr3k5wc0%3D&Expires=1510668650&AWSAccessKeyId=AKIAILPH3QRIVPNRV5IA
+image_url: https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/nsg5.1.1.qcow2?Signature=R51J9fmnihq89dAKBQhvr3k5wc0%3D&Expires=1510668650&AWSAccessKeyId=AKIAILPH3QRIVPNRV5IA
+hypervisor: 147.75.107.39
+memory_KiB: 4194304
+vcpu_num: 2
+
+rtl8139: true
+
+
+No_cloud_init: True
+
+
+interfaces:
+  - { name: port1 ,
+      bridge: wan ,
+      
+       }
+  - { name: port2 ,
+      bridge: inet ,
+      
+       }
+  - { name: port3 ,
+      bridge: core ,
+      
+       }
+ntp_server:
+  - 192.168.0.12
+dns:
+  servers:
+    - 192.168.0.12
+
+

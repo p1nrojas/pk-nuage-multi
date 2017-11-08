@@ -149,7 +149,7 @@
       lineinfile:
         dest: /etc/default/nuage-libnetwork.yaml
         regexp: 'url:'
-        line: "url: https://192.168.100.20:8443"
+        line: "url: https://{{ hostvars[groups['vsd'][0]].interfaces[0].ip }}:8443"
         state: present
       remote_user: root
 
@@ -157,7 +157,7 @@
       lineinfile:
         dest: /etc/default/nuage-libnetwork.yaml
         regexp: 'scope:'
-        line: 'scope: "local"'
+        line: 'scope: "global"'
         state: present
       remote_user: root
     
@@ -196,7 +196,10 @@
       remote_user: root
 
     - name: rebooting
-      command: reboot -h now
+      command: /sbin/shutdown -r +1
+      async: 0
+      poll: 0
+      ignore_errors: true
       remote_user: root
 
 
