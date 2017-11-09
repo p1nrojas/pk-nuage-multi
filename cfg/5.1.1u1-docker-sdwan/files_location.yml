@@ -1,7 +1,7 @@
 
 # common files
 url_common_base_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/"
-url_centos_reverse_qcow2: "centos7-20170509-reverse.qcow2"
+url_centos_reverse_qcow2: "centos7-20171109.qcow2"
 url_ubuntu_desktop_qcow2: "ubuntu.qcow2"
 
 #release dependant files
