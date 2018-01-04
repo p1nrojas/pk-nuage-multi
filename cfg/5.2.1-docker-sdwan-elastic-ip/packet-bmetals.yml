@@ -1,0 +1,84 @@
+bmetals:
+  - { device_name: "nuage-core" ,
+      bmetal_plan: baremetal_2 ,
+      osystem: centos_7 ,
+      facility: "{{ nuage_core_location }}" ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: public, gateway: "{{ gateway_elastic_ip }}", prefix: "{{ prefix_elastic_ip }}" },
+        { bridge: private, gateway: "{{ core_lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },
+      ] ,
+    }
+  - { device_name: branchA ,
+      bmetal_plan: baremetal_0 ,
+      osystem: centos_7 ,
+      facility: "{{ branchA_location }}" ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: uplinkA1, gateway: "172.16.99.0", prefix: "28", dhcp_min: "1", dhcp_max: "9", dns: "8.8.8.8" },
+        { bridge: uplinkA2, gateway: "172.16.99.16", prefix: "28", dhcp_min: "21", dhcp_max: "29", dns: "8.8.8.8" },
+        { bridge: branch },
+      ] ,
+    }
+
+  - { device_name: branchB ,
+      bmetal_plan: baremetal_0 ,
+      osystem: centos_7 ,
+      facility: "{{ branchB_location }}" ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: uplinkB1, gateway: "{{ bB1_gateway }}", prefix: "{{ bB1_prefix }}", dhcp_min: "{{ bB1_dhcp_min }}", dhcp_max: "{{ bB1_dhcp_max }}", dns: "8.8.8.8" },
+        { bridge: uplinkB2, gateway: "{{ bB2_gateway }}", prefix: "{{ bB2_prefix }}", dhcp_min: "{{ bB2_dhcp_min }}", dhcp_max: "{{ bB2_dhcp_max }}", dns: "8.8.8.8" },
+        { bridge: branch },
+      ] ,
+    }
+
+  - { device_name: Datacenter ,
+      bmetal_plan: baremetal_1 ,
+      osystem: centos_7 ,
+      facility: "{{ Datacenter_location }}" ,
+      public_if: bond0 ,
+      br_connect: [
+        { bridge: uplinkC1, gateway: "{{ bC1_gateway }}", prefix: "{{ bC1_prefix }}", dhcp_min: "{{ bC1_dhcp_min }}", dhcp_max: "{{ bC1_dhcp_max }}", dns: "8.8.8.8" },
+        { bridge: private, gateway: "{{ dc_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "8.8.8.8" },
+      ] ,
+    }
+
+sec_rules:
+  - { type: tcp , dport: 22 , saddr: 0.0.0.0/0 }
+  # openvswitch vxlan
+  - { type: udp , dport: 4789 , saddr: 147.75.0.0/16 } 
+  - { type: udp , dport: 4789 , saddr: 10.0.0.0/8 } 
+  # ssh port access permissions
+  - { type: tcp , dport: "2000:2040" , saddr: 0.0.0.0/0 }
+  # vsd port access permissions 
+  - { type: tcp , dport: 8443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 5222 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 61613 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 61614 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 7443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 443 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 29090 , saddr: 0.0.0.0/0 }
+  # util port access permissions
+  - { type: tcp , dport: 11443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 12443 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 29090 , saddr: 0.0.0.0/0 }
+  # stats port access permissions
+  - { type: tcp , dport: 39090 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6200 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 5601 , saddr: 0.0.0.0/0 }
+  # webvirtmgr port access permissions
+  - { type: tcp , dport: 8090 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6080 , saddr: 0.0.0.0/0 }
+  # vsc port access permissions
+  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 6633 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 179 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 161 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 162 , saddr: 0.0.0.0/0 }
+  # nsg/vrs port access permissions
+  - { type: udp , dport: 4789 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 53 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 53 , saddr: 0.0.0.0/0 }
+  - { type: udp , dport: 123 , saddr: 0.0.0.0/0 }
+  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 } 
