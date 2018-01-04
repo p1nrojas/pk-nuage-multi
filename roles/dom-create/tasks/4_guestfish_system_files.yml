@@ -6,12 +6,15 @@
   delegate_to: "{{ hypervisor }}"
   when: hypervisor is defined
 
+- debug:
+    var: "{{ interfaces }}"
+
 - name: run guestfish to set interfaces ifcfg scripts
   command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-ifcfg-{{ item.name }} /etc/sysconfig/network-scripts/ifcfg-{{ item.name }}"
   with_items: "{{ interfaces }}"
   delegate_to: "{{ hypervisor }}"
   when: hypervisor is defined
- 
+
 - name: Creating temporary resolv.conf file
   template: src=resolv.conf.j2 backup=no dest=/tmp/{{ inventory_hostname }}-resolv.conf
   delegate_to: "{{ hypervisor }}"
