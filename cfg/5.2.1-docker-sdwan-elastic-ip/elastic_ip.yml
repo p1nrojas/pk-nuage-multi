@@ -1,5 +1,6 @@
 nuage_core_location: sjc1
 prefix_elastic_ip: 29
+netmask_elastic_ip: 255.255.255.248
 gateway_elastic_ip: 147.75.89.105
 util_elastic_ip: 147.75.89.106
 vsc1_elastic_ip: 147.75.89.107

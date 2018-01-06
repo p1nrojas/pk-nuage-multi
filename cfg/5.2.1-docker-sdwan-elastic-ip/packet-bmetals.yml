@@ -6,7 +6,7 @@ bmetals:
       public_if: bond0 ,
       br_connect: [
         { bridge: public, gateway: "{{ gateway_elastic_ip }}", prefix: "{{ prefix_elastic_ip }}" },
-        { bridge: private, gateway: "{{ core_lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },
+        { bridge: private, gateway: "{{ lab_network_prefix }}.1", prefix: 24, dhcp_min: 110, dhcp_max: 140, dns: "{{ lab_network_prefix }}.12" },
       ] ,
     }
   - { device_name: branchA ,

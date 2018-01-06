@@ -10,9 +10,15 @@
 
   pre_tasks:
 
-    - name: Read instances settings from file
-      include_vars: cfg/{{ nuage_release }}/elastic_ip.yml
-      include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
+    - debug:
+        var: nuage_release
+
+    - include_vars: cfg/{{ nuage_release }}/elastic_ip.yml
+    - include_vars: cfg/{{ nuage_release }}/packet-bmetals.yml
+
+    - debug: 
+        var: prefix_elastic_ip 
+      when: prefix_elastic_ip is defined
 
   tasks:
 
@@ -25,6 +31,10 @@
         key: "{{ lookup('file', '/home/dev/.ssh/id_rsa.pub') }}"
         state: absent
         auth_token: "{{ packet_token }}"
+
+    - debug: 
+        var: prefix_elastic_ip 
+      when: prefix_elastic_ip is defined
 
     - name: Removing a Bare Metal server
       packet_device:

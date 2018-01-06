@@ -20,12 +20,12 @@ k8s_instances:
       image_qcow2: "/home/dev/images/{{ url_centos_reverse_qcow2 }}" ,
       image_url: "{{ url_common_base_location }}{{ url_centos_reverse_qcow2 }}" ,
       hypervisor: Datacenter ,
-      ansible_host: 'centos@core:2027' ,
-      gateway: "{{ lab_network_prefix }}.1",
+      ansible_host: 'centos@Datacenter:2027' ,
+      gateway: "{{ dc_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: private,
-        ip: "{{ lab_network_prefix }}.27" ,
+        ip: "{{ dc_network_prefix }}.27" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -40,12 +40,12 @@ k8s_instances:
       image_qcow2: "/home/dev/images/{{ url_centos_reverse_qcow2 }}" ,
       image_url: "{{ url_common_base_location }}{{ url_centos_reverse_qcow2 }}" ,
       hypervisor: Datacenter ,
-      ansible_host: 'centos@core:2028' ,
-      gateway: "{{ lab_network_prefix }}.1",
+      ansible_host: 'centos@Datacenter:2028' ,
+      gateway: "{{ dc_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: private,
-        ip: "{{ lab_network_prefix }}.28" ,
+        ip: "{{ dc_network_prefix }}.28" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [
@@ -60,12 +60,12 @@ k8s_instances:
       image_qcow2: "/home/dev/images/{{ url_centos_reverse_qcow2 }}" ,
       image_url: "{{ url_common_base_location }}{{ url_centos_reverse_qcow2 }}" ,
       hypervisor: Datacenter ,
-      ansible_host: 'centos@core:2029' ,
-      gateway: "{{ lab_network_prefix }}.1",
+      ansible_host: 'centos@Datacenter:2029' ,
+      gateway: "{{ dc_network_prefix }}.1",
       interfaces: [
       { name: eth0 ,
         bridge: private,
-        ip: "{{ lab_network_prefix }}.29" ,
+        ip: "{{ dc_network_prefix }}.29" ,
         netmask: 255.255.255.0 }
       ],
       pat_rules: [

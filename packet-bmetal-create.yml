@@ -44,7 +44,7 @@
 
     - name: "Waiting up to 10min for server"
       pause:
-        minutes: 10
+        minutes: 2
 
     - name: "Getting the IP address from Packet server"
       local_action: command python {{playbook_dir}}/files/packet_get_ipaddr.py {{ project_id }} {{ packet_token }} {{ item.device_name }}

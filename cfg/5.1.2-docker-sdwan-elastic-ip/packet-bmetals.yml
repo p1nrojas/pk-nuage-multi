@@ -2,7 +2,7 @@ bmetals:
   - { device_name: core ,
       bmetal_plan: baremetal_2 ,
       osystem: centos_7 ,
-      facility: ewr1 ,
+      facility: ams1 ,
       public_if: bond0 ,
       br_connect: [
         { bridge: elastic, gateway: "{{ gateway_elastic_ip }}", prefix: "{{ prefix_elastic_ip }}" },

@@ -11,14 +11,14 @@
 - name: creating gateways ports at bridges
   openvswitch_port:
     bridge: "{{ item.bridge }}"
-    port: "{{ item.bridge }}-gateway"
+    port: "{{ item.bridge }}-gw"
     state: present
-    set: "Interface {{ item.bridge }}-gateway type=internal"
+    set: "Interface {{ item.bridge }}-gw type=internal"
   when: item.gateway is defined
   with_items: "{{ br_connect }}"
 
 - name: setting ip address for gateway ports
-  shell: ifconfig {{ item.bridge }}-gateway {{ item.gateway }}/{{ item.prefix }} up
+  shell: ifconfig {{ item.bridge }}-gw {{ item.gateway }}/{{ item.prefix }} up
   when: item.gateway is defined
   with_items: "{{ br_connect }}"
 

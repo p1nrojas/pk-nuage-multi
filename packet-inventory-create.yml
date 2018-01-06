@@ -90,6 +90,7 @@
         - deploy-all.yml
         - reset-all-domains.yml
         - nuage-install.yml
+        #- util_fix_net_settings.yml
         - util-predeploy.yml
         - util-deploy.yml
         - nserver-deploy.yml

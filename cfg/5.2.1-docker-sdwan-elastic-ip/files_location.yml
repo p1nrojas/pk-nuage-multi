@@ -5,32 +5,25 @@ url_centos_reverse_qcow2: "centos7-20171109.qcow2"
 url_ubuntu_desktop_qcow2: "ubuntu.qcow2"
 
 #release dependant files
-url_base_location: "https://nuage-secure-files.s3.amazonaws.com/5.1.2-files/"
+url_base_location: "https://nuage-secure-files.s3.amazonaws.com/5.2.1-files/"
 #files release dependant
-url_elasticsearch_qcow2: "Nuage-elastic-5.1.2_63.qcow2?Signature=9d8tRoB1OkV1yzUiU1fAY0%2FwkwI%3D&Expires=1515067226&AWSAccessKeyId={{ aws_access_key }}"
-url_openvswitch_rpm: "nuage-openvswitch-5.1.2-72.el7.x86_64.rpm?Signature=UmMD%2BjXS7lvchndPJgA8u67O8cE%3D&Expires=1516411743&AWSAccessKeyId={{ aws_access_key }}"
-url_vsc_qcow2: "vsc_singledisk.qcow2?Signature=axBN5qk0Lg1C8wtdtt4mLAKr0%2BY%3D&Expires=1515067227&AWSAccessKeyId={{ aws_access_key }}"
-url_vsd_qcow2: "VSD-5.1.2_73.qcow2?Signature=12XLxhzMHbWtIqXXtvrzEAxS12k%3D&Expires=1515067226&AWSAccessKeyId={{ aws_access_key }}"
+url_elasticsearch_qcow2: "Nuage-elastic-5.2.1-2.qcow2?Signature=12wUdQj5qhB%2BeyCn%2B9cwWTvEFgA%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
+url_openvswitch_rpm: "nuage-openvswitch-5.2.1-10.el7.x86_64.rpm?Signature=JDYkzgmNzXUD%2BjMaaKvJc4UryRs%3D&Expires=1515714466&AWSAccessKeyId={{ aws_access_key }}"
+url_vsc_qcow2: "vsc_singledisk.qcow2?Signature=p1XDbRbO2s%2FblfU7Cdw0vE5vRtc%3D&Expires=1515714470&AWSAccessKeyId={{ aws_access_key }}"
+url_vsd_qcow2: "VSD-5.2.1_2.qcow2?Signature=XeyC%2BRV7f6WNyAusk25kUSwCnuI%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
 
 #sdwan file release dependant
-url_nsg_qcow2: "ncpe_centos7.qcow2?Signature=rdj9mO6gHX3VaeFYsv2uq5iCHbc%3D&Expires=1515067226&AWSAccessKeyId={{ aws_access_key }}"
-url_util_qcow2: "vns-util-5.1.2_63.qcow2?Signature=4oSSj5FU4jPakYHzg9TcOk%2B11Is%3D&Expires=1515067227&AWSAccessKeyId={{ aws_access_key }}"
+url_nsg_qcow2: "ncpe_centos7.qcow2?Signature=pmCOKQalcxQ0QVVuti14TjDTWyo%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
+url_util_qcow2: "vns-util-5.2.1-1.qcow2?Signature=lZrd%2FD%2FwN803fvWNBErmW94sS1U%3D&Expires=1515714469&AWSAccessKeyId={{ aws_access_key }}"
 
 #docker files release dependant
-url_libnetwork_rpm: "libnetwork5.1.1.rpm?Signature=E265UTuakWf0dxNFWX02rtf806M%3D&Expires=1510668647&AWSAccessKeyId={{ aws_access_key }}"
+url_libnetwork_rpm: "nuage-libnetwork-5.2.1-1.el7.x86_64.rpm?Signature=RgG8F848cc06W%2BH91NXBmGm7al4%3D&Expires=1515714465&AWSAccessKeyId={{ aws_access_key }}"
 url_cni_docker_tar: "nuage-cni-docker-5.1.1-5.tar?Signature=BjvI%2F%2FyZ6HKDIQjpIU7LXJUbw5g%3D&Expires=1510668650&AWSAccessKeyId={{ aws_access_key }}"
 url_metadata_agent_rpm: "nuage-metadata-agent-5.1.1-23.el7.x86_64.rpm?Signature=Y%2FNf3R%2Fa45FCsbyeDIMxd5F57GQ%3D&Expires=1510002584&AWSAccessKeyId={{ aws_access_key }}"
 url_kubemon_rpm: "nuagekubemon5.1.1.rpm?Signature=SJ5fRr%2B6NFv5pV4vAF1GmvEfx28%3D&Expires=1510002585&AWSAccessKeyId={{ aws_access_key }}"
 
 # openstack common files release dependant
 url_openstack_upgrade_tar: "nuage-openstack-upgrade-5.1.1-21.tar.gz?Signature=T2wnGuX5ktFEl7OntfM2cvGmnJc%3D&Expires=1510002585&AWSAccessKeyId={{ aws_access_key }}"
-#openstack newton nuage files release depandant
-url_newton_openstack_nova_esxi_rpm: "newton-el7/nuage-nova-esxi-14.0.0-5.1.1_21_nuage.noarch.rpm?Signature=Tef9ibDSqrs168THGK3vNHjVMzA%3D&Expires=1510668648&AWSAccessKeyId={{ aws_access_key }}"
-url_newton_openstack_nova_extensions_rpm: "newton-el7/nuage-nova-extensions-14.0.0-5.1.1_21_nuage.noarch.rpm?Signature=yCDGaIVatIMavoMMrf2zGKvMgkE%3D&Expires=1510668649&AWSAccessKeyId={{ aws_access_key }}"
-url_newton_openstack_heat_rpm: "https://nuage-secure-files.s3.amazonaws.com/5.1.1u1-files/newton-el7/nuage-openstack-heat-7.0.0-5.1.1_21_nuage.noarch.rpm?Signature=c9zk9wRw1j9Y78C21c6rxGKWk4M%3D&Expires=1510002583&AWSAccessKeyId={{ aws_access_key }}"
-url_newton_openstack-horizon_rpm: "newton-el7/nuage-openstack-horizon-10.0.0-5.1.1_21_nuage.noarch.rpm?Signature=vpveC1WDXVCKgoZU00s5k9EGCmU%3D&Expires=1510668649&AWSAccessKeyId={{ aws_access_key }}"
-url_newton_openstack-neutron_rpm: "newton-el7/nuage-openstack-neutron-9.0.0-5.1.1_21_nuage.noarch.rpm?Signature=evLpxl5r3s6nmGCxfSMGzPIJmbs%3D&Expires=1510668650&AWSAccessKeyId={{ aws_access_key }}"
-url_newton_openstack-neutronclient_rpm: "newton-el7/nuage-openstack-neutronclient-6.0.0-5.1.1_21_nuage.noarch.rpm?Signature=LPlLPuLS5RKKsyL%2FTrTyo05XyCM%3D&Expires=1510002583&AWSAccessKeyId={{ aws_access_key }}"
 
 #openstack ocata nuage files release dependant
 url_ocata_openstack_nova_esxi_rpm: "ocata-el7/nuage-nova-esxi-15.0.0-5.1.1_21_nuage.noarch.rpm?Signature=o%2FXvtarCwSwNsEJytn3Lb3xbR3A%3D&Expires=1510002586&AWSAccessKeyId={{ aws_access_key }}"
