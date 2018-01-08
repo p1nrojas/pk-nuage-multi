@@ -1,0 +1,31 @@
+
+
+- name: create ssh key for nginx user
+  user:
+    name: nginx
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
+- name: fetch public key
+  fetch:
+    src: /var/lib/nginx/.ssh/id_rsa.pub 
+    dest: /tmp/nginx-webvirtmgr-id_rsa.pub
+    flat: yes
+
+- file:
+    path: /var/lib/nginx/.ssh/config
+    owner: nginx
+    state: touch
+    mode: "u=rw,g=r,o=r"
+
+- lineinfile:
+    path: /var/lib/nginx/.ssh/config
+    regexp: '^StrictHostKeyChecking'
+    line: 'StrictHostKeyChecking=no'
+
+- lineinfile:
+    path: /var/lib/nginx/.ssh/config
+    regexp: '^UserKnownHostsFile'
+    line: 'UserKnownHostsFile=/dev/null'
+
