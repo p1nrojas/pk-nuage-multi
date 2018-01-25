@@ -30,14 +30,14 @@ sec_rules:
 dhcp_subnets:
 {% for br in item.1.br_connect %}
 {% if br.dhcp_min is defined %}
-  - { subnet: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.0 ,
-      netmask: 255.255.255.0 ,
-      range_min: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_min }} ,
-      range_max: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.{{ br.dhcp_max }} ,
+  - { subnet: {{ br.dhcp_net }} ,
+      netmask: {{ br.dhcp_mask }} ,
+      range_min: {{ br.dhcp_min }},
+      range_max: {{ br.dhcp_max }},
       domain_name: {{ dns_domain }} ,
       domain_name_server: {{ br.dns }} ,
       router: {{ br.gateway }} ,
-      broadcast_address: {{ br.gateway | regex_replace('^([0-9]*\.[0-9]*\.[0-9]*)\.[0-9]*$', '\\1') }}.255 ,
+      broadcast_address: {{ br.dhcp_bcst }} ,
       default_lease_time: 600000 ,
       max_lease_time: 7200000
     }

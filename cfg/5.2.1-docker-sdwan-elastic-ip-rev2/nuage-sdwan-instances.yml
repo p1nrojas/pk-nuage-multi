@@ -1,5 +1,5 @@
 nsg_instances: 
-  - { hostname: "head1.{{ lab_domain }}",
+  - { hostname: "nsgv-dc1.{{ lab_domain }}",
       description: "NSG-v Head End at Datacenter" ,
       inventory: nsg ,
       vsd_template: nsgtemplate_1w_1l ,
@@ -9,39 +9,15 @@ nsg_instances:
       vcpu_num: 2 ,
       image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
       image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
-      hypervisor: Datacenter ,
+      hypervisor: "nuage-core" ,
       interfaces: [
       { name: port1 ,
-        bridge: uplinkC1 },
-      { name: port2 ,
-        bridge: private }
-#          ],      
-#          pat_rules: [
-#            { protocol: udp , port: 4789 , dest_port: 4789 },
-#            { protocol: udp , port: 4500 , dest_port: 4500 },
-#            { protocol: udp , port: 500 , dest_port: 500 },
-#            { protocol: tcp , port: 179 , dest_port: 179 },
-      ]      
-     }
-  - { hostname: "head2.{{ lab_domain }}",
-      description: "NSG-v Head End at Datacenter" ,
-      inventory: nsg ,
-      vsd_template: nsgtemplate_1w_1l ,
-      No_cloud_init: true ,
-      rtl8139: true ,
-      memory: 4194304 ,
-      vcpu_num: 2 ,
-      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
-      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
-      hypervisor: Datacenter ,
-      interfaces: [
-      { name: port1 ,
-        bridge: uplinkC1 },
+        bridge: public },
       { name: port2 ,
         bridge: private }
       ]      
      }
-  - { hostname: "border.{{ lab_domain }}",
+  - { hostname: "nsgv-dc2.{{ lab_domain }}",
       description: "NSG-v Head End at Datacenter" ,
       inventory: nsg ,
       vsd_template: nsgtemplate_1w_1l ,
@@ -51,10 +27,10 @@ nsg_instances:
       vcpu_num: 2 ,
       image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
       image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
-      hypervisor: Datacenter ,
+      hypervisor: "nuage-core" ,
       interfaces: [
       { name: port1 ,
-        bridge: uplinkC1 },
+        bridge: public },
       { name: port2 ,
         bridge: private }
       ]      

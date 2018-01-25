@@ -1,0 +1,36 @@
+public_dns: 8.8.8.8
+
+nuage_core_location: ewr1
+prefix_elastic_ip: 29
+netmask_elastic_ip: 255.255.255.248
+gateway_elastic_ip: 147.75.195.193
+util_elastic_ip: 147.75.195.194
+vsc1_elastic_ip: 147.75.195.195
+vsc2_elastic_ip: 147.75.195.196
+dhcp_min_elastic_ip: 147.75.195.197
+dhcp_max_elastic_ip: 147.75.195.198
+dhcp_net_elastic_ip: 147.75.195.192
+dhcp_bcst_elastic_ip: 147.75.195.199
+dhcp_mask_elastic_ip: 255.255.255.248
+
+branchA_location: sjc1
+
+
+branchB_location: ams1
+# first uplink
+bB1_gateway: 147.75.81.81
+bB1_prefix: 30
+bB1_dhcp_min: 147.75.81.82
+bB1_dhcp_max: 147.75.81.82
+bB1_dhcp_net: 147.75.81.80
+bB1_dhcp_mask: 255.255.255.252
+bB1_dhcp_bcst: 147.75.81.83
+# second uplink
+bB2_gateway: 147.75.205.245
+bB2_prefix: 30
+bB2_dhcp_min: 147.75.205.246
+bB2_dhcp_max: 147.75.205.246
+bB2_dhcp_net: 147.75.205.244
+bB2_dhcp_mask: 255.255.255.252
+bB2_dhcp_bcst: 147.75.205.247
+

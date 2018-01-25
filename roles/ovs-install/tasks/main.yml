@@ -12,5 +12,3 @@
 - include: 4_applying_snat.yml
   when: br_connect is defined 
 
-# - include: 5_applying_flow_rules.yml
-# still in deplopment. for additional features in the future

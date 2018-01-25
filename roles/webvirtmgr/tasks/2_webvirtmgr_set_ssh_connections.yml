@@ -10,7 +10,7 @@
 - name: fetch public key
   fetch:
     src: /var/lib/nginx/.ssh/id_rsa.pub 
-    dest: /tmp/nginx-webvirtmgr-id_rsa.pub
+    dest: '/tmp/{{ inventory_hostname }}-nginx-webvirtmgr-id_rsa.pub'
     flat: yes
 
 - file:

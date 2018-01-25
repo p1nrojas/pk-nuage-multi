@@ -6,7 +6,7 @@
 # docker network ls
 # docker run -d -it --net MyNuageNet nginx /bin/bash
 
-- hosts: docker[1-2].nuage511u1.lab
+- hosts: docker[1-2].nuage521.lab
   remote_user: centos
   become: true
   become_method: sudo

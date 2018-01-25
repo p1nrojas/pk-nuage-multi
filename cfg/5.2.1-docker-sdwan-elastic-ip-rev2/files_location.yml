@@ -7,14 +7,14 @@ url_ubuntu_desktop_qcow2: "ubuntu.qcow2"
 #release dependant files
 url_base_location: "https://nuage-secure-files.s3.amazonaws.com/5.2.1-files/"
 #files release dependant
-url_elasticsearch_qcow2: "Nuage-elastic-5.2.1-2.qcow2?Signature=12wUdQj5qhB%2BeyCn%2B9cwWTvEFgA%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
-url_openvswitch_rpm: "nuage-openvswitch-5.2.1-10.el7.x86_64.rpm?Signature=JDYkzgmNzXUD%2BjMaaKvJc4UryRs%3D&Expires=1515714466&AWSAccessKeyId={{ aws_access_key }}"
-url_vsc_qcow2: "vsc_singledisk.qcow2?Signature=p1XDbRbO2s%2FblfU7Cdw0vE5vRtc%3D&Expires=1515714470&AWSAccessKeyId={{ aws_access_key }}"
-url_vsd_qcow2: "VSD-5.2.1_2.qcow2?Signature=XeyC%2BRV7f6WNyAusk25kUSwCnuI%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
+url_elasticsearch_qcow2: "Nuage-elastic-5.2.1-2.qcow2?Signature=IpTirkfbipLZnqXsnwG5COarx4I%3D&Expires=1520705019&AWSAccessKeyId={{ aws_access_key }}"
+url_openvswitch_rpm: "nuage-openvswitch-5.2.1-10.el7.x86_64.rpm?Signature=NyciC1wEFy%2Frc8juOUVA90LaRf4%3D&Expires=1520705022&AWSAccessKeyId={{ aws_access_key }}"
+url_vsc_qcow2: "vsc_singledisk.qcow2?Signature=zKQhP006F2O96IhXOPzPXDrkhsI%3D&Expires=1520705025&AWSAccessKeyId={{ aws_access_key }}"
+url_vsd_qcow2: "VSD-5.2.1_2.qcow2?Signature=o8UycjnRA6u5WedlJyCk%2BbEOSvo%3D&Expires=1520705020&AWSAccessKeyId={{ aws_access_key }}"
 
 #sdwan file release dependant
-url_nsg_qcow2: "ncpe_centos7.qcow2?Signature=pmCOKQalcxQ0QVVuti14TjDTWyo%3D&Expires=1515714464&AWSAccessKeyId={{ aws_access_key }}"
-url_util_qcow2: "vns-util-5.2.1-1.qcow2?Signature=lZrd%2FD%2FwN803fvWNBErmW94sS1U%3D&Expires=1515714469&AWSAccessKeyId={{ aws_access_key }}"
+url_nsg_qcow2: "ncpe_centos7.qcow2?Signature=L4O3%2Bt%2Fod5yV8TaVKsrHHrrsrRc%3D&Expires=1520705020&AWSAccessKeyId={{ aws_access_key }}"
+url_util_qcow2: "vns-util-5.2.1-1.qcow2?Signature=nCyZWZ%2F%2Fqyym2prKyzRXqPIGKqg%3D&Expires=1520705025&AWSAccessKeyId={{ aws_access_key }}"
 
 #docker files release dependant
 url_libnetwork_rpm: "nuage-libnetwork-5.2.1-1.el7.x86_64.rpm?Signature=RgG8F848cc06W%2BH91NXBmGm7al4%3D&Expires=1515714465&AWSAccessKeyId={{ aws_access_key }}"

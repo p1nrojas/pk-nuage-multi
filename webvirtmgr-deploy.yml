@@ -3,7 +3,7 @@
 # Changes made to this file may be overwritten.
 #
 ---
-- hosts: nuage-core
+- hosts: bmetal
   remote_user: root
   gather_facts: no
   roles:
@@ -24,7 +24,7 @@
       authorized_key:
         user: webvirtmgr
         state: present
-        key: "{{ lookup('file', '/tmp/nginx-webvirtmgr-id_rsa.pub') }}"
+        key: "{{ lookup('file', '/tmp/' + inventory_hostname + '-nginx-webvirtmgr-id_rsa.pub') }}"
 
     - name: Creating 0-libvirt-remote-access.pkla file at every hypervisor
       template:

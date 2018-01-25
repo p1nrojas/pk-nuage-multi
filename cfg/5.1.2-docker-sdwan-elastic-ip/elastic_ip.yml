@@ -1,7 +1,0 @@
-prefix_elastic_ip: 29
-gateway_elastic_ip: 147.75.32.105
-util_elastic_ip: 147.75.32.106
-vsc1_elastic_ip: 147.75.32.107
-vsc2_elastic_ip: 147.75.32.108
-vsc3_elastic_ip: 147.75.32.109
-vsc4_elastic_ip: 147.75.32.110

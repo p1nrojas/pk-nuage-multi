@@ -86,7 +86,7 @@
         - ovs-deploy.yml
         - ovs-reset.yml
         - license.yml
-        - webvirtmgr-deploy.yml
+#        - webvirtmgr-deploy.yml
         - deploy-all.yml
         - reset-all-domains.yml
         - nuage-install.yml
