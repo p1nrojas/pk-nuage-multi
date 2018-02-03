@@ -162,12 +162,11 @@ vsc_controllers:
       ]
      }
   - { hostname: "vsc3.{{ lab_domain }}",
-      description: "Nuage VSC - SDN controller" ,
+      description: "Nuage VSC - SDN controller for VRS" ,
       inventory: vsc ,
       image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
       image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
       hypervisor: nuage-core ,
-#          vsc_cert_name: vsc3nsg , # no TLS profile required
       vsc_passwd: admin ,
       ansible_host: 'root@nuage-core:2033' ,
       vsd_fqdn: "vsd1.{{ lab_domain }}",
@@ -176,30 +175,26 @@ vsc_controllers:
       gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
-        bridge: private } ,
-#        ip: "{{ lab_network_prefix }}.33" ,
-#        prefix: 24 },
-      { name: control ,
-        bridge: private ,
-#        bridge: public,
-#        ip: "{{ vsc3_elastic_ip }}" ,
-#        prefix: "{{ prefix_elastic_ip }}" }
+        bridge: "private" , 
         ip: "{{ lab_network_prefix }}.33" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: "vsc_priv" ,
+        ip: "{{ vsc_ctl_net_prefix }}.33" ,
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ gateway_elastic_ip }}" 
+        "0.0.0.0/0 next-hop {{ vsc_ctl_net_prefix }}.1" 
       ],
       pat_rules: [
       ]      
     }      
   - { hostname: "vsc4.{{ lab_domain }}",
-      description: "Nuage VSC - SDN controller" ,
+      description: "Nuage VSC - SDN controller for VRS" ,
       inventory: vsc ,
       image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
       image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
       hypervisor: nuage-core ,
-#          vsc_cert_name: vsc4nsg , # no TLS profile required
       vsc_passwd: admin ,
       ansible_host: 'root@nuage-core:2034' ,
       vsd_fqdn: "vsd1.{{ lab_domain }}",
@@ -208,14 +203,16 @@ vsc_controllers:
       gateway: "{{ lab_network_prefix }}.1",
       interfaces: [
       { name: bof ,
-        bridge: private },
-      { name: control ,
-        bridge: private ,
+        bridge: "private" ,
         ip: "{{ lab_network_prefix }}.34" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: "vsc_priv" ,
+        ip: "{{ vsc_ctl_net_prefix }}.34" ,
         prefix: 24 }
       ],
       static_routes: [
-        "0.0.0.0/0 next-hop {{ gateway_elastic_ip }}" 
+        "0.0.0.0/0 next-hop {{ vsc_ctl_net_prefix }}.1" 
       ],
       pat_rules: [
       ]      

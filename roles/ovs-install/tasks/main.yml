@@ -12,3 +12,5 @@
 - include: 4_applying_snat.yml
   when: br_connect is defined 
 
+- include: 5_static_routes_to_VSCs.yml
+  when: static_routes is defined

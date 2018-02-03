@@ -1,3 +1,7 @@
+- name: "pause of 2 min"
+  pause:
+    minutes: 2
+
 - name: "Executing vsd-stats.sh at VSD"
   shell:  "/opt/vsd/vsd-stats.sh -e  {{ hostvars[groups['stat'][0]].inventory_hostname }}  -n nuage_elasticsearch -p 9300"
   when: hostvars[groups['stat'][0]].inventory_hostname is defined

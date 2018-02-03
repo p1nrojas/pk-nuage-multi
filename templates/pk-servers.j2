@@ -9,6 +9,13 @@ osystem: {{ item.1.osystem }}
 facility: {{ item.1.facility }} 
 public_if: {% if item.1.public_if is defined %}{{ item.1.public_if }}{% else %}{{public_if}}{% endif %}
 
+{% if item.1.static_routes is defined %}
+static_routes:
+{% for route in item.1.static_routes %}
+- "{{ route }}"
+{% endfor %}
+{% endif %}
+
 private_ip: {{ pk_private_ip.results[item.0].stdout }}
 public_ip: {{ pk_public_ip.results[item.0].stdout }}
 {% if item.1.br_connect is defined %}

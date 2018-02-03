@@ -237,7 +237,9 @@
         - stat-predeploy.yml
         - stat-deploy.yml
         - vsd-deploy.yml
-        - vsd-postinstall.yml
+        - vsd-util-postinstall.yml
+        - vsd-stat-postinstall.yml
+        - vsd-vsc-postinstall.yml
         - vsc-profiles.yml
 
 

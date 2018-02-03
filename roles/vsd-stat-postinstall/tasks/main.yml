@@ -1,0 +1,8 @@
+---
+
+- include: 0_stat_vsd_settings.yml
+  when: groups['stat']|length > 0
+
+- include: 1_enable_stat_nginx.yml 
+  when: groups['stat']|length > 0
+

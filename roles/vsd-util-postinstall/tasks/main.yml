@@ -1,0 +1,9 @@
+---
+
+- include: 2.1_util_install_floatingip.yml
+  when: 
+    - groups['util']|length > 0
+
+- include: 3_create_proxy_user.yml 
+  when: 
+    - groups['util']|length > 0

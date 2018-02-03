@@ -4,6 +4,12 @@ bmetals:
       osystem: centos_7 ,
       facility: "{{ nuage_core_location }}" ,
       public_if: bond0 ,
+      static_routes: [
+        "1.1.1.1/32 via {{ vsc1_elastic_ip }}",
+        "1.1.1.2/32 via {{ vsc1_elastic_ip }}",
+        "1.1.1.3/32 via {{ vsc_ctl_net_prefix }}.33",
+        "1.1.1.4/32 via {{ vsc_ctl_net_prefix }}.34"
+      ],
       br_connect: [
         { 
            bridge: "public", 
@@ -15,6 +21,11 @@ bmetals:
            dns: "{{ public_dns }}", 
            dhcp_net: "{{ dhcp_net_elastic_ip }}", 
            dhcp_bcst: "{{ dhcp_bcst_elastic_ip }}" 
+        },
+        { 
+           bridge: "vsc_priv",
+           gateway: "{{ vsc_ctl_net_prefix }}.1", 
+           prefix: 24,
         },
         { 
            bridge: "private",

@@ -1,0 +1,14 @@
+---
+
+- name: Defining static routes at bare metal
+  command: ip route add {{ item }}
+  with_items: "{{ static_routes }}"
+  register: bmetal_static_route
+  ignore_errors: yes
+
+- name: Debugging output
+  debug: 
+    msg: "Route was aleady set. So far so good!" 
+  with_items: "{{ bmetal_static_route.results }}"
+  when: "'File exists' in item.stderr"
+  
