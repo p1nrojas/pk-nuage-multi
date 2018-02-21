@@ -6,6 +6,7 @@
     - hostvars[groups['util'][0]].inventory_hostname is defined
     - hostvars[groups['util'][0]].interfaces|length == 2
   remote_user: root
+  ignore_errors: yes
 
 - name: "Generating and copying certificates from VSD to util server thru eth1"
   shell:  "/opt/vsd/ejbca/deploy/certMgmt.sh -a generate -u proxy -c proxy -o csp -d {{ util_fqdn }} -f pem -t server -s root@{{ hostvars[groups['util'][0]].interfaces[1].ip  }}:/opt/SDVPNHAProxy/config/keys/"
