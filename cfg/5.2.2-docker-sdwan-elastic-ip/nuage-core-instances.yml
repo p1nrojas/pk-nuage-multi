@@ -1,0 +1,219 @@
+vsd_enterprise: ACME_Corp
+
+core_instances: 
+  - { hostname: "ns1.{{ lab_domain }}",
+      description: "name, ntp server" ,
+      inventory: nserver ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      disk_GB: 20 ,
+      image_qcow2: "/home/dev/images/{{ url_centos_reverse_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_centos_reverse_qcow2 }}" ,
+      hypervisor: nuage-core,
+      ansible_host: 'centos@nuage-core:2012' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      ntpservers: local , 
+      nameservers: [ 8.8.8.8 , 8.8.4.4 ] ,
+      interfaces: [
+        { name: eth0 , bridge: private, ip: "{{ lab_network_prefix }}.12" , netmask: 255.255.255.0 },
+      ] ,
+      pat_rules: [
+      ]
+     }
+  - { hostname: "vsd1.{{ lab_domain }}",
+      description: "Nuage Stand-Alone VSD, management plane" ,
+      inventory: vsd ,
+      Is_NM_enabled: true ,
+      vsd_version: 'v5_0' ,
+      memory: 25165824 ,
+      vcpu_num: 8 ,
+      image_qcow2: "/home/dev/images/{{ url_vsd_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_vsd_qcow2 }}" ,
+      hypervisor: nuage-core,
+      ansible_host: 'root@nuage-core:2020' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: private,
+        ip: "{{ lab_network_prefix }}.20" ,
+        netmask: 255.255.255.0 }
+      ], 
+      pat_rules: [
+        { protocol: tcp , port: 8443 , dest_port: 8443 },
+      ]      
+     }
+  - { hostname: "util.{{ lab_domain }}",
+      description: "Util server for Nuage VNS" ,
+      inventory: util ,
+      Is_NM_enabled: true ,
+      No_cloud_init: true ,
+      Guestfish: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_util_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_util_qcow2 }}" ,
+      hypervisor: nuage-core,
+      ansible_host: 'root@nuage-core:2023' ,
+      gateway: "{{ gateway_elastic_ip }}",
+      interfaces: [
+      { name: eth0 ,
+        bridge: public,
+        ip: "{{ util_elastic_ip }}" ,
+        netmask: "{{ netmask_elastic_ip }}" },
+      { name: eth1 ,
+        bridge: private,
+        ip: "{{ lab_network_prefix }}.23" ,
+        netmask: 255.255.255.0 }
+      ],      
+      pat_rules: [
+#        { protocol: tcp , port: 11443 , dest_port: 11443 },
+#        { protocol: tcp , port: 12443 , dest_port: 12443 },
+#        { protocol: tcp , port: 514 , dest_port: 514 },
+#        { protocol: tcp , port: 443 , dest_port: 443 },
+#        { protocol: tcp , port: 29090, dest_port: 29090  }
+      ]      
+     }
+  - { hostname: "stat.{{ lab_domain }}",
+      description: "Stat server based on ElasticSearch" ,
+      inventory: stat ,
+      Is_NM_enabled: true ,
+      No_cloud_init: true ,
+      Guestfish: true ,
+      memory: 16777216 ,
+      vcpu_num: 8 ,
+      image_qcow2: "/home/dev/images/{{ url_elasticsearch_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_elasticsearch_qcow2 }}" ,
+      hypervisor: nuage-core ,
+      ansible_host: 'root@nuage-core:2024' ,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: eth0 ,
+        bridge: private,
+        ip: "{{ lab_network_prefix }}.24" ,
+        netmask: 255.255.255.0 }
+      ],
+      pat_rules: [
+        { protocol: tcp , port: 6200 , dest_port: 6200 },
+        { protocol: tcp , port: 9200 , dest_port: 9200 },
+        { protocol: tcp , port: 5601 , dest_port: 5601 },
+      ]      
+     }
+vsc_controllers:
+  - { hostname: "vsc1.{{ lab_domain }}",
+      description: "Nuage VSC - SDN controller" ,
+      inventory: vsc ,
+      image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
+      hypervisor: nuage-core ,
+      vsc_cert_name: vsc1nsg ,
+      vsc_passwd: admin ,
+      ansible_host: 'root@nuage-core:2031' ,
+      vsd_fqdn: "vsd1.{{ lab_domain }}",
+      system_ip: 1.1.1.1,
+      xmpp_username: vsc01,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: bof ,
+        bridge: private ,
+        ip: "{{ lab_network_prefix }}.31" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: public,
+        ip: "{{ vsc1_elastic_ip }}" ,
+        prefix: "{{ prefix_elastic_ip }}" }
+      ],
+      static_routes: [
+        "0.0.0.0/0 next-hop {{ gateway_elastic_ip }}" 
+      ],
+      pat_rules: [
+#        { protocol: tcp , port: 56213 , dest_port: 56213 },
+#        { protocol: tcp , port: 6633 , dest_port: 6633 },
+#        { protocol: udp , port: 123 , dest_port: 123 },
+#        { protocol: tcp , port: 7407 , dest_port: 7407 },
+      ]      
+    }      
+  - { hostname: "vsc2.{{ lab_domain }}",
+      description: "Nuage VSC - SDN controller" ,
+      inventory: vsc ,
+      image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
+      hypervisor: nuage-core ,
+      vsc_cert_name: vsc2nsg ,
+      vsc_passwd: admin ,
+      ansible_host: 'root@nuage-core:2032' ,
+      vsd_fqdn: "vsd1.{{ lab_domain }}",
+      system_ip: 1.1.1.2 ,
+      xmpp_username: vsc02,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: bof ,
+        bridge: private ,
+        ip: "{{ lab_network_prefix }}.32" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: public,
+        ip: "{{ vsc2_elastic_ip }}" ,
+        prefix: "{{ prefix_elastic_ip }}" }
+      ],      
+      static_routes: [
+        "0.0.0.0/0 next-hop {{ gateway_elastic_ip }}" 
+      ],
+      pat_rules: [
+      ]
+     }
+  - { hostname: "vsc3.{{ lab_domain }}",
+      description: "Nuage VSC - SDN controller for VRS" ,
+      inventory: vsc ,
+      image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
+      hypervisor: nuage-core ,
+      vsc_passwd: admin ,
+      ansible_host: 'root@nuage-core:2033' ,
+      vsd_fqdn: "vsd1.{{ lab_domain }}",
+      system_ip: 1.1.1.3,
+      xmpp_username: vsc03,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: bof ,
+        bridge: "private" , 
+        ip: "{{ lab_network_prefix }}.33" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: "vsc_priv" ,
+        ip: "{{ vsc_ctl_net_prefix }}.33" ,
+        prefix: 24 }
+      ],
+      static_routes: [
+        "0.0.0.0/0 next-hop {{ vsc_ctl_net_prefix }}.1" 
+      ],
+      pat_rules: [
+      ]      
+    }      
+  - { hostname: "vsc4.{{ lab_domain }}",
+      description: "Nuage VSC - SDN controller for VRS" ,
+      inventory: vsc ,
+      image_qcow2: "/home/dev/images/{{ url_vsc_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_vsc_qcow2 }}" ,
+      hypervisor: nuage-core ,
+      vsc_passwd: admin ,
+      ansible_host: 'root@nuage-core:2034' ,
+      vsd_fqdn: "vsd1.{{ lab_domain }}",
+      system_ip: 1.1.1.4,
+      xmpp_username: vsc04,
+      gateway: "{{ lab_network_prefix }}.1",
+      interfaces: [
+      { name: bof ,
+        bridge: "private" ,
+        ip: "{{ lab_network_prefix }}.34" ,
+        prefix: 24 },
+      { name: control ,
+        bridge: "vsc_priv" ,
+        ip: "{{ vsc_ctl_net_prefix }}.34" ,
+        prefix: 24 }
+      ],
+      static_routes: [
+        "0.0.0.0/0 next-hop {{ vsc_ctl_net_prefix }}.1" 
+      ],
+      pat_rules: [
+      ]      
+    }      

@@ -53,6 +53,15 @@
 {% endif %}
 
 {% if k8s_instances is defined %}
+[consul]
+{% for server in k8s_instances %}
+{% if server.inventory == "consul" %}
+{{ server.hostname }} ansible_host={{ server.ansible_host | regex_replace('^.*@(.*):.*$', '\\1')  }} ansible_user={{ server.ansible_host | regex_replace('^(.*)@.*:.*$', '\\1')  }} ansible_port={{ server.ansible_host | regex_replace('^.*@.*:(.*)$', '\\1')  }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if k8s_instances is defined %}
 [docker]
 {% for server in k8s_instances %}
 {% if server.inventory == "docker" %}

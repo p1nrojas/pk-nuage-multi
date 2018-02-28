@@ -6,7 +6,7 @@
 # docker network ls
 # docker run -d -it --net MyNuageNet nginx /bin/bash
 
-- hosts: consul.nuage521.lab
+- hosts: consul
   remote_user: centos
   become: true
   become_method: sudo

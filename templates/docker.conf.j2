@@ -1,6 +1,6 @@
 [Service]
 ExecStart=
 ExecStart=/usr/bin/dockerd --exec-opt native.cgroupdriver=systemd \
-                           --cluster-store=consul://{{ hostvars['consul.nuage521.lab'].interfaces[0].ip }}:8500 \
+                           --cluster-store=consul://{{ hostvars[groups['consul'][0]].interfaces[0].ip }}:8500 \
                            --cluster-advertise={{ interfaces[0].ip }}:2376 \
                            --iptables=false

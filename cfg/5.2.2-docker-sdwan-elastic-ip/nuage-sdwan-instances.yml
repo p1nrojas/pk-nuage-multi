@@ -1,0 +1,107 @@
+nsg_instances: 
+  - { hostname: "nsgv-dc1.{{ lab_domain }}",
+      description: "NSG-v Head End at Datacenter" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_1w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: "nuage-core" ,
+      interfaces: [
+      { name: port1 ,
+        bridge: public },
+      { name: port2 ,
+        bridge: private }
+      ]      
+     }
+  - { hostname: "nsgv-dc2.{{ lab_domain }}",
+      description: "NSG-v Head End at Datacenter" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_1w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: "nuage-core" ,
+      interfaces: [
+      { name: port1 ,
+        bridge: public },
+      { name: port2 ,
+        bridge: private }
+      ]      
+     }
+  - { hostname: "nsg-brancha.{{ lab_domain }}",
+      description: "NSG-v at Branch A" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: branchA ,
+      interfaces: [
+      { name: port1 ,
+        bridge: uplinkA1 },
+      { name: port2 ,
+        bridge: uplinkA2 },
+      { name: port3 ,
+        bridge: branch }
+      ]      
+     }
+  - { hostname: "nsg-branchb.{{ lab_domain }}",
+      description: "NSG-v at Branch B" ,
+      inventory: nsg ,
+      vsd_template: nsgtemplate_2w_1l ,
+      No_cloud_init: true ,
+      rtl8139: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_nsg_qcow2 }}" ,
+      image_url: "{{ url_base_location }}{{ url_nsg_qcow2 }}" ,
+      hypervisor: branchB ,
+      interfaces: [
+      { name: port1 ,
+        bridge: uplinkB1 },
+      { name: port2 ,
+        bridge: uplinkB2 },
+      { name: port3 ,
+        bridge: branch }
+      ]      
+     }
+
+desktops:
+  - { hostname: "cli1.{{ lab_domain }}",
+      description: "client at branch1" ,
+      inventory: client ,
+      No_cloud_init: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
+      hypervisor: branchA ,
+      interfaces: [
+      { name: eth0 ,
+        bridge: branch }
+      ]
+     }
+  - { hostname: "cli2.{{ lab_domain }}",
+      description: "client at branch2" ,
+      inventory: client ,
+      No_cloud_init: true ,
+      memory: 4194304 ,
+      vcpu_num: 2 ,
+      image_qcow2: "/home/dev/images/{{ url_ubuntu_desktop_qcow2 }}" ,
+      image_url: "{{ url_common_base_location }}{{ url_ubuntu_desktop_qcow2 }}" ,
+      hypervisor: branchB ,
+      interfaces: [
+      { name: eth0 ,
+        bridge: branch }
+      ]
+     }

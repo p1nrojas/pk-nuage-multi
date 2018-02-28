@@ -1,6 +1,6 @@
 public_dns: 8.8.8.8
 
-nuage_core_location: sjc1
+nuage_core_location: ewr1
 prefix_elastic_ip: 29
 netmask_elastic_ip: 255.255.255.248
 gateway_elastic_ip: 147.75.72.129
@@ -13,10 +13,10 @@ dhcp_net_elastic_ip: 147.75.72.128
 dhcp_bcst_elastic_ip: 147.75.72.135
 dhcp_mask_elastic_ip: 255.255.255.248
 
-branchA_location: ams1
+branchA_location: scj1
 
 
-branchB_location: ewr1
+branchB_location: sjc1
 # first uplink
 bB1_gateway: 147.75.88.17
 bB1_prefix: 30
