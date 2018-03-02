@@ -35,6 +35,3 @@
         - ovs-reset.yml
         - license.yml
         - deploy-all.yml
-#        - webvirtmgr-deploy.yml
-        - docker-deploy-libnetwork.yml
-        - docker-deploy-dockermon.yml
