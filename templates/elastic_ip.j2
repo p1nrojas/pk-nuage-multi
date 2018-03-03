@@ -1,0 +1,38 @@
+public_dns: 8.8.8.8
+
+{% set nuage_core_net = nuage_core_net | ipcalc %}
+nuage_core_location: {{ nuage_core_loc }}
+prefix_elastic_ip: {{ nuage_core_net.prefix }}
+netmask_elastic_ip: {{ nuage_core_net.netmask }}
+gateway_elastic_ip: {{ nuage_core_net.host_min }}
+util_elastic_ip: {{ nuage_core_net.host_min | ipadd(1) }}
+vsc1_elastic_ip: {{ nuage_core_net.host_min | ipadd(2) }}
+vsc2_elastic_ip: {{ nuage_core_net.host_min | ipadd(3) }}
+dhcp_min_elastic_ip: {{ nuage_core_net.host_min | ipadd(4) }}
+dhcp_max_elastic_ip: {{ nuage_core_net.host_max }}
+dhcp_net_elastic_ip: {{ nuage_core_net.network }}
+dhcp_bcst_elastic_ip: {{ nuage_core_net.broadcast }}
+dhcp_mask_elastic_ip: {{ nuage_core_net.netmask }}
+
+branchA_location: {{ bA_loc }}
+
+
+branchB_location: {{ bB_loc }}
+# first uplink
+{% set bB1_net = bB1_net | ipcalc %}
+bB1_gateway: {{ bB1_net.host_min }}
+bB1_prefix: {{ bB1_net.prefix }}
+bB1_dhcp_min: {{ bB1_net.host_min | ipadd(1) }}
+bB1_dhcp_max: {{ bB1_net.host_min | ipadd(1) }}
+bB1_dhcp_net: {{ bB1_net.network }}
+bB1_dhcp_mask: {{ bB1_net.netmask }}
+bB1_dhcp_bcst: {{ bB1_net.broadcast }}
+# second uplink
+{% set bB2_net = bB2_net | ipcalc %}
+bB2_gateway: {{ bB2_net.host_min }}
+bB2_prefix: {{ bB2_net.prefix }}
+bB2_dhcp_min: {{ bB2_net.host_min | ipadd(1) }}
+bB2_dhcp_max: {{ bB2_net.host_min | ipadd(1) }}
+bB2_dhcp_net: {{ bB2_net.network }}
+bB2_dhcp_mask: {{ bB2_net.netmask }}
+bB2_dhcp_bcst: {{ bB2_net.broadcast }}

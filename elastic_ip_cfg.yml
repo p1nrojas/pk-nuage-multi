@@ -1,0 +1,5 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create files in extras
+      template: src=elastic_ip.j2 dest="{{ playbook_dir }}/cfg/{{ nuage_release }}/elastic_ip.yml" backup=no
