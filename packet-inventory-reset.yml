@@ -21,6 +21,7 @@
       with_items:
         - nuage-install.yml
         - vsd-deploy.yml
+        - sec-rules.yml
         - vsd-util-postinstall.yml
         - vsd-stat-postinstall.yml
         - vsd-vsc-postinstall.yml

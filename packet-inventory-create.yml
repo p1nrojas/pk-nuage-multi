@@ -84,6 +84,7 @@
       template: src={{ item }}.j2 dest={{ playbook_dir }}/{{ item }} backup=no
       with_items:
         - ovs-deploy.yml
+        - sec-rules.yml
         - ovs-reset.yml
         - license.yml
         - deploy-all.yml

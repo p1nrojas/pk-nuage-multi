@@ -25,10 +25,10 @@ br_connect:
 {% endfor %}
 {% endif %}
 
-{% if sec_rules is defined %}
+{% if item.1.sec_rules is defined %}
 sec_rules:
-{% for rules in sec_rules %}
-  - { type: {{ rules.type }} , dport: '{{ rules.dport }}' , saddr: {{ rules.saddr }} }
+{% for rules in item.1.sec_rules %}
+  - { chain: {{ rules.chain }}, type: {{ rules.type }} , dport: '{{ rules.dport }}' }
 {% endfor %}
 {% endif %}
 

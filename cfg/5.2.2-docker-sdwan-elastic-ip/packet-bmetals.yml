@@ -1,4 +1,5 @@
 bmetals:
+# Nuage core is having VSC, VSD, util, and cloud instances
   - { device_name: "nuage-core" ,
       bmetal_plan: baremetal_s ,
       osystem: centos_7 ,
@@ -39,7 +40,58 @@ bmetals:
            dhcp_bcst: "{{ lab_network_prefix }}.255" 
         },
       ],
+      sec_rules: [
+  # Rules for DNS, NTP and ICMP are included as client
+        { chain: INPUT , type: tcp , dport: 22 },
+        { chain: INPUT , type: tcp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 123 },
+  # ssh port access permissions for ansible / those can be closed after installation
+        { chain: INPUT , type: tcp , dport: "2000:2040" },
+  # vsd port access permissions 
+        { chain: INPUT , type: tcp , dport: 8443 },
+  # util port access permissions
+        { chain: INPUT , type: tcp , dport: 11443 },
+        { chain: INPUT , type: tcp , dport: 80 },
+        { chain: INPUT , type: tcp , dport: 7443 },
+        { chain: INPUT , type: tcp , dport: 443 },
+        { chain: INPUT , type: tcp , dport: 12443 },
+        { chain: INPUT , type: tcp , dport: 29090 },
+        { chain: INPUT , type: udp , dport: 29090 },
+  # stats port access permissions
+        { chain: INPUT , type: tcp , dport: 9300 },
+        { chain: INPUT , type: tcp , dport: 9200 },
+        { chain: INPUT , type: tcp , dport: 6200 },
+        { chain: INPUT , type: tcp , dport: 5601 },
+  # webvirtmgr port access permissions
+        { chain: INPUT , type: tcp , dport: 8090 },
+        { chain: INPUT , type: tcp , dport: 6080 },
+  # vsc port access permissions
+        { chain: INPUT , type: tcp , dport: 56213 },
+        { chain: INPUT , type: tcp , dport: 6633 },
+        { chain: INPUT , type: tcp , dport: 7406 },
+        { chain: INPUT , type: udp , dport: 7406 },
+        { chain: INPUT , type: tcp , dport: 179 },
+        { chain: OUTPUT , type: tcp , dport: 179 },
+        { chain: INPUT , type: udp , dport: 161 },
+        { chain: OUTPUT , type: tcp , dport: 162 },
+  # nsg/vrs port access permissions
+        { chain: INPUT , type: udp , dport: 4789 }, 
+        { chain: INPUT , type: udp , dport: 5770 }, 
+        { chain: INPUT , type: udp , dport: 4500 }, 
+        { chain: INPUT , type: udp , dport: 500 }, 
+        { chain: INPUT , type: udp , dport: 179 }, 
+        { chain: OUTPUT , type: udp , dport: 4789 }, 
+        { chain: OUTPUT , type: udp , dport: 5770 }, 
+        { chain: OUTPUT , type: udp , dport: 4500 }, 
+        { chain: OUTPUT , type: udp , dport: 500 }, 
+        { chain: OUTPUT , type: udp , dport: 179 }, 
+        { chain: INPUT , type: tcp , dport: 893 }, 
+      ],  
     }
+
+
+
   - { device_name: branchA ,
       bmetal_plan: baremetal_0 ,
       osystem: centos_7 ,
@@ -50,6 +102,28 @@ bmetals:
         { bridge: uplinkA2, gateway: "172.16.20.1", prefix: "24", dhcp_mask: "255.255.255.0", dhcp_min: "172.16.20.100", dhcp_max: "172.16.20.109", dns: "{{ public_dns }}", dhcp_net: "172.16.20.0", dhcp_bcst: "172.16.20.255" },
         { bridge: branch },
       ] ,
+      sec_rules: [
+  # Rules for DNS, NTP and ICMP are included as client
+        { chain: INPUT , type: tcp , dport: 22 },
+        { chain: INPUT , type: tcp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 123 },
+  # webvirtmgr port access permissions
+        { chain: INPUT , type: tcp , dport: 8090 },
+        { chain: INPUT , type: tcp , dport: 6080 },
+  # nsg/vrs port access permissions
+        { chain: INPUT , type: udp , dport: 4789 }, 
+        { chain: INPUT , type: udp , dport: 5770 }, 
+        { chain: INPUT , type: udp , dport: 4500 }, 
+        { chain: INPUT , type: udp , dport: 500 }, 
+        { chain: INPUT , type: udp , dport: 179 }, 
+        { chain: OUTPUT , type: udp , dport: 4789 }, 
+        { chain: OUTPUT , type: udp , dport: 5770 }, 
+        { chain: OUTPUT , type: udp , dport: 4500 }, 
+        { chain: OUTPUT , type: udp , dport: 500 }, 
+        { chain: OUTPUT , type: udp , dport: 179 }, 
+        { chain: INPUT , type: tcp , dport: 893 }, 
+      ],  
     }
 
   - { device_name: branchB ,
@@ -61,45 +135,28 @@ bmetals:
         { bridge: uplinkB1, gateway: "{{ bB1_gateway }}", prefix: "{{ bB1_prefix }}", dhcp_mask: "{{ bB1_dhcp_mask }}", dhcp_min: "{{ bB1_dhcp_min }}", dhcp_max: "{{ bB1_dhcp_max }}", dns: "{{ public_dns }}", dhcp_net: "{{ bB1_dhcp_net }}", dhcp_bcst: "{{ bB1_dhcp_bcst }}" },
         { bridge: uplinkB2, gateway: "{{ bB2_gateway }}", prefix: "{{ bB2_prefix }}", dhcp_mask: "{{ bB2_dhcp_mask }}", dhcp_min: "{{ bB2_dhcp_min }}", dhcp_max: "{{ bB2_dhcp_max }}", dns: "{{ public_dns }}", dhcp_net: "{{ bB2_dhcp_net }}", dhcp_bcst: "{{ bB2_dhcp_bcst }}" },
         { bridge: branch },
-      ] ,
+      ],
+      sec_rules: [
+  # Rules for DNS, NTP and ICMP are included as client
+        { chain: INPUT , type: tcp , dport: 22 },
+        { chain: INPUT , type: tcp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 53 },
+        { chain: INPUT , type: udp , dport: 123 },
+  # webvirtmgr port access permissions
+        { chain: INPUT , type: tcp , dport: 8090 },
+        { chain: INPUT , type: tcp , dport: 6080 },
+  # nsg/vrs port access permissions
+        { chain: INPUT , type: udp , dport: 4789 }, 
+        { chain: INPUT , type: udp , dport: 5770 }, 
+        { chain: INPUT , type: udp , dport: 4500 }, 
+        { chain: INPUT , type: udp , dport: 500 }, 
+        { chain: INPUT , type: udp , dport: 179 }, 
+        { chain: OUTPUT , type: udp , dport: 4789 }, 
+        { chain: OUTPUT , type: udp , dport: 5770 }, 
+        { chain: OUTPUT , type: udp , dport: 4500 }, 
+        { chain: OUTPUT , type: udp , dport: 500 }, 
+        { chain: OUTPUT , type: udp , dport: 179 }, 
+        { chain: INPUT , type: tcp , dport: 893 },
+      ],
     }
 
-
-sec_rules:
-  - { type: tcp , dport: 22 , saddr: 0.0.0.0/0 }
-  # openvswitch vxlan
-  - { type: udp , dport: 4789 , saddr: 147.75.0.0/16 } 
-  - { type: udp , dport: 4789 , saddr: 10.0.0.0/8 } 
-  # ssh port access permissions
-  - { type: tcp , dport: "2000:2040" , saddr: 0.0.0.0/0 }
-  # vsd port access permissions 
-  - { type: tcp , dport: 8443 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 5222 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 61613 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 61614 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 7443 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 443 , saddr: 0.0.0.0/0 }
-  - { type: udp , dport: 29090 , saddr: 0.0.0.0/0 }
-  # util port access permissions
-  - { type: tcp , dport: 11443 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 12443 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 29090 , saddr: 0.0.0.0/0 }
-  # stats port access permissions
-  - { type: tcp , dport: 39090 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 6200 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 5601 , saddr: 0.0.0.0/0 }
-  # webvirtmgr port access permissions
-  - { type: tcp , dport: 8090 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 6080 , saddr: 0.0.0.0/0 }
-  # vsc port access permissions
-  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 6633 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 179 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 161 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 162 , saddr: 0.0.0.0/0 }
-  # nsg/vrs port access permissions
-  - { type: udp , dport: 4789 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 53 , saddr: 0.0.0.0/0 }
-  - { type: udp , dport: 53 , saddr: 0.0.0.0/0 }
-  - { type: udp , dport: 123 , saddr: 0.0.0.0/0 }
-  - { type: tcp , dport: 56213 , saddr: 0.0.0.0/0 } 
