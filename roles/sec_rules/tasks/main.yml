@@ -1,13 +1,95 @@
 ---
-
-- name: Creating security rules thru iptables 
+- name: Creating security rules thru iptables / icmp INPUT  accept
   iptables:
     chain: INPUT
-    source: "{{ item.saddr }}"
+    in_interface: "{{ public_if }}"
+    protocol: "icmp"
+    jump: ACCEPT
+    state: present
+
+- name: Creating security rules thru iptables / icmp OUTPUT accept
+  iptables:
+    chain: OUTPUT
+    out_interface: "{{ public_if }}"
+    protocol: "icmp"
+    jump: ACCEPT
+    state: present
+
+- name: Creating security rules thru iptables /  client INPUT chain DNS
+  iptables:
+    chain: INPUT
+    in_interface: "{{ public_if }}"
+    protocol: "{{ item }}"
+    match: "state"
+    ctstate: "NEW,ESTABLISHED"
+    source_port: 53
+    jump: ACCEPT
+    state: present
+  with_items: [ 'udp', 'tcp' ]
+
+- name: Creating security rules thru iptables /  client OUTPUT chain DNS
+  iptables:
+    chain: OUTPUT
+    out_interface: "{{ public_if }}"
+    protocol: "{{ item }}"
+    match: "state"
+    ctstate: "NEW,ESTABLISHED"
+    destination_port: 53
+    jump: ACCEPT
+    state: present
+  with_items: [ 'udp', 'tcp' ]
+
+- name: Creating security rules thru iptables /  client INPUT chain NTP
+  iptables:
+    chain: INPUT
+    in_interface: "{{ public_if }}"
+    protocol: "udp"
+    match: "state"
+    ctstate: "NEW,ESTABLISHED"
+    source_port: 123
+    jump: ACCEPT
+    state: present
+
+- name: Creating security rules thru iptables /  client OUTPUT chain NTP
+  iptables:
+    chain: OUTPUT
+    out_interface: "{{ public_if }}"
+    protocol: "udp"
+    match: "state"
+    ctstate: "NEW,ESTABLISHED"
+    destination_port: 123
+    jump: ACCEPT
+    state: present
+
+- name: Creating security rules thru iptables
+  iptables:
+    chain: "{{ item.chain }}"
     in_interface: "{{ public_if }}"
     protocol: "{{ item.type }}"
     destination_port: "{{ item.dport }}"
     jump: ACCEPT
     state: present
-  when: sec_rules is defined
+  when:
+    - sec_rules is defined
+    - item.chain == "INPUT"
   with_items: "{{ sec_rules }}"
+
+- name: Creating security rules thru iptables
+  iptables:
+    chain: "{{ item.chain }}"
+    out_interface: "{{ public_if }}"
+    protocol: "{{ item.type }}"
+    destination_port: "{{ item.dport }}"
+    jump: ACCEPT
+    state: present
+  when:
+    - sec_rules is defined
+    - item.chain == "OUTPUT"
+  with_items: "{{ sec_rules }}"
+
+- name: Creating security rules thru iptables / drop all
+  iptables:
+    chain: INPUT
+    in_interface: "{{ public_if }}"
+    jump: DROP
+    state: present
