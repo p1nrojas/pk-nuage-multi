@@ -25,7 +25,7 @@ ansible-playbook -i hosts docker-deploy-libnetwork-multi.yml
 
 # Create elastic_ip.yml variables
 ```
-ansible-playbook -e nuage_release=5.2.2-docker-sdwan-elastic-ip -e nuage_core_loc=erw1 -e nuage_core_net=147.75.72.133/29 -e bB_loc=sjc1 -e bA_loc=sjc1 -e bB1_net=147.75.88.18/30 -e bB2_net=147.75.88.116/30  elastic_ip_cfg.yml
+ansible-playbook -e nuage_release=5.2.2-docker-sdwan-elastic-ip -e nuage_core_loc=ewr1 -e nuage_core_net=147.75.72.133/29 -e bB_loc=sjc1 -e bA_loc=sjc1 -e bB1_net=147.75.88.18/30 -e bB2_net=147.75.88.116/30  elastic_ip_cfg.yml
 ```
 ansible-playbook -e aws_key="ABCDILUSFSBXLXMIQRSA" -e aws_pass="ABCD*T2oRghq47TCIKxoH2lhk4XXMibLkfilih/" -e aws_bucket="nuage-secure-files" -e release_base_dir="5.2.2-files" -e cfg_dir=5.2.2-docker-sdwan-elastic-ip  files-location.yml
 ```
