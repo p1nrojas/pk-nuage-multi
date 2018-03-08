@@ -1,0 +1,5 @@
+- hosts: localhost
+  remote_user: root
+  tasks:
+    - name: test jinja2
+      template: src=files_location.j2 dest="{{ playbook_dir }}/cfg/{{ cfg_dir }}/files_location.yml" backup=no

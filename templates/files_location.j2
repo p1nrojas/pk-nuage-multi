@@ -1,0 +1,66 @@
+{% set credentials = [ aws_key, aws_pass, aws_bucket] %}
+{% set aws_vars = [ release_base_dir , '.*Nuage-elastic-.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+
+# common files
+url_common_base_location: "https://s3-us-west-2.amazonaws.com/nuage-demo-cala/common-files/"
+url_centos_reverse_qcow2: "centos7-20171109.qcow2"
+url_ubuntu_desktop_qcow2: "ubuntu.qcow2"
+
+#release dependant files
+url_base_location: "{{ 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' }}"
+#files release dependant
+{% set aws_vars = [ release_base_dir , '.*Nuage-elastic-.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_elasticsearch_qcow2: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-openvswitch-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_openvswitch_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*vsc_singledisk.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_vsc_qcow2: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*VSD-.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_vsd_qcow2: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+
+#sdwan file release dependant
+{% set aws_vars = [ release_base_dir , '.*ncpe_centos7.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_nsg_qcow2: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*vns-util-.*\.qcow2$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_util_qcow2: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+
+#docker files release dependant
+{% set aws_vars = [ release_base_dir , '.*nuage-vrs-docker-.*\.tar$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_vrs_docker_tar: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-libnetwork-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_libnetwork_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-cni-docker-.*\.tar$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_cni_docker_tar: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-master-docker-.*\.tar$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_k8s_master_tar: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-infra-docker-.*\.tar$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_k8s_infra_tar: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+
+# openstack common files release dependant
+{% set aws_vars = [ release_base_dir , '.*nuage-openstack-upgrade-.*\.tar.gz$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_openstack_upgrade_tar: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+
+#openstack ocata nuage files release_base_dir dependant
+{% set aws_vars = [ release_base_dir , '.*nuage-metadata-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_metadata_agent_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-ironic-inspector-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_ironic_inspector_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-nova-esxi-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_nova_esxi_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-nova-extensions-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_nova_extensions_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-openstack-heat-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_heat_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-openstack-horizon-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_horizon_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-openstack-neutron-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_neutron_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+{% set aws_vars = [ release_base_dir , '.*nuage-openstack-neutronclient-.*\.rpm$'] | join() | aws_s3_list(credentials) | signed_url_7d(credentials) %}
+url_ocata_openstack_neutronclient_rpm: "{{ aws_vars.url | replace( 'https://' + aws_vars.url | urlsplit('hostname') + '/' + release_base_dir + '/' , '') | replace( aws_key , '{'+'{'+' aws_access_key '+'}'+'}')  }}"
+
+
+
+
+
+
+
