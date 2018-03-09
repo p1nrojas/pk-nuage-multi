@@ -28,7 +28,12 @@ br_connect:
 {% if item.1.sec_rules is defined %}
 sec_rules:
 {% for rules in item.1.sec_rules %}
+{% if rules.dport is defined %}
   - { chain: {{ rules.chain }}, type: {{ rules.type }} , dport: '{{ rules.dport }}' }
+{% endif %}
+{% if rules.sport is defined %}
+  - { chain: {{ rules.chain }}, type: {{ rules.type }} , sport: '{{ rules.sport }}' }
+{% endif %}
 {% endfor %}
 {% endif %}
 

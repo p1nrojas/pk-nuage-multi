@@ -1,4 +1,9 @@
 ---
+- name: Flush INPUT rules
+  iptables:
+    chain: INPUT
+    flush: yes
+
 - name: Creating security rules thru iptables / icmp INPUT  accept
   iptables:
     chain: INPUT
@@ -61,6 +66,18 @@
     jump: ACCEPT
     state: present
 
+- name: Creating security rules thru iptables /  client INPUT chain https/http
+  iptables:
+    chain: INPUT
+    in_interface: "{{ public_if }}"
+    protocol: "tcp"
+    match: "state"
+    ctstate: "NEW,ESTABLISHED"
+    source_port: "{{ item }}"
+    jump: ACCEPT
+    state: present
+  with_items: [ '80', '443' ]
+
 - name: Creating security rules thru iptables
   iptables:
     chain: "{{ item.chain }}"
@@ -72,19 +89,21 @@
   when:
     - sec_rules is defined
     - item.chain == "INPUT"
+    - item.dport is defined
   with_items: "{{ sec_rules }}"
 
 - name: Creating security rules thru iptables
   iptables:
     chain: "{{ item.chain }}"
-    out_interface: "{{ public_if }}"
+    in_interface: "{{ public_if }}"
     protocol: "{{ item.type }}"
-    destination_port: "{{ item.dport }}"
+    source_port: "{{ item.sport }}"
     jump: ACCEPT
     state: present
   when:
     - sec_rules is defined
-    - item.chain == "OUTPUT"
+    - item.chain == "INPUT"
+    - item.sport is defined
   with_items: "{{ sec_rules }}"
 
 - name: Creating security rules thru iptables / drop all
