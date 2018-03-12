@@ -1,0 +1,48 @@
+---
+- hosts:
+    - util
+  remote_user: root
+  gather_facts: no
+  vars:
+    ansible_port: 22
+    ansible_user: root
+    images_path: '/var/lib/libvirt/images/'
+  tasks:
+    - name: List the Virtual Machine
+      virt: command=list_vms
+      register: virt_vms
+      delegate_to: "{{ hypervisor }}"
+      when:
+        - hypervisor is defined
+
+    - name: Destroy virtual domains in libvirt
+      virt:
+        name: "{{ inventory_hostname }}"
+        state: destroyed
+      delegate_to: "{{ hypervisor }}"
+      when:
+        - hypervisor is defined
+        - inventory_hostname in virt_vms.list_vms
+
+    - name: run guestfish to set interfaces ifcfg scripts
+      command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth0"
+      delegate_to: "{{ hypervisor }}"
+      when: hypervisor is defined
+
+    - name: run guestfish to set interfaces ifcfg scripts
+      command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-resolv.conf /etc/resolv.conf"
+      delegate_to: "{{ hypervisor }}"
+      when: hypervisor is defined
+
+    - name: run guestfish to disable cloud-init
+      command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i touch /etc/cloud/cloud-init.disabled"
+      delegate_to: "{{ hypervisor }}"
+      when: hypervisor is defined
+
+    - name: Start virtual domains in libvirt
+      virt:
+        name: "{{ inventory_hostname }}"
+        state: running
+      delegate_to: "{{ hypervisor }}"
+      when:
+        - hypervisor is defined
