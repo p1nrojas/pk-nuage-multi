@@ -1,6 +1,6 @@
 ## Caution! Use it under your own risk. Intended for PoCs and Lab
 
-# Createyour SDN experience (WAN and DC end-to-end programability on VXLANs) at packet.net
+# Create your SDN experience (WAN and DC end-to-end programmability on VXLANs) at packet.net
 
 This playbook will create a Bare Metal Type 2 server at packet.net and install a whole Nuage VNS solution to try things like Zero Touch Bootstrapping and  Application Aware Routing. Install a Kubernetes Cluster with Plugin Nuage and a Stand-Alone docker server. Also, you can play segmenting traffic and using ACLs between WAN Branches and Containers on Kubernetes
 
